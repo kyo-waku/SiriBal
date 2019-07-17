@@ -17,10 +17,9 @@ public class BalloonMaker : MonoBehaviour {
 
 	}
 
-	void CreateBall(Vector3 atPosition)
+	void CreateBalloon(Vector3 atPosition)
 	{
-		GameObject ballGO = Instantiate (balloonPrefab, atPosition, Quaternion.identity);
-			
+		GameObject balloonGO = Instantiate (balloonPrefab, atPosition, Quaternion.identity);
 		
 		float r = Random.Range(0.0f, 1.0f);
 		float g = Random.Range(0.0f, 1.0f);
@@ -28,7 +27,7 @@ public class BalloonMaker : MonoBehaviour {
 
 		props.SetColor("_InstanceColor", new Color(r, g, b));
 
-		MeshRenderer renderer = ballGO.GetComponent<MeshRenderer>();
+		MeshRenderer renderer = balloonGO.GetComponent<MeshRenderer>();
 		renderer.SetPropertyBlock(props);
 
 	}
@@ -45,7 +44,7 @@ public class BalloonMaker : MonoBehaviour {
 			//effectively similar to calling HitTest with ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent
 			if (Physics.Raycast (ray, out hit, maxRayDistance, collisionLayer)) 
 			{
-				CreateBall (new Vector3 (hit.point.x, hit.point.y + createHeight, hit.point.z));
+				CreateBalloon (new Vector3 (hit.point.x, hit.point.y + createHeight, hit.point.z));
 
 				//we're going to get the position from the contact point
 				Debug.Log (string.Format ("x:{0:0.######} y:{1:0.######} z:{2:0.######}", hit.point.x, hit.point.y, hit.point.z));
@@ -68,7 +67,7 @@ public class BalloonMaker : MonoBehaviour {
 				if (hitResults.Count > 0) {
 					foreach (var hitResult in hitResults) {
 						Vector3 position = UnityARMatrixOps.GetPosition (hitResult.worldTransform);
-						CreateBall (new Vector3 (position.x, position.y + createHeight, position.z));
+						CreateBalloon (new Vector3 (position.x, position.y + createHeight, position.z));
 						break;
 					}
 				}
