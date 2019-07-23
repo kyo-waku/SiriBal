@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/UnityARKitPlugin/Examples/ARKit2.0/UnityARObjectAnchor/UnityARObjectAnchor.unity
     guid: 9b7966300d2d04d8e86ace41d59d178c
+  - enabled: 0
+    path: Assets/SiriBal/SeriousBalloon.unity
+    guid: 3092d739bd1c6486d9863988d81e3b65
   m_configObjects: {}

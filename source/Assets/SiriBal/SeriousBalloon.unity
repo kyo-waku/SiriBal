@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7061245e392104914a891f89bdc32dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloonPrefab: {fileID: 1154719652421038, guid: e11b49885a57845e3b22a6355928ed72,
+  balloonPrefab: {fileID: 928113712752750359, guid: 41965e89338c84191a6b741fee727ce1,
     type: 3}
   createHeight: 0.03
   maxRayDistance: 30
