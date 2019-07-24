@@ -1,6 +1,7 @@
 # Trash
 *.log
 *.DS_Store
+*.meta
 Temp
 Packages
 Logs
@@ -12,5 +13,4 @@ Library
 *.cache
 
 # iOS Build 
-source/SiriBal
-
+xcode/*
