@@ -1,7 +1,6 @@
 # Trash
 *.log
 *.DS_Store
-*.meta
 Temp
 Packages
 Logs
