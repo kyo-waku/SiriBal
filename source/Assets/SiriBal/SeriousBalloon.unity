@@ -350,6 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 904395797}
   - component: {fileID: 904395796}
+  - component: {fileID: 904395798}
   m_Layer: 0
   m_Name: BalloonMaker
   m_TagString: Untagged
@@ -369,9 +370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7061245e392104914a891f89bdc32dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloonPrefab: {fileID: 928113712752750359, guid: 41965e89338c84191a6b741fee727ce1,
+  balloonPrefab: {fileID: 3492171325593170893, guid: 7c95876307a514be3b0e53ade739c663,
     type: 3}
-  createHeight: 0.03
+  createHeight: -20
   maxRayDistance: 30
   collisionLayer:
     serializedVersion: 2
@@ -390,6 +391,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &904395798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904395795}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7102e0a8e79ab4582b16868fbaeedec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balloonPrefab: {fileID: 3492171325593170893, guid: 7c95876307a514be3b0e53ade739c663,
+    type: 3}
+  createHeight: 0.03
+  maxRayDistance: 30
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &944761995
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,10 +420,11 @@ GameObject:
   m_Component:
   - component: {fileID: 944761998}
   - component: {fileID: 944761997}
+  - component: {fileID: 944762002}
   - component: {fileID: 944761999}
   - component: {fileID: 944761996}
-  - component: {fileID: 944762000}
   - component: {fileID: 944762001}
+  - component: {fileID: 944762000}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -442,7 +463,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 1
+  near clip plane: 0.1
   far clip plane: 30
   field of view: 60
   orthographic: 0
@@ -456,7 +477,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -470,7 +491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944761995}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446034666}
@@ -509,6 +530,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ClearMaterial: {fileID: 2100000, guid: f1d9352050a75486f878ab19fa578f16, type: 2}
+--- !u!92 &944762002
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944761995}
+  m_Enabled: 1
 --- !u!1 &1094111080
 GameObject:
   m_ObjectHideFlags: 0
