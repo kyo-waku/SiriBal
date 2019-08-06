@@ -12,5 +12,6 @@ Library
 *.cache
 
 # iOS Build 
-source/SiriBal
-
+xcode/*
+source/ProjectSettings/ProjectVersion.txt
+source/ProjectSettings/EditorBuildSettings.asset
