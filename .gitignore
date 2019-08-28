@@ -14,3 +14,9 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+
+# Ignore
+## SiriBal
+## |- source  <- unity sources
+## |- build   <- build products
+build/
