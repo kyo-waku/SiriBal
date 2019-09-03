@@ -16,6 +16,7 @@ public class ShootingBallGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #if UNITY_EDITOR // UnityEditor Mode
         //ボールを飛ばすよ
         if (Input.GetKey(KeyCode.S) && Input.GetMouseButtonDown(0))
         {
@@ -24,5 +25,19 @@ public class ShootingBallGenerator : MonoBehaviour
             Vector3 worldDir = ray.direction;
             ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(worldDir.normalized * ShootingForce);
         }
+        #else
+        if (Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+			if (touch.phase == TouchPhase.Began)
+			{
+                GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
+				var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
+                Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+                Vector3 worldDir = ray.direction;
+                ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(worldDir.normalized * ShootingForce);
+			}
+        }
+		#endif
     }
 }
