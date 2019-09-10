@@ -6,16 +6,24 @@ public class ShootingBallGenerator : MonoBehaviour
 {
     public GameObject ShootingBallPrefab;
     public float ShootingForce = 2000.0f;
-
+	ControlGameMode controlGameMode;
+	GameObject modeSwitcher;
     // Start is called before the first frame update
     void Start()
     {
-        
+        modeSwitcher = GameObject.Find ("ModeSwitcher");
+        controlGameMode = modeSwitcher.GetComponent<ControlGameMode>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // ShootingBall Mode
+		if(!controlGameMode.IsShootingBall)
+		{
+			return;
+		}
+
         #if UNITY_EDITOR // UnityEditor Mode
         //ボールを飛ばすよ
         if (Input.GetKey(KeyCode.S) && Input.GetMouseButtonDown(0))

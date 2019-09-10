@@ -11,10 +11,15 @@ public class BalloonMaker : MonoBehaviour {
 	public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
 	private MaterialPropertyBlock props;
 
+	ControlGameMode controlGameMode;
+	GameObject modeSwitcher;
+
 	// Use this for initialization
 	void Start () {
 		props = new MaterialPropertyBlock ();
 
+        modeSwitcher = GameObject.Find ("ModeSwitcher");
+        controlGameMode = modeSwitcher.GetComponent<ControlGameMode>();
 	}
 
 	void CreateBalloon(Vector3 atPosition)
@@ -34,6 +39,13 @@ public class BalloonMaker : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		// ShootingBall Mode
+		if(controlGameMode.IsShootingBall)
+		{
+			return;
+		}
+
 		#if UNITY_EDITOR   //we will only use this script on the editor side, though there is nothing that would prevent it from working on device
 		if (Input.GetMouseButtonDown (0)) 
 		{
