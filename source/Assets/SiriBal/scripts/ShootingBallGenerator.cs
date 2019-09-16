@@ -26,14 +26,24 @@ public class ShootingBallGenerator : MonoBehaviour
 
         #if UNITY_EDITOR // UnityEditor Mode
         //ボールを飛ばすよ
-        if (Input.GetKey(KeyCode.S) && Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 worldDir = ray.direction;
-            ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(worldDir.normalized * ShootingForce);
+            ShootingBall.transform.position = ray.origin;
+            ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(ray.direction.normalized * ShootingForce);
+
+            //デバッグ用
+            /*
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 10.0f))
+            {
+                Debug.Log(hit.collider.gameObject.transform.position);
+            }
+            */
         }
-        #else
+#else
         if (Input.touchCount > 0)
         {
             var touch = Input.GetTouch(0);
@@ -42,10 +52,11 @@ public class ShootingBallGenerator : MonoBehaviour
                 GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
 				var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
                 Ray ray = Camera.main.ScreenPointToRay(screenPosition);
-                Vector3 worldDir = ray.direction;
-                ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(worldDir.normalized * ShootingForce);
+                ShootingBall.transform.position = ray.origin;
+                ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(ray.direction.normalized * ShootingForce);
 			}
         }
-		#endif
+#endif
     }
 }
+ 
