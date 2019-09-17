@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControlGameMode : MonoBehaviour
 {
-    private bool isShootingBall = false;
+    private bool isShootingBall = true;
 
     // Properties
     public bool IsShootingBall{
@@ -19,7 +19,7 @@ public class ControlGameMode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IsShootingBall = false;
+        IsShootingBall = true;
     }
 
     // Update is called once per frame

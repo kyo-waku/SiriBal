@@ -50,8 +50,7 @@ public class ShootingBallGenerator : MonoBehaviour
 			if (touch.phase == TouchPhase.Began)
 			{
                 GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
-				var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
-                Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+				Ray ray = Camera.main.ScreenPointToRay(touch.position);
                 ShootingBall.transform.position = ray.origin;
                 ShootingBall.GetComponent<ShootingBallConrtoller>().Shoot(ray.direction.normalized * ShootingForce);
 			}
