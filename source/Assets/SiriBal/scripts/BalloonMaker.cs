@@ -8,7 +8,8 @@ public class BalloonMaker : MonoBehaviour {
 	public GameObject balloonPrefab;
 	public float createHeight;
 	public float maxRayDistance = 30.0f;
-	public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
+    public float CreateBalloonDistance = 15.0f;
+    public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
 	private MaterialPropertyBlock props;
 
 	ControlGameMode controlGameMode;
@@ -32,8 +33,8 @@ public class BalloonMaker : MonoBehaviour {
 
 		props.SetColor("_InstanceColor", new Color(r, g, b));
 
-		MeshRenderer renderer = balloonGO.GetComponent<MeshRenderer>();
-		renderer.SetPropertyBlock(props);
+		//MeshRenderer renderer = balloonGO.GetComponent<MeshRenderer>();
+		//renderer.SetPropertyBlock(props);
 
 	}
 
@@ -61,8 +62,14 @@ public class BalloonMaker : MonoBehaviour {
 				//we're going to get the position from the contact point
 				Debug.Log (string.Format ("x:{0:0.######} y:{1:0.######} z:{2:0.######}", hit.point.x, hit.point.y, hit.point.z));
 			}
-		}
-		#else
+
+            //hitしなければ、ray上にバルーンを生成
+            else
+            {
+                CreateBalloon(ray.origin + (ray.direction.normalized * CreateBalloonDistance));
+            }
+        }
+#else
 		if (Input.touchCount > 0 )
 		{
 			var touch = Input.GetTouch(0);
@@ -86,8 +93,8 @@ public class BalloonMaker : MonoBehaviour {
 
 			}
 		}
-		#endif
+#endif
 
-	}
+    }
 
 }

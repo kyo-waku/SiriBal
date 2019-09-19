@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShootingBallGenerator : MonoBehaviour
 {
     public GameObject ShootingBallPrefab;
-    public float ShootingForce = 2000.0f;
+    public float ShootingForce = 200.0f;
 	ControlGameMode controlGameMode;
 	GameObject modeSwitcher;
     // Start is called before the first frame update
