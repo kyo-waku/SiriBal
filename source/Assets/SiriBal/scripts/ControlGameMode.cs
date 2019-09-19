@@ -30,4 +30,9 @@ public class ControlGameMode : MonoBehaviour
             isShootingBall = !isShootingBall;
         }
     }
+
+    public void ModeSwitcherButton()
+    {
+        isShootingBall = !isShootingBall;
+    }
 }
