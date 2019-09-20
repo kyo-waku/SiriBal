@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ShootingBallConrtoller : MonoBehaviour
 {
+
+    float timeOut=3.0f;
+    float timeElapsed;
     public void Shoot(Vector3 dir)
     {
         GetComponent<Rigidbody>().AddForce(dir);
@@ -18,6 +21,10 @@ public class ShootingBallConrtoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        timeElapsed += Time.deltaTime;
+        if(timeElapsed >= timeOut) {
+            Destroy(gameObject);
+            //timeE
+        }
     }
 }
