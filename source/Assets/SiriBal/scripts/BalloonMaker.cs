@@ -41,8 +41,8 @@ public class BalloonMaker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		// ShootingBall Mode
-		if(controlGameMode.IsShootingBall)
+		// Balloon Mode
+		if(ControlGameMode.eGameMode.Balloon !=controlGameMode.GameMode)
 		{
 			return;
 		}
@@ -75,21 +75,23 @@ public class BalloonMaker : MonoBehaviour {
 			var touch = Input.GetTouch(0);
 			if (touch.phase == TouchPhase.Began)
 			{
-				var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
-				ARPoint point = new ARPoint {
-					x = screenPosition.x,
-					y = screenPosition.y
-				};
-						
-				List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface ().HitTest (point, 
-					ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent);
-				if (hitResults.Count > 0) {
-					foreach (var hitResult in hitResults) {
-						Vector3 position = UnityARMatrixOps.GetPosition (hitResult.worldTransform);
-						CreateBalloon (new Vector3 (position.x, position.y + createHeight, position.z));
-						break;
-					}
-				}
+				// var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
+				// ARPoint point = new ARPoint {
+				// 	x = screenPosition.x,
+				// 	y = screenPosition.y
+				// };
+
+				Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                CreateBalloon(ray.origin + (ray.direction.normalized * CreateBalloonDistance));
+				// List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface ().HitTest (point, 
+				// 	ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent);
+				// if (hitResults.Count > 0) {
+				// 	foreach (var hitResult in hitResults) {
+				// 		Vector3 position = UnityARMatrixOps.GetPosition (hitResult.worldTransform);
+				// 		CreateBalloon (new Vector3 (position.x, position.y + createHeight, position.z));
+				// 		break;
+				// 	}
+				// }
 
 			}
 		}

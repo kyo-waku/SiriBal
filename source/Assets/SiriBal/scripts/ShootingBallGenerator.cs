@@ -18,8 +18,8 @@ public class ShootingBallGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ShootingBall Mode
-		if(!controlGameMode.IsShootingBall)
+        // Shooting Mode
+		if(ControlGameMode.eGameMode.Shooting != controlGameMode.GameMode)
 		{
 			return;
 		}

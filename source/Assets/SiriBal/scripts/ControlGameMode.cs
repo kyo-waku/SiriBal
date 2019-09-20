@@ -4,35 +4,48 @@ using UnityEngine;
 
 public class ControlGameMode : MonoBehaviour
 {
-    private bool isShootingBall = true;
+    // Defines
+    public enum eGameMode{
+        Shooting,
+        Balloon,
+        None
+    }
+
+    // Values
+    private eGameMode _gameMode;
 
     // Properties
-    public bool IsShootingBall{
-        get{
-            return this.isShootingBall;
-        }
-        private set{
-            this.isShootingBall = value;
-        }
-    }
+    public eGameMode GameMode { get => _gameMode; internal set => _gameMode = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        IsShootingBall = true;
+        GameMode = new eGameMode();
+        GameMode = eGameMode.None;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isShootingBall = !isShootingBall;
-        }
+        
     }
 
     public void ModeSwitcherButton()
     {
-        isShootingBall = !isShootingBall;
+        switch(GameMode)
+        {
+            case eGameMode.Shooting:
+                GameMode = eGameMode.Balloon;
+                break;
+            case eGameMode.Balloon:
+                GameMode = eGameMode.Shooting;
+                break;
+            case eGameMode.None:
+                GameMode = eGameMode.Balloon;
+                break;
+            default:
+                GameMode = eGameMode.None;
+                break;
+        }
     }
 }

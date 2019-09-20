@@ -20,3 +20,4 @@
 ## |- source  <- unity sources
 ## |- build   <- build products
 build/
+.vscode/
