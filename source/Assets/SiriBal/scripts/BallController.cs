@@ -1,30 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.iOS;
 
-public class ShootingBallConrtoller : MonoBehaviour
+public class BallContoroller : MonoBehaviour
 {
-
     float timeOut=3.0f;
     float timeElapsed;
-    public void Shoot(Vector3 dir)
-    {
-        GetComponent<Rigidbody>().AddForce(dir);
-    }
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         timeElapsed += Time.deltaTime;
+
         if(timeElapsed >= timeOut) {
             Destroy(gameObject);
-            //timeE
+            //timeElapsed = 0.0f;
         }
     }
 }
