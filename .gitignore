@@ -27,3 +27,4 @@ source/Assets/GoogleService-Info.plist*
 ## |- build   <- build products
 build/
 .vscode/
+source/.vscode/
