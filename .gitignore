@@ -19,7 +19,7 @@
 # API Keys
 ## Google Firebase
 source/Assets/GoogleService-Info.plist*
-
+source/Assets/StreamingAssets/google-services-desktop.json*
 
 # Ignore
 ## SiriBal
