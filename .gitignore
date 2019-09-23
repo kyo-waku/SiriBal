@@ -15,6 +15,12 @@
 *.pidb
 *.booproj
 
+
+# API Keys
+## Google Firebase
+source/Assets/GoogleService-Info.plist*
+
+
 # Ignore
 ## SiriBal
 ## |- source  <- unity sources
