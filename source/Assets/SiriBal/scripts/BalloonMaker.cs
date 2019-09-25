@@ -11,16 +11,14 @@ public class BalloonMaker : MonoBehaviour {
     public float CreateBalloonDistance = 15.0f;
     public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
 	private MaterialPropertyBlock props;
-
 	ControlGameMode controlGameMode;
-	GameObject modeSwitcher;
+	CommonTools tools;
 
 	// Use this for initialization
 	void Start () {
 		props = new MaterialPropertyBlock ();
-
-        modeSwitcher = GameObject.Find ("ModeSwitcher");
-        controlGameMode = modeSwitcher.GetComponent<ControlGameMode>();
+		tools = GameObject.Find("GameDirector").GetComponent<CommonTools>();
+        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<ControlGameMode>();
 	}
 
 	void CreateBalloon(Vector3 atPosition)
@@ -32,10 +30,6 @@ public class BalloonMaker : MonoBehaviour {
 		float b = Random.Range(0.0f, 1.0f);
 
 		props.SetColor("_InstanceColor", new Color(r, g, b));
-
-		//MeshRenderer renderer = balloonGO.GetComponent<MeshRenderer>();
-		//renderer.SetPropertyBlock(props);
-
 	}
 
 	// Update is called once per frame
@@ -47,9 +41,10 @@ public class BalloonMaker : MonoBehaviour {
 			return;
 		}
 
-		#if UNITY_EDITOR   //we will only use this script on the editor side, though there is nothing that would prevent it from working on device
-		if (Input.GetMouseButtonDown (0)) 
+		if (tools.touchPhaseEx == CommonTools.TouchPhaseExtended.Began)
 		{
+		#if UNITY_EDITOR 
+
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
 
@@ -62,41 +57,29 @@ public class BalloonMaker : MonoBehaviour {
 				//we're going to get the position from the contact point
 				Debug.Log (string.Format ("x:{0:0.######} y:{1:0.######} z:{2:0.######}", hit.point.x, hit.point.y, hit.point.z));
 			}
-
             //hitしなければ、ray上にバルーンを生成
             else
             {
                 CreateBalloon(ray.origin + (ray.direction.normalized * CreateBalloonDistance));
             }
-        }
-#else
-		if (Input.touchCount > 0 )
-		{
-			var touch = Input.GetTouch(0);
-			if (touch.phase == TouchPhase.Began)
-			{
-				// var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
-				// ARPoint point = new ARPoint {
-				// 	x = screenPosition.x,
-				// 	y = screenPosition.y
-				// };
 
-				Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                CreateBalloon(ray.origin + (ray.direction.normalized * CreateBalloonDistance));
-				// List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface ().HitTest (point, 
-				// 	ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent);
-				// if (hitResults.Count > 0) {
-				// 	foreach (var hitResult in hitResults) {
-				// 		Vector3 position = UnityARMatrixOps.GetPosition (hitResult.worldTransform);
-				// 		CreateBalloon (new Vector3 (position.x, position.y + createHeight, position.z));
-				// 		break;
-				// 	}
-				// }
+		#else
 
-			}
+			Ray ray = Camera.main.ScreenPointToRay(touch.position);
+			CreateBalloon(ray.origin + (ray.direction.normalized * CreateBalloonDistance));
+			// List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface ().HitTest (point, 
+			// 	ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent);
+			// if (hitResults.Count > 0) {
+			// 	foreach (var hitResult in hitResults) {
+			// 		Vector3 position = UnityARMatrixOps.GetPosition (hitResult.worldTransform);
+			// 		CreateBalloon (new Vector3 (position.x, position.y + createHeight, position.z));
+			// 		break;
+			// 	}
+			// }
+			
+		#endif
+
 		}
-#endif
-
     }
 
 }
