@@ -65,7 +65,7 @@ public class BalloonMaker : MonoBehaviour {
 
 		#else
 
-			Ray ray = Camera.main.ScreenPointToRay(touch.position);
+			Ray ray = Camera.main.ScreenPointToRay(tools.touchPosition);
 			CreateBalloon(ray.origin + (ray.direction.normalized * CreateBalloonDistance));
 			// List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface ().HitTest (point, 
 			// 	ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent);
