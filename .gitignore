@@ -28,3 +28,4 @@ source/Assets/StreamingAssets/google-services-desktop.json*
 build/
 .vscode/
 source/.vscode/
+source/.vs/
