@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SiriBal/SeriousBalloon.unity
     guid: 3092d739bd1c6486d9863988d81e3b65
+  - enabled: 1
+    path: Assets/SiriBal/ThankYou.unity
+    guid: 157ce0a1097fb4fc995384e84736217a
   m_configObjects: {}
