@@ -50,8 +50,8 @@ public class LoginButtonController : MonoBehaviour
         auth.SignOut();
         
         // Email & Password from input field
-        var email = GameObject.Find("EmailInputField/Text").GetComponent<Text>().text;
-        var password = GameObject.Find("PasswordInputField/Text").GetComponent<Text>().text;
+        var email = GameObject.Find("EmailInputField").GetComponent<InputField>().text;
+        var password = GameObject.Find("PasswordInputField").GetComponent<InputField>().text;
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
@@ -101,8 +101,8 @@ public class LoginButtonController : MonoBehaviour
     public void CreateNewUser()
     {
         // Email & Password from input field
-        var email = GameObject.Find("EmailInputField/Text").GetComponent<Text>().text;
-        var password = GameObject.Find("PasswordInputField/Text").GetComponent<Text>().text;
+        var email = GameObject.Find("EmailInputField").GetComponent<InputField>().text;
+        var password = GameObject.Find("PasswordInputField").GetComponent<InputField>().text;
 
         // Firebase Authentication Static Instance
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
