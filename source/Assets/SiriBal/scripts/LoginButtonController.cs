@@ -98,6 +98,13 @@ public class LoginButtonController : MonoBehaviour
         });
     }
 
+    public void GuestLogin()
+    {
+        _mainMessage = "success";
+        _isMessageChanged = true;
+        _currentScene = GameScene.Main;
+        _isSceneChanged = true;
+    }
     public void CreateNewUser()
     {
         // Email & Password from input field
