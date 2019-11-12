@@ -7,17 +7,17 @@ public class BalloonController : MonoBehaviour {
 
 	public Transform cameraTransform;
 	public GameObject balloonPrefab;
-	public float createHeight;
-	public float maxRayDistance = 30.0f;
-    public float CreateBalloonDistance = 15.0f;
-    public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
-	GameModeController controlGameMode;
-	CommonTools tools;
+	//public float createHeight;
+	//public float maxRayDistance = 30.0f;
+    //ublic float CreateBalloonDistance = 15.0f;
+    //public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
+	GameModeController gameMode;
+	TouchTools touch;
 
 	// Use this for initialization
 	void Start () {
-		tools = GameObject.Find("GameDirector").GetComponent<CommonTools>();
-        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+		touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
+        gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
 	}
 
 	void CreateBalloon(Vector3 atPosition)
@@ -27,21 +27,22 @@ public class BalloonController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		// 参照しか渡さないならStartで1回だけ取得してもいいけど、わからないのでとりあえずここで毎回取る
 		cameraTransform = GameObject.Find("MainCamera").transform;
 		// Balloon Mode
-		if(GameModeController.eGameMode.Balloon !=controlGameMode.GameMode)
+		if(GameModeController.eGameMode.Balloon != gameMode.GameMode)
 		{
 			return;
 		}
 
-		if (tools.touchPhaseEx == CommonTools.TouchPhaseExtended.Began)
+		if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
 		{
 		#if UNITY_EDITOR 
 
 			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));
 		
 		#else
-			var screenPosition = Camera.main.ScreenToViewportPoint(tools.touchPosition);
+			var screenPosition = Camera.main.ScreenToViewportPoint(touch.touchPosition);
 			ARPoint point = new ARPoint
 			{
 				x = screenPosition.x,

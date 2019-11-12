@@ -6,45 +6,43 @@ public class ShootingBallController : MonoBehaviour
 {
     public GameObject ShootingBallPrefab;
     public float ShootingForce = 200.0f;
-	GameModeController controlGameMode;
-    CommonTools tools;
+	GameModeController gameMode;
+    TouchTools touch;
 
     // Start is called before the first frame update
     void Start()
     {
-        tools = GameObject.Find("GameDirector").GetComponent<CommonTools>();
-        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+        touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
+        gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // Shooting Mode
-		if(GameModeController.eGameMode.Shooting != controlGameMode.GameMode)
+		if(GameModeController.eGameMode.Shooting != gameMode.GameMode)
 		{
 			return;
 		}
 
-        // TouchPhase Begau 
-        if (tools.touchPhaseEx == CommonTools.TouchPhaseExtended.Began)
+        // TouchPhase Began
+        if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
         {
             //ボールを飛ばすよ
             #if UNITY_EDITOR
-
-            GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            ShootingBall.transform.position = ray.origin;
-            ShootingBall.GetComponent<ShootingBallWatcher>().Shoot(ray.direction.normalized * ShootingForce);
-
+            ShootingBall(Input.mousePosition);
             #else
-            
-            GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
-            Ray ray = Camera.main.ScreenPointToRay(tools.touchPosition);
-            ShootingBall.transform.position = ray.origin;
-            ShootingBall.GetComponent<ShootingBallWatcher>().Shoot(ray.direction.normalized * ShootingForce);
-            
+            ShootingBall(touch.touchPosition);
             #endif
         }
         
+    }
+
+    void ShootingBall(Vector3 position)
+    {
+        GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
+        Ray ray = Camera.main.ScreenPointToRay(position);
+        ShootingBall.transform.position = ray.origin;
+        ShootingBall.GetComponent<ShootingBallWatcher>().Shoot(ray.direction.normalized * ShootingForce);
     }
 }

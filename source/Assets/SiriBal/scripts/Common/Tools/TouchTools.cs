@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Common Tools for Unity scripts
+/// Touch Tools for Unity scripts
 /// Add script into the generic parent game object and refer from scripts.
 /// </summary>
-public class CommonTools : MonoBehaviour
+public class TouchTools : MonoBehaviour
 {
 
 #region Defines

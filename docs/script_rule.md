@@ -13,7 +13,6 @@ package Common{
         component SceneManager
         component UserInfoManager
         component ScoreManager
-        component ARMapManager
     }
     UserInfoManager --ri--> ScoreManager
     component Tools{
@@ -46,9 +45,9 @@ package Scene{
         component TimerController
         component ScoreCountController
     }
-    ARGame --le--> ARMapManager
     BalloonController --up--> GameModeController
     ShootingBallController --up--> GameModeController
+    GameModeController --up--> GameDirector
     TimerController --up--> GameDirector
     ScoreCountController --up--> GameDirector
     GameDirector --le--> ScoreManager

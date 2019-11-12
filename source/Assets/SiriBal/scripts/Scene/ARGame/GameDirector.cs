@@ -11,7 +11,7 @@ public class GameDirector : MonoBehaviour
     float time;
     int score = 0;
 
-    GameModeController controlGameMode;//for ReadGameMode
+    GameModeController controlGameMode; //for ReadGameMode
 
     //CountScore
     public void DestroyCount(){
