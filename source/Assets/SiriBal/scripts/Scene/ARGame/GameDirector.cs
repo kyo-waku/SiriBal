@@ -8,8 +8,10 @@ public class GameDirector : MonoBehaviour
     //Difine Parameters
     GameObject TimerText;
     GameObject ScoreText;
-    float time = 60.0f;
+    float time;
     int score = 0;
+
+    GameModeController controlGameMode;//for ReadGameMode
 
     //CountScore
     public void DestroyCount(){
@@ -25,13 +27,41 @@ public class GameDirector : MonoBehaviour
     {
         this.TimerText = GameObject.Find("Timer");
         this.ScoreText = GameObject.Find("Score");
+        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.time -= Time.deltaTime;
-        this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
-        this.ScoreText.GetComponent<Text>().text= this.score.ToString("F0");
+        //Debug.Log(controlGameMode.GameMode);
+
+        // if(GameModeController.eGameMode.Balloon !=controlGameMode.GameMode) {
+        //     Debug.Log("Balloon");
+        // }
+        
+
+        switch(controlGameMode.GameMode)
+        {
+            case GameModeController.eGameMode.None:
+                time = 30.0f;
+                break;
+            case GameModeController.eGameMode.Balloon:
+                this.time -= Time.deltaTime;
+                this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
+                if(this.time<0) controlGameMode.GameMode=GameModeController.eGameMode.WaitTime;
+                break;
+            case GameModeController.eGameMode.WaitTime:
+                time = 30.0f;
+                break;
+            case GameModeController.eGameMode.Shooting:
+                this.ScoreText.GetComponent<Text>().text= this.score.ToString("F0");
+                this.time -= Time.deltaTime;
+                this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
+                if(this.time<0) controlGameMode.GameMode=GameModeController.eGameMode.None;
+                break;
+        }
+        
+        
+        
     }
 }

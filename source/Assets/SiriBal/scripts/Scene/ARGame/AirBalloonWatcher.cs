@@ -15,6 +15,8 @@ public class AirBalloonWatcher : MonoBehaviour
     //find GameDirector for scoring
     GameObject director;
 
+    GameModeController controlGameMode;//for ReadGameMode
+
 
     //LevelDesign
     public void SetParameter(int BalloonHP, int BreakCount){
@@ -34,7 +36,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 break;
             
             case 1:
-                rb.AddForce (-UpperForce);
+                rb.AddForce (2.0f*UpperForce);
                 break;
             case 2:
                 rb.AddForce (sideForce);
@@ -45,7 +47,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 break;
             
             case 4:
-                
+                rb.AddForce (-UpperForce);
                 break;
             
             default:
@@ -59,6 +61,8 @@ public class AirBalloonWatcher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+
         //Get Rigid Body
         rb = this.GetComponent<Rigidbody>();
         
@@ -67,33 +71,46 @@ public class AirBalloonWatcher : MonoBehaviour
 
         //Decision 1st ActionSpan
         ActionSpan=Random.Range(3,5);
-        GetAction(0);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ActionTimer
-        timeElapsed += Time.deltaTime;
-        if(timeElapsed >= ActionSpan) {
-            timeElapsed = 0.0f;//reset Timer
-            ActionSpan=Random.Range(3,5);//reset Action Span
-            //this.rigidbody.velocity=0.0f;
-            ActionMode = Random.Range(0,5);
-            GetAction(ActionMode);
+        switch(controlGameMode.GameMode)
+        {
+            case GameModeController.eGameMode.None:
+                break;
+            case GameModeController.eGameMode.Balloon:
+                break;
+            case GameModeController.eGameMode.WaitTime:
+                break;
+            case GameModeController.eGameMode.Shooting:
+                //ActionTimer
+                timeElapsed += Time.deltaTime;
+                if(timeElapsed >= ActionSpan) {
+                    timeElapsed = 0.0f;//reset Timer
+                    ActionSpan=Random.Range(3,5);//reset Action Span
+                    //this.rigidbody.velocity=0.0f;
+                    ActionMode = Random.Range(0,5);
+                    GetAction(ActionMode);
+                }
+                break;
         }
+        
+        
 
     }
 
     //Detect Collision
     void OnCollisionEnter(Collision other){
-        Debug.Log("Hit!");
-        BalloonHP += 1;
-        this.director.GetComponent<GameDirector>().HitCount();
-        if(BalloonHP==BreakCount) {
-            this.director.GetComponent<GameDirector>().DestroyCount();
-            Destroy(gameObject);
+        if(controlGameMode.GameMode == GameModeController.eGameMode.Shooting){
+            Debug.Log("Hit!");
+            BalloonHP += 1;
+            this.director.GetComponent<GameDirector>().HitCount();
+                if(BalloonHP==BreakCount) {
+                this.director.GetComponent<GameDirector>().DestroyCount();
+                Destroy(gameObject);
+            }
         }
     }
 }

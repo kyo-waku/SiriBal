@@ -8,6 +8,7 @@ public class GameModeController : MonoBehaviour
     public enum eGameMode{
         Shooting,
         Balloon,
+        WaitTime,
         None
     }
 
@@ -34,15 +35,19 @@ public class GameModeController : MonoBehaviour
     {
         switch(GameMode)
         {
-            case eGameMode.Shooting:
-                GameMode = eGameMode.Balloon;
-                break;
-            case eGameMode.Balloon:
-                GameMode = eGameMode.Shooting;
-                break;
             case eGameMode.None:
                 GameMode = eGameMode.Balloon;
                 break;
+            case eGameMode.Balloon:
+                GameMode = eGameMode.WaitTime;
+                break;
+            case eGameMode.WaitTime:
+                GameMode = eGameMode.Shooting;
+                break;
+            case eGameMode.Shooting:
+                GameMode = eGameMode.None;
+                break;
+            
             default:
                 GameMode = eGameMode.None;
                 break;

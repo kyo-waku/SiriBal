@@ -38,7 +38,7 @@ public class BalloonController : MonoBehaviour {
 		{
 		#if UNITY_EDITOR 
 
-			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z));
+			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));
 		
 		#else
 			var screenPosition = Camera.main.ScreenToViewportPoint(tools.touchPosition);
