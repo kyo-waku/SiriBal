@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlGameMode : MonoBehaviour
+public class GameModeController : MonoBehaviour
 {
     // Defines
     public enum eGameMode{

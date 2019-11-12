@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirBalloonController : MonoBehaviour
+public class AirBalloonWatcher : MonoBehaviour
 {
     // define balloon paramater
     Rigidbody rb;

@@ -65,6 +65,11 @@ package Scene{
         component ScoreHistoryController
     }
     ScoreHistoryController --le--> ScoreManager
+
+    component UserRegistered{
+        component OkayButton
+    }
+    OkayButton --le--> SceneManager
 }
 
 database cachedInformation{

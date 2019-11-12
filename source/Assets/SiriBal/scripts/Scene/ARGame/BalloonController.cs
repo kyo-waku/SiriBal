@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.iOS;
 
-public class BalloonMaker : MonoBehaviour {
+public class BalloonController : MonoBehaviour {
 
 	public Transform cameraTransform;
 	public GameObject balloonPrefab;
@@ -11,13 +11,13 @@ public class BalloonMaker : MonoBehaviour {
 	public float maxRayDistance = 30.0f;
     public float CreateBalloonDistance = 15.0f;
     public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
-	ControlGameMode controlGameMode;
+	GameModeController controlGameMode;
 	CommonTools tools;
 
 	// Use this for initialization
 	void Start () {
 		tools = GameObject.Find("GameDirector").GetComponent<CommonTools>();
-        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<ControlGameMode>();
+        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
 	}
 
 	void CreateBalloon(Vector3 atPosition)
@@ -29,7 +29,7 @@ public class BalloonMaker : MonoBehaviour {
 	void Update () {
 		cameraTransform = GameObject.Find("MainCamera").transform;
 		// Balloon Mode
-		if(ControlGameMode.eGameMode.Balloon !=controlGameMode.GameMode)
+		if(GameModeController.eGameMode.Balloon !=controlGameMode.GameMode)
 		{
 			return;
 		}

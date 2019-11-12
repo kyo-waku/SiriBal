@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoginButtonController : MonoBehaviour
+public class LoginController : MonoBehaviour
 {
     // Define
     private enum GameScene{

@@ -810,7 +810,7 @@ GameObject:
   - component: {fileID: 904395797}
   - component: {fileID: 904395796}
   m_Layer: 0
-  m_Name: BalloonMaker
+  m_Name: BalloonController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
