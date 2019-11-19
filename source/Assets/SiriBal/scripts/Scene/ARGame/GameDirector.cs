@@ -11,7 +11,7 @@ public class GameDirector : MonoBehaviour
     float time;
     int score = 0;
 
-    GameModeController controlGameMode; //for ReadGameMode
+    GameModeController gameMode; //for ReadGameMode
 
     //CountScore
     public void DestroyCount(){
@@ -27,20 +27,13 @@ public class GameDirector : MonoBehaviour
     {
         this.TimerText = GameObject.Find("Timer");
         this.ScoreText = GameObject.Find("Score");
-        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+        gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(controlGameMode.GameMode);
-
-        // if(GameModeController.eGameMode.Balloon !=controlGameMode.GameMode) {
-        //     Debug.Log("Balloon");
-        // }
-        
-
-        switch(controlGameMode.GameMode)
+        switch(gameMode.GameMode)
         {
             case GameModeController.eGameMode.None:
                 time = 30.0f;
@@ -48,7 +41,7 @@ public class GameDirector : MonoBehaviour
             case GameModeController.eGameMode.Balloon:
                 this.time -= Time.deltaTime;
                 this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
-                if(this.time<0) controlGameMode.GameMode=GameModeController.eGameMode.WaitTime;
+                if(this.time<0) gameMode.GameMode=GameModeController.eGameMode.WaitTime;
                 break;
             case GameModeController.eGameMode.WaitTime:
                 time = 30.0f;
@@ -57,11 +50,8 @@ public class GameDirector : MonoBehaviour
                 this.ScoreText.GetComponent<Text>().text= this.score.ToString("F0");
                 this.time -= Time.deltaTime;
                 this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
-                if(this.time<0) controlGameMode.GameMode=GameModeController.eGameMode.None;
+                if(this.time<0) gameMode.GameMode=GameModeController.eGameMode.None;
                 break;
         }
-        
-        
-        
     }
 }
