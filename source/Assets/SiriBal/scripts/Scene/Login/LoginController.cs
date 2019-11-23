@@ -3,22 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Generic;
+using Generic.Manager;
 
 public class LoginController : MonoBehaviour
 {
-    // Define
-    private enum GameScene{
-        None = 0,
-        Main,
-        Login,
-        Score,
-        Thankyou,
-    }
-
     // Common values
     private string _mainMessage = "";
     private bool _isMessageChanged = false;
-    private GameScene _currentScene = GameScene.Login;
+    private GameScenes _currentScene = GameScenes.Login;
     private bool _isSceneChanged = false;
 
     // Start is called before the first frame update
@@ -32,7 +25,7 @@ public class LoginController : MonoBehaviour
     {
         if(_isSceneChanged)
         {
-            ChangeScene(_currentScene);
+            GameSceneManager.ChangeScene(_currentScene);
             _isSceneChanged = false;
         }
         
@@ -78,7 +71,7 @@ public class LoginController : MonoBehaviour
                 {
                     _mainMessage = "success";
                     _isMessageChanged = true;
-                    _currentScene = GameScene.Main;
+                    _currentScene = GameScenes.SeriousBalloon;
                     _isSceneChanged = true;
                 }
                 else
@@ -102,7 +95,7 @@ public class LoginController : MonoBehaviour
     {
         _mainMessage = "success";
         _isMessageChanged = true;
-        _currentScene = GameScene.Main;
+        _currentScene = GameScenes.SeriousBalloon;
         _isSceneChanged = true;
     }
     public void CreateNewUser()
@@ -139,7 +132,7 @@ public class LoginController : MonoBehaviour
                     
                     _mainMessage = "success";
                     _isMessageChanged = true;
-                    _currentScene = GameScene.Thankyou;
+                    _currentScene = GameScenes.UserRegistered;
                     _isSceneChanged = true;
                 }
                 else
@@ -152,26 +145,6 @@ public class LoginController : MonoBehaviour
                 }
             }
         );
-    }
-    void ChangeScene(GameScene eGameScene)
-    {    
-        switch(eGameScene)
-        {
-            case GameScene.Login:
-                SceneManager.LoadScene("LoginForm");
-                break;
-            case GameScene.Main:
-                SceneManager.LoadScene("SeriousBalloon");
-                break;
-            case GameScene.Thankyou:
-                SceneManager.LoadScene("ThankYou");
-                break;
-            case GameScene.Score:
-            case GameScene.None:
-            default:
-                Debug.Assert(false, "NotImpl");
-                break;
-        }
     }
 
     void ShowMessageOnScreen(string message)
