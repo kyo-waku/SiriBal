@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 23cba449362d740ff89844134ed5cfa0
+guid: 2e7aac8570b35406cb6b0c9928349d91
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Mrs. Monster
+  fontName: Neuropol X
   fontNames:
-  - Mrs. Monster
+  - Neuropol X
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
