@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Generic;
+using Generic.Manager;
 
 public class GameModeController : MonoBehaviour
 {
@@ -52,5 +55,10 @@ public class GameModeController : MonoBehaviour
                 GameMode = eGameMode.None;
                 break;
         }
+    }
+
+    public void BackButtonClicked()
+    {
+        GameSceneManager.ChangeScene(GameScenes.Top);
     }
 }
