@@ -11,6 +11,8 @@ public class AirBalloonWatcher : MonoBehaviour
     int BreakCount=3;
     float ActionSpan;
     float timeElapsed;
+    float mutekiTime;
+    bool mutekiFlag=false;
 
     //find GameDirector for scoring
     GameObject director;
@@ -97,20 +99,35 @@ public class AirBalloonWatcher : MonoBehaviour
                 break;
         }
         
+        if(mutekiFlag==true)
+        {
+            mutekiTime+= Time.deltaTime;
+            if(mutekiTime>0.1f) mutekiFlag=false;
+        }
         
 
     }
 
     //Detect Collision
-    void OnCollisionEnter(Collision other){
-        if(controlGameMode.GameMode == GameModeController.eGameMode.Shooting){
-            Debug.Log("Hit!");
-            BalloonHP += 1;
-            this.director.GetComponent<GameDirector>().HitCount();
-                if(BalloonHP==BreakCount) {
-                this.director.GetComponent<GameDirector>().DestroyCount();
-                Destroy(gameObject);
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("Collision!");
+        if(controlGameMode.GameMode == GameModeController.eGameMode.Shooting)//get point! if gameMode is shooting
+        {
+            Debug.Log("ShootingModeNow!");
+            Debug.Log(other.gameObject.tag);
+            if (other.gameObject.tag == "player_shoot")
+            {
+                Debug.Log("Hit!");
+                BalloonHP += 1;
+                this.director.GetComponent<GameDirector>().HitCount();
+                if(BalloonHP==BreakCount)
+                {
+                    this.director.GetComponent<GameDirector>().DestroyCount();
+                    Destroy(gameObject);
+                }
             }
+            
         }
     }
 }
