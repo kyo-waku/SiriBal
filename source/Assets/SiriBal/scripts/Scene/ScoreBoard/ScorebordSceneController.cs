@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Generic;
 using Generic.Manager;
 
-public class ResultSceneController : MonoBehaviour
+public class ScorebordSceneController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -19,16 +19,7 @@ public class ResultSceneController : MonoBehaviour
         
     }
 
-    public void RestartButtonClicked()
-    {
-        GameSceneManager.ChangeScene(GameScenes.SeriousBalloon);
-    }
-
-    public void RankingButtonClicked()
-    {
-        GameSceneManager.ChangeScene(GameScenes.ScoreBoard);
-    }
-    public void ToTopButtonClicked()
+    public void BackButtonClicked()
     {
         GameSceneManager.ChangeScene(GameScenes.Top);
     }
