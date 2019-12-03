@@ -37,10 +37,13 @@ graph TB
     e1-3 --> e1
     f --Click Start--> g[ARGame scene]
     f --Click Score--> h[ScoreBoard]
+    h --Click Top--> f
     g --Play--> i[Playing...]
     i --TimeUp or Hit all--> j[Result scene]
+    j --Click retry--> g
+    j --Click Ranking--> h
     i --Force Quite--> f
-    j --OK--> f
+    j --Click Top--> f
     f --Change User-->e1
 ```
 
