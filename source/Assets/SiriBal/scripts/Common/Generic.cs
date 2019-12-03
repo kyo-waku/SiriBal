@@ -24,18 +24,19 @@ namespace Generic
     }
 
     // Score Management
-    public class Record{
+    public class Record: IComparable
+    {
         // Members
-        string UserName{get;set;}
+        public string UserName{get;set;}
         
         //-- Time result
-        int TimeScore{get;set;}
+        public int TimeScore{get;set;}
 
         //-- Balloon result
-        int BalloonScore{get;set;}
+        public int BalloonScore{get;set;}
 
         // Date and Time
-        DateTime PlayDateTime{get;set;}
+        public DateTime PlayDateTime{get;set;}
 
         // Methods
         //-- Get/Set
@@ -49,6 +50,13 @@ namespace Generic
             TimeScore = time;
             BalloonScore = balloon;
             PlayDateTime = date;
+        }
+
+            
+        public int CompareTo(object obj) 
+        {
+            Record i = obj as Record;
+            return this.GameScore().CompareTo(i.GameScore());
         }
     }
 }
