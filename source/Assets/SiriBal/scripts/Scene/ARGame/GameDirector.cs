@@ -10,8 +10,10 @@ public class GameDirector : MonoBehaviour
     //Difine Parameters
     GameObject TimerText;
     GameObject ScoreText;
+    public int balloonConter=0;
     float time;
-    int score = 0;
+    public int score = 0;
+    public static int ResultScore;
 
     GameModeController gameMode; //for ReadGameMode
 
@@ -39,6 +41,7 @@ public class GameDirector : MonoBehaviour
         {
             case GameModeController.eGameMode.None:
                 time = 30.0f;
+                ResultScore=0;
                 break;
             case GameModeController.eGameMode.Balloon:
                 this.time -= Time.deltaTime;
@@ -52,7 +55,11 @@ public class GameDirector : MonoBehaviour
                 this.ScoreText.GetComponent<Text>().text= this.score.ToString("F0");
                 this.time -= Time.deltaTime;
                 this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
-                if(this.time<0) gameMode.GameMode=GameModeController.eGameMode.None;
+                if(this.time<0||balloonConter==0) {
+                    ResultScore=score;
+                    GameSceneManager.ChangeScene(GameScenes.Result);
+
+                }
                 break;
         }
     }
@@ -60,5 +67,10 @@ public class GameDirector : MonoBehaviour
     public void BackButtonClicked()
     {
         GameSceneManager.ChangeScene(GameScenes.Top);
+    }
+
+    // ScoreLoader
+    public static int GetResultScore() {
+        return ResultScore;
     }
 }

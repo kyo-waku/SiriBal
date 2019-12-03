@@ -13,11 +13,13 @@ public class BalloonController : MonoBehaviour {
     //public LayerMask collisionLayer = 1 << 10;  //ARKitPlane layer
 	GameModeController gameMode;
 	TouchTools touch;
-
+	GameObject GameDirector;
+	
 	// Use this for initialization
 	void Start () {
 		touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+		this.GameDirector = GameObject.Find("GameDirector");
 	}
 
 	void CreateBalloon(Vector3 atPosition)
@@ -37,6 +39,8 @@ public class BalloonController : MonoBehaviour {
 
 		if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
 		{
+			GameDirector.GetComponent<GameDirector>().balloonConter+=1;
+			Debug.Log(GameDirector.GetComponent<GameDirector>().balloonConter);
 		#if UNITY_EDITOR 
 
 			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));

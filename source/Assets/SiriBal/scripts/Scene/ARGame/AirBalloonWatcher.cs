@@ -111,19 +111,16 @@ public class AirBalloonWatcher : MonoBehaviour
     //Detect Collision
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collision!");
         if(controlGameMode.GameMode == GameModeController.eGameMode.Shooting)//get point! if gameMode is shooting
         {
-            Debug.Log("ShootingModeNow!");
-            Debug.Log(other.gameObject.tag);
             if (other.gameObject.tag == "player_shoot")
             {
-                Debug.Log("Hit!");
                 BalloonHP += 1;
                 this.director.GetComponent<GameDirector>().HitCount();
                 if(BalloonHP==BreakCount)
                 {
                     this.director.GetComponent<GameDirector>().DestroyCount();
+                    this.director.GetComponent<GameDirector>().balloonConter-=1;
                     Destroy(gameObject);
                 }
             }

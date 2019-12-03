@@ -573,7 +573,7 @@ MonoBehaviour:
   delay: 0
   style: 2
   playOnAwake: 1
-  m_progress: 0.62056446
+  m_progress: 0.863405
   usePosition: 1
   useRotation: 0
   useScale: 0
@@ -1265,7 +1265,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lanking
+  m_Text: Ranking
 --- !u!222 &1437844259
 CanvasRenderer:
   m_ObjectHideFlags: 0
