@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using Generic;
 using Generic.Manager;
 
@@ -57,13 +58,13 @@ public class GameDirector : MonoBehaviour
                 this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
                 if(this.time<0||balloonConter==0) {
                     ResultScore=score;
+                    var record = ConvertScoreToRecord(ResultScore);
+                    ScoreManager.RegisterRecord(record);
                     GameSceneManager.ChangeScene(GameScenes.Result);
-
                 }
                 break;
         }
     }
-
     public void BackButtonClicked()
     {
         GameSceneManager.ChangeScene(GameScenes.Top);
@@ -72,5 +73,11 @@ public class GameDirector : MonoBehaviour
     // ScoreLoader
     public static int GetResultScore() {
         return ResultScore;
+    }
+
+    public Record ConvertScoreToRecord(int score)
+    {
+        var UserName = "Guest"; // consider later
+        return new Record(UserName, score, 0, DateTime.Now); // at the moment, balloon score and time score is not separated.
     }
 }
