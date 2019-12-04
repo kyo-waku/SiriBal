@@ -12,7 +12,7 @@ public class ResultSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _myRecord = ScoreManager.MyRecord;
+        _myRecord = ScoreManager.MyLatestRecord;
         this.ResultScoreText = GameObject.Find("ResultScore");
         this.ResultScoreText.GetComponent<Text>().text= _myRecord.GameScore().ToString("F0")+" !!";
     }

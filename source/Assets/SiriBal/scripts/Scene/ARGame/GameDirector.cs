@@ -59,6 +59,7 @@ public class GameDirector : MonoBehaviour
                 if(this.time<0||balloonConter==0) {
                     ResultScore=score;
                     var record = ConvertScoreToRecord(ResultScore);
+                    
                     ScoreManager.RegisterRecord(record);
                     GameSceneManager.ChangeScene(GameScenes.Result);
                 }
