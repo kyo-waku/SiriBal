@@ -29,7 +29,7 @@ public class LoginController : MonoBehaviour
             _isSceneChanged = false;
         }
         
-        if (!System.String.IsNullOrEmpty(_mainMessage))
+        if (!System.String.IsNullOrEmpty(_mainMessage) && _isMessageChanged)
         {
             ShowMessageOnScreen(_mainMessage);
             _isMessageChanged = false;
