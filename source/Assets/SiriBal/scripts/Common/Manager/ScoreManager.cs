@@ -62,12 +62,11 @@ namespace Generic.Manager{
             var result = DefinedErrors.Pass;
 
             MyLatestRecord = currentScore;
-
-            // Bestスコアだけ全体の記録に入れる
+            _recordList.Add(currentScore);
+            
             if(MyBestRecord.GameScore() < currentScore.GameScore())
             {
                 MyBestRecord = currentScore;
-                _recordList.Add(currentScore);
             }
 
             SaveData();
