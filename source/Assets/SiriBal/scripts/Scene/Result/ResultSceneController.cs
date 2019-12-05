@@ -7,16 +7,18 @@ using Generic.Manager;
 
 public class ResultSceneController : MonoBehaviour
 {
-    public Record _myRecord;
-    private GameSceneManager _gameSceneMng;
-    private GameObject ResultScoreText;
+    private Record _myRecord;
+    private GameSceneManager gameSceneMng;
+    private GameObject resultScoreText;
     // Start is called before the first frame update
     void Start()
     {
-        _gameSceneMng = new GameSceneManager();
-        _myRecord = ScoreManager.MyLatestRecord;
-        this.ResultScoreText = GameObject.Find("ResultScore");
-        this.ResultScoreText.GetComponent<Text>().text= _myRecord.GameScore().ToString("F0")+" !!";
+        gameSceneMng = new GameSceneManager();
+        
+        _myRecord = DataManager.MyLatestRecord;
+
+        resultScoreText = GameObject.Find("ResultScore");
+        resultScoreText.GetComponent<Text>().text= _myRecord.GameScore().ToString("F0")+" !!";
     }
 
     // Update is called once per frame
@@ -27,15 +29,15 @@ public class ResultSceneController : MonoBehaviour
 
     public void RestartButtonClicked()
     {
-        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
+        gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 
     public void RankingButtonClicked()
     {
-        _gameSceneMng.ChangeScene(GameScenes.ScoreBoard);
+        gameSceneMng.ChangeScene(GameScenes.ScoreBoard);
     }
     public void ToTopButtonClicked()
     {
-        _gameSceneMng.ChangeScene(GameScenes.Top);
+        gameSceneMng.ChangeScene(GameScenes.Top);
     }
 }

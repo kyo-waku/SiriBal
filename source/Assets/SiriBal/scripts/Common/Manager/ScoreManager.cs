@@ -7,43 +7,6 @@ using System;
 namespace Generic.Manager{
     public class ScoreManager : MonoBehaviour
     {
-        [SerializeField] static List<Record> _recordList;
-        static Record _myBestRecord;
-        static Record _myLatestRecord;
-
-        // property for my record
-        public static Record MyBestRecord
-        {
-            get{
-                if (_myBestRecord == null)
-                {
-                    _myBestRecord = LoadData();
-                    if(_myBestRecord == null)
-                    {
-                        _myBestRecord = new Record("Dummy", 0, 0, DateTime.Now);
-                    }
-                    else
-                    {
-                        RegisterRecord(_myBestRecord);
-                    }
-                }
-
-                return _myBestRecord;
-            }
-            internal set{
-                _myBestRecord = value;
-            }
-        }
-
-        public static Record MyLatestRecord
-        {
-            get{
-                return _myLatestRecord;
-            }
-            internal set{
-                _myLatestRecord = value;
-            }
-        }
         // Load Cached scores
         public DefinedErrors LoadRecords()
         {
@@ -56,67 +19,77 @@ namespace Generic.Manager{
         }
 
         // Register current score
-        public static DefinedErrors RegisterRecord(Record currentScore)
+        public DefinedErrors RegisterRecord(Record currentScore)
         {
-            if(_recordList == null){ _recordList = new List<Record>();}
             var result = DefinedErrors.Pass;
 
-            MyLatestRecord = currentScore;
-            _recordList.Add(currentScore);
-            
-            if(MyBestRecord.GameScore() < currentScore.GameScore())
-            {
-                MyBestRecord = currentScore;
+            if(DataManager.RecordList == null)
+            { 
+                DataManager.RecordList = new List<Record>();
             }
+            
+            DataManager.MyLatestRecord = currentScore;
+            DataManager.RecordList.Add(currentScore);
 
-            SaveData();
-
+            if (DataManager.MyBestRecord == null)
+            {
+                // 記録なし -> 現在のスコアがベストスコア
+                DataManager.MyBestRecord = currentScore;
+                // データ登録時にベストレコードだけローカルキャッシュに保存する
+                SaveRecordToLocal(currentScore);
+            }
+            else
+            {
+                if (DataManager.MyBestRecord.GameScore() < currentScore.GameScore())
+                {
+                    DataManager.MyBestRecord = currentScore;
+                    // データ登録時にベストレコードだけローカルキャッシュに保存する
+                    SaveRecordToLocal(currentScore);
+                }
+            }
             return result;
         }
 
-        // Get records
-        // Not sorted
-        public static DefinedErrors GetAllRecords(out List<Record> Ranks)
+        // すべてのレコードを取得する（ソート済）
+        public DefinedErrors GetAllRecords(out List<Record> Ranks)
         {
-            
             var result = DefinedErrors.Pass;
-            var myRecord = MyBestRecord;
             Ranks = new List<Record>();
-            if(_recordList == null)
+            if(DataManager.RecordList == null)
             {
-                return result = DefinedErrors.E_Fail;
+                var record = LoadRecordFromLocal();
+                if (record == null)
+                {
+                    // ローカルキャッシュにもない
+                    return result = DefinedErrors.E_Fail;
+                }
+                // ロードできたので登録する
+                result = RegisterRecord(record);
             }
-            Ranks = _recordList;
+            Ranks = DataManager.RecordList;
+            Ranks.Sort();
+            Ranks.Reverse();
+            
             return result;
         }
 
-        #region "Save/Load from local"
-        internal static void SaveData(){
-            PlayerPrefs.SetString("UserName", MyBestRecord.UserName);
-            PlayerPrefs.SetString("PlayDateTime", MyBestRecord.PlayDateTime.ToString());
-            PlayerPrefs.SetInt("TimeScore", MyBestRecord.TimeScore);
-            PlayerPrefs.SetInt("BalloonScore", MyBestRecord.BalloonScore);
+        // ローカルキャッシュに自己ベストを登録
+        internal static void SaveRecordToLocal(Record score){
+            PlayerPrefs.SetString("UserName", score.UserName);
+            PlayerPrefs.SetString("PlayDateTime", score.PlayDateTime.ToString());
+            PlayerPrefs.SetInt("TimeScore", score.TimeScore);
+            PlayerPrefs.SetInt("BalloonScore", score.BalloonScore);
             PlayerPrefs.Save();
         }
 
-        internal static Record LoadData(){
-            var record = new Record("Dummy", 0, 0, DateTime.Now);
-            
+        // ローカルキャッシュからレコードを取得（自己ベストだけ入っている）
+        internal Record LoadRecordFromLocal(){
             var name = PlayerPrefs.GetString("UserName", "Dummy");
             var dateStr = PlayerPrefs.GetString("PlayDateTime", DateTime.Now.ToString());
             var time = PlayerPrefs.GetInt("TimeScore", 0);
             var balloon = PlayerPrefs.GetInt("BalloonScore", 0);
 
-            record.UserName = name;
-            record.PlayDateTime = DateTime.Parse(dateStr);
-            record.TimeScore = time;
-            record.BalloonScore = balloon;
-
-            return record;
+            return new Record(name, time, balloon, DateTime.Parse(dateStr));
         }
-
-        #endregion
-
-
     }
 }

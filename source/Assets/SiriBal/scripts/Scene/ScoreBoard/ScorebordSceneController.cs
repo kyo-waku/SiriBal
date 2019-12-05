@@ -7,10 +7,10 @@ using Generic.Manager;
 
 public class ScorebordSceneController : MonoBehaviour
 {
-    private List<Record> _record;
-    private bool _recordChanged;
-    private GameSceneManager _gameSceneMng;
-
+    private List<Record> record;
+    private bool recordChanged;
+    private GameSceneManager gameSceneMng;
+    private ScoreManager scoreMng;
     private readonly string[] rankLabels = {"1st", "2nd", "3rd", "4th", "5th"};
     private readonly string[] objNames = {"RankName", "RankScore", "RankLabel"};
 
@@ -18,51 +18,48 @@ public class ScorebordSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _record = new List<Record>();
-        _recordChanged = true;
-        _gameSceneMng = new GameSceneManager();
+        record = new List<Record>();
+        recordChanged = true;
+        gameSceneMng = new GameSceneManager();
+        scoreMng = new ScoreManager();
     }
 
     // Update is called once per frame
     void Update()
     {
-        var result = ScoreManager.GetAllRecords(out var records);
+        var result = scoreMng.GetAllRecords(out var records);
         if (result == DefinedErrors.Pass){
             if (records != null){
-                if (records.Count != _record.Count) // あとでちゃんと内容比較に変えること
+                if (records.Count != record.Count) // あとでちゃんと内容比較に変えること
                 {
-                    _record = records;
-                    _recordChanged = true;
+                    record = records;
+                    recordChanged = true;
                 }
             }
         }
 
-        if (_recordChanged)
+        if (recordChanged)
         {
             UpdateRecords();
-            _recordChanged = false;
+            recordChanged = false;
         }
     }
 
     public void BackButtonClicked()
     {
-        _gameSceneMng.ChangeScene(GameScenes.Top);
+        gameSceneMng.ChangeScene(GameScenes.Top);
     }
 
     public void UpdateRecords()
     {
         // Initialzed All texts
         InitializeRecordTexts();
-
-        _record.Sort();
-        _record.Reverse();
-
-        if (_record.Count > 0)
+        if (record.Count > 0)
         {
-            for (var i = 0; i < _record.Count ; ++i)
+            for (var i = 0; i < record.Count ; ++i)
             {
-                var score = _record[i].GameScore();
-                var name = _record[i].UserName;
+                var score = record[i].GameScore();
+                var name = record[i].UserName;
                 
                 SetTexts(rankLabels[i] + "/" + objNames[0], name);
                 SetTexts(rankLabels[i] + "/" + objNames[1], score.ToString());

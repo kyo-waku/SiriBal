@@ -17,6 +17,7 @@ public class GameDirector : MonoBehaviour
     private float _time;
     private GameModeController gameMode; //for ReadGameMode
     private GameSceneManager gameSceneMng;
+    private ScoreManager scoreMng;
 
     // properties
     #region properties
@@ -65,6 +66,9 @@ public class GameDirector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameSceneMng = new GameSceneManager();
+        scoreMng = new ScoreManager();
+
         timerText = GameObject.Find("Timer");
         scoreText = GameObject.Find("Score");
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
@@ -98,7 +102,7 @@ public class GameDirector : MonoBehaviour
                     resultScore = Score;
                     var record = ConvertScoreToRecord(resultScore);
                     
-                    ScoreManager.RegisterRecord(record);
+                    scoreMng.RegisterRecord(record);
                     gameSceneMng.ChangeScene(GameScenes.Result);
                 }
                 break;
