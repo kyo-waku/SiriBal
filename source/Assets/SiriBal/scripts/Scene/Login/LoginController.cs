@@ -14,10 +14,12 @@ public class LoginController : MonoBehaviour
     private GameScenes _currentScene = GameScenes.Login;
     private bool _isSceneChanged = false;
 
+    private GameSceneManager _gameSceneMng;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        _gameSceneMng = new GameSceneManager();
     }
 
     // Update is called once per frame
@@ -25,7 +27,7 @@ public class LoginController : MonoBehaviour
     {
         if(_isSceneChanged)
         {
-            GameSceneManager.ChangeScene(_currentScene);
+            _gameSceneMng.ChangeScene(_currentScene);
             _isSceneChanged = false;
         }
         

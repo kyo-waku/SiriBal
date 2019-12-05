@@ -7,11 +7,12 @@ using Generic.Manager;
 
 public class ScorebordSceneController : MonoBehaviour
 {
-    List<Record> _record;
-    bool _recordChanged;
+    private List<Record> _record;
+    private bool _recordChanged;
+    private GameSceneManager _gameSceneMng;
 
-    readonly string[] rankLabels = {"1st", "2nd", "3rd", "4th", "5th"};
-    readonly string[] objNames = {"RankName", "RankScore", "RankLabel"};
+    private readonly string[] rankLabels = {"1st", "2nd", "3rd", "4th", "5th"};
+    private readonly string[] objNames = {"RankName", "RankScore", "RankLabel"};
 
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class ScorebordSceneController : MonoBehaviour
     {
         _record = new List<Record>();
         _recordChanged = true;
+        _gameSceneMng = new GameSceneManager();
     }
 
     // Update is called once per frame
@@ -44,7 +46,7 @@ public class ScorebordSceneController : MonoBehaviour
 
     public void BackButtonClicked()
     {
-        GameSceneManager.ChangeScene(GameScenes.Top);
+        _gameSceneMng.ChangeScene(GameScenes.Top);
     }
 
     public void UpdateRecords()

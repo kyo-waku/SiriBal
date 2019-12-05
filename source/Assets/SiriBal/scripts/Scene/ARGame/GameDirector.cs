@@ -8,30 +8,65 @@ using Generic.Manager;
 
 public class GameDirector : MonoBehaviour
 {
-    //Difine Parameters
-    GameObject TimerText;
-    GameObject ScoreText;
-    public int balloonConter=0;
-    float time;
-    public int score = 0;
-    public static int ResultScore;
+    // Parameters
+    private int _balloonConter;
+    private int _score;
+    private int resultScore;
+    private GameObject timerText;
+    private GameObject scoreText;
+    private float _time;
+    private GameModeController gameMode; //for ReadGameMode
+    private GameSceneManager gameSceneMng;
 
-    GameModeController gameMode; //for ReadGameMode
+    // properties
+    #region properties
+    public int BalloonCounter
+    {
+        get{
+            return _balloonConter;
+        }
+        set{
+            _balloonConter = value;
+        }
+    }
+    public int Score
+    {
+        get{
+            return _score;
+        }
+        private set{
+            _score = value;
+        }
+    }
+
+    public float TimeValue
+    {
+        get{
+            return _time;
+        }
+        private set{
+            _time = value;
+        }
+    }
+
+    #endregion
+    
+    #region methods
 
     //CountScore
     public void DestroyCount(){
-        this.score += 70;
+        Score += 70;
     }
 
     public void HitCount(){
-        this.score += 10;
+        Score += 10;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        this.TimerText = GameObject.Find("Timer");
-        this.ScoreText = GameObject.Find("Score");
+        timerText = GameObject.Find("Timer");
+        scoreText = GameObject.Find("Score");
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
     }
 
@@ -41,39 +76,37 @@ public class GameDirector : MonoBehaviour
         switch(gameMode.GameMode)
         {
             case GameModeController.eGameMode.None:
-                time = 30.0f;
-                ResultScore=0;
+                TimeValue = 30.0f;
+                resultScore=0;
                 break;
             case GameModeController.eGameMode.Balloon:
-                this.time -= Time.deltaTime;
-                this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
-                if(this.time<0) gameMode.GameMode=GameModeController.eGameMode.WaitTime;
+                TimeValue -= Time.deltaTime;
+                timerText.GetComponent<Text>().text= _time.ToString("F1");//F1 は書式指定子
+                if(_time < 0)
+                {
+                    gameMode.GameMode=GameModeController.eGameMode.WaitTime;
+                }
                 break;
             case GameModeController.eGameMode.WaitTime:
-                time = 30.0f;
+                TimeValue = 30.0f;
                 break;
             case GameModeController.eGameMode.Shooting:
-                this.ScoreText.GetComponent<Text>().text= this.score.ToString("F0");
-                this.time -= Time.deltaTime;
-                this.TimerText.GetComponent<Text>().text= this.time.ToString("F1");//F1 は書式指定子
-                if(this.time<0||balloonConter==0) {
-                    ResultScore=score;
-                    var record = ConvertScoreToRecord(ResultScore);
+                scoreText.GetComponent<Text>().text = Score.ToString("F0");
+                TimeValue -= Time.deltaTime;
+                timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
+                if(TimeValue < 0 || BalloonCounter == 0) {
+                    resultScore = Score;
+                    var record = ConvertScoreToRecord(resultScore);
                     
                     ScoreManager.RegisterRecord(record);
-                    GameSceneManager.ChangeScene(GameScenes.Result);
+                    gameSceneMng.ChangeScene(GameScenes.Result);
                 }
                 break;
         }
     }
     public void BackButtonClicked()
     {
-        GameSceneManager.ChangeScene(GameScenes.Top);
-    }
-
-    // ScoreLoader
-    public static int GetResultScore() {
-        return ResultScore;
+        gameSceneMng.ChangeScene(GameScenes.Top);
     }
 
     public Record ConvertScoreToRecord(int score)
@@ -81,4 +114,6 @@ public class GameDirector : MonoBehaviour
         var UserName = "Guest"; // consider later
         return new Record(UserName, score, 0, DateTime.Now); // at the moment, balloon score and time score is not separated.
     }
+
+    #endregion
 }

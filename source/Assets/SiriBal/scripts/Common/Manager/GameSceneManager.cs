@@ -8,26 +8,19 @@ namespace Generic.Manager{
 
     // Note: "SceneManager" has alrady used as the class name of the Unity official library.
     public class GameSceneManager
-    {
-
-        // Current Scene
-        public static GameScenes _currentScene = GameScenes.None;
-
-        // Before Scene
-        public static GameScenes _beforeScene = GameScenes.None;
-        
-        public static DefinedErrors ChangeScene(GameScenes next)
+    {        
+        public DefinedErrors ChangeScene(GameScenes next)
         {
             SceneManager.LoadScene(next.ToString());
 
-            _beforeScene = _currentScene;
-            _currentScene = next;            
+            DataManager.PrevScene = DataManager.CurrentScene;
+            DataManager.CurrentScene = next;            
             return DefinedErrors.Pass;
         }
 
-        public static DefinedErrors BackToBeforeScene()
+        public DefinedErrors BackToPrevScene()
         {
-            var result = ChangeScene(_beforeScene);
+            var result = ChangeScene(DataManager.PrevScene);
             return result;
         }
 

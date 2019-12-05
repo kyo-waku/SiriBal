@@ -8,10 +8,12 @@ using Generic.Manager;
 public class ResultSceneController : MonoBehaviour
 {
     public Record _myRecord;
-    GameObject ResultScoreText;
+    private GameSceneManager _gameSceneMng;
+    private GameObject ResultScoreText;
     // Start is called before the first frame update
     void Start()
     {
+        _gameSceneMng = new GameSceneManager();
         _myRecord = ScoreManager.MyLatestRecord;
         this.ResultScoreText = GameObject.Find("ResultScore");
         this.ResultScoreText.GetComponent<Text>().text= _myRecord.GameScore().ToString("F0")+" !!";
@@ -25,15 +27,15 @@ public class ResultSceneController : MonoBehaviour
 
     public void RestartButtonClicked()
     {
-        GameSceneManager.ChangeScene(GameScenes.SeriousBalloon);
+        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 
     public void RankingButtonClicked()
     {
-        GameSceneManager.ChangeScene(GameScenes.ScoreBoard);
+        _gameSceneMng.ChangeScene(GameScenes.ScoreBoard);
     }
     public void ToTopButtonClicked()
     {
-        GameSceneManager.ChangeScene(GameScenes.Top);
+        _gameSceneMng.ChangeScene(GameScenes.Top);
     }
 }

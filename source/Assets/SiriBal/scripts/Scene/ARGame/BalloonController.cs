@@ -39,8 +39,8 @@ public class BalloonController : MonoBehaviour {
 
 		if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
 		{
-			GameDirector.GetComponent<GameDirector>().balloonConter+=1;
-			Debug.Log(GameDirector.GetComponent<GameDirector>().balloonConter);
+			GameDirector.GetComponent<GameDirector>().BalloonCounter += 1;
+			Debug.Log(GameDirector.GetComponent<GameDirector>().BalloonCounter);
 		#if UNITY_EDITOR 
 
 			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));

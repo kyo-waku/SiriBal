@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoreTextController : MonoBehaviour
 {
     public Transform cameraTransform;
-    static int updateCount = 0;
+    private static int updateCount = 0;
 
     // Start is called before the first frame update
     void Start()

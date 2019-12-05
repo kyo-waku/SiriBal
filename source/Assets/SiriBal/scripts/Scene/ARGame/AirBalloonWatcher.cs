@@ -28,7 +28,7 @@ public class AirBalloonWatcher : MonoBehaviour
 
     //Decision Balloon's Action
     void GetAction(int ActionNo){
-        float force=Random.Range(250.0f,750.0f);
+        float force = Random.Range(250.0f,750.0f);
         Vector3 UpperForce = new Vector3 (0.0f,force,0.0f);
         Vector3 sideForce = new Vector3 (force,0.0f, 0.0f);
         switch(ActionNo){
@@ -69,10 +69,10 @@ public class AirBalloonWatcher : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         
         //Find GameDirector for Scoring
-        this.director=GameObject.Find("GameDirector");
+        this.director = GameObject.Find("GameDirector");
 
         //Decision 1st ActionSpan
-        ActionSpan=Random.Range(3,5);
+        ActionSpan = Random.Range(3,5);
     }
 
     // Update is called once per frame
@@ -91,7 +91,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 timeElapsed += Time.deltaTime;
                 if(timeElapsed >= ActionSpan) {
                     timeElapsed = 0.0f;//reset Timer
-                    ActionSpan=Random.Range(3,5);//reset Action Span
+                    ActionSpan = Random.Range(3,5);//reset Action Span
                     //this.rigidbody.velocity=0.0f;
                     ActionMode = Random.Range(0,5);
                     GetAction(ActionMode);
@@ -101,8 +101,8 @@ public class AirBalloonWatcher : MonoBehaviour
         
         if(mutekiFlag==true)
         {
-            mutekiTime+= Time.deltaTime;
-            if(mutekiTime>0.1f) mutekiFlag=false;
+            mutekiTime += Time.deltaTime;
+            if(mutekiTime > 0.1f) mutekiFlag=false;
         }
         
 
@@ -120,7 +120,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 if(BalloonHP==BreakCount)
                 {
                     this.director.GetComponent<GameDirector>().DestroyCount();
-                    this.director.GetComponent<GameDirector>().balloonConter-=1;
+                    this.director.GetComponent<GameDirector>().BalloonCounter -= 1;
                     Destroy(gameObject);
                 }
             }

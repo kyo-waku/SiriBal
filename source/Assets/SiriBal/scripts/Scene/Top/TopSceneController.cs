@@ -7,8 +7,13 @@ using Generic.Manager;
 
 public class TopSceneController : MonoBehaviour
 {
+    private GameSceneManager _gameSceneMng;
+
     public void Start()
     {
+        // 委譲
+        _gameSceneMng = new GameSceneManager();
+
         // Top画面は回転したくない
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;
@@ -22,7 +27,7 @@ public class TopSceneController : MonoBehaviour
         // 他の画面は回転してもOK
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToLandscapeRight = true;
-        GameSceneManager.ChangeScene(GameScenes.SeriousBalloon);
+        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 
     public void LankingButtonClicked()
@@ -30,7 +35,7 @@ public class TopSceneController : MonoBehaviour
         // 他の画面は回転してもOK
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToLandscapeRight = true;
-        GameSceneManager.ChangeScene(GameScenes.ScoreBoard);
+        _gameSceneMng.ChangeScene(GameScenes.ScoreBoard);
     }
     
     public void OptionsButtonClicked(){
