@@ -56,7 +56,7 @@ public class ScorebordSceneController : MonoBehaviour
         InitializeRecordTexts();
         if (record.Count > 0)
         {
-            for (var i = 0; i < record.Count ; ++i)
+            for (var i = 0; i < record.Count || i < rankLabels.Length ; ++i)
             {
                 var score = record[i].GameScore();
                 var name = record[i].UserName;
