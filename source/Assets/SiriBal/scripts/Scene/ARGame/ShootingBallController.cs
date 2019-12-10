@@ -6,6 +6,7 @@ public class ShootingBallController : MonoBehaviour
 {
     public GameObject ShootingBallPrefab;
     public GameObject ShootingMacePrefab;
+    private GameObject GameDirector;
     public float ShootingForce = 200.0f;
 	GameModeController gameMode;
     TouchTools touch;
@@ -17,6 +18,7 @@ public class ShootingBallController : MonoBehaviour
         touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
         ShootingMode=0;
+        this.GameDirector = GameObject.Find("GameDirector");
     }
 
     // Update is called once per frame
@@ -55,7 +57,8 @@ public class ShootingBallController : MonoBehaviour
             ShootingMace.transform.position = ray.origin;
             ShootingMace.GetComponent<ShootingMaceWatcher>().Shoot(ray.direction.normalized * ShootingForce);
         }
-        
+        //投げ回数のカウント
+        GameDirector.GetComponent<GameDirector>().ThrowCounter += 1;
     }
 
     public void ShootingModeButtonClicked()

@@ -10,10 +10,15 @@ public class GameDirector : MonoBehaviour
 {
     // Parameters
     private int _balloonConter;
+    private int _throwConter;
     private int _score;
     private int resultScore;
+    private int BalloonLimit=10;
+    private int ThrowLimit=100;
     private GameObject timerText;
     private GameObject scoreText;
+    private GameObject BalloonCountText;
+    private GameObject ThrowCountText;
     private float _time;
     private GameModeController gameMode; //for ReadGameMode
     private GameSceneManager gameSceneMng;
@@ -28,6 +33,16 @@ public class GameDirector : MonoBehaviour
         }
         set{
             _balloonConter = value;
+        }
+    }
+
+    public int ThrowCounter
+    {
+        get{
+            return _throwConter;
+        }
+        set{
+            _throwConter = value;
         }
     }
     public int Score
@@ -71,7 +86,11 @@ public class GameDirector : MonoBehaviour
 
         timerText = GameObject.Find("Timer");
         scoreText = GameObject.Find("Score");
+        BalloonCountText = GameObject.Find("BalloonCount");
+        ThrowCountText = GameObject.Find("ThrowCount");
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+        BalloonCountText.GetComponent<Text>().text=BalloonCounter.ToString("F0")+"/"+BalloonLimit;
+        ThrowCountText.GetComponent<Text>().text=ThrowCounter.ToString("F0")+"/"+ThrowLimit;
     }
 
     // Update is called once per frame
@@ -86,7 +105,8 @@ public class GameDirector : MonoBehaviour
             case GameModeController.eGameMode.Balloon:
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text= _time.ToString("F1");//F1 は書式指定子
-                if(_time < 0)
+                BalloonCountText.GetComponent<Text>().text=BalloonCounter.ToString("F0")+"/"+BalloonLimit;
+                if(_time < 0|| BalloonCounter == 10)
                 {
                     gameMode.GameMode=GameModeController.eGameMode.WaitTime;
                 }
@@ -98,7 +118,9 @@ public class GameDirector : MonoBehaviour
                 scoreText.GetComponent<Text>().text = Score.ToString("F0");
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
-                if(TimeValue < 0 || BalloonCounter == 0) {
+                BalloonCountText.GetComponent<Text>().text=BalloonCounter.ToString("F0")+"/"+BalloonLimit;
+                ThrowCountText.GetComponent<Text>().text=ThrowCounter.ToString("F0")+"/"+ThrowLimit;
+                if(TimeValue < 0 || BalloonCounter == 0|| ThrowCounter/ThrowLimit == 1) {
                     resultScore = Score;
                     var record = ConvertScoreToRecord(resultScore);
                     
