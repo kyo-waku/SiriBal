@@ -31,6 +31,7 @@ public class BalloonController : MonoBehaviour {
 	void Update () {
 		// 参照しか渡さないならStartで1回だけ取得してもいいけど、わからないのでとりあえずここで毎回取る
 		cameraTransform = GameObject.Find("MainCamera").transform;
+
 		// Balloon Mode
 		if(GameModeController.eGameMode.Balloon != gameMode.GameMode)
 		{
@@ -40,7 +41,7 @@ public class BalloonController : MonoBehaviour {
 		if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
 		{
 			GameDirector.GetComponent<GameDirector>().BalloonCounter += 1;
-			Debug.Log(GameDirector.GetComponent<GameDirector>().BalloonCounter);
+			//Debug.Log(GameDirector.GetComponent<GameDirector>().BalloonCounter);
 		#if UNITY_EDITOR 
 
 			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));
