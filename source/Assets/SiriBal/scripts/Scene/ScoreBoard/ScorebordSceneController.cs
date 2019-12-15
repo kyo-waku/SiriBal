@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Generic;
 using Generic.Manager;
+using Generic.Firebase;
 
 public class ScorebordSceneController : MonoBehaviour
 {
-    private List<Record> record;
+    private List<Record> recordList;
     private bool recordChanged;
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
@@ -18,10 +19,10 @@ public class ScorebordSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        record = new List<Record>();
+        recordList = new List<Record>();
         recordChanged = true;
         gameSceneMng = new GameSceneManager();
-        scoreMng = new ScoreManager();
+        scoreMng = new ScoreManager(DataManager.service);
     }
 
     // Update is called once per frame
@@ -30,9 +31,9 @@ public class ScorebordSceneController : MonoBehaviour
         var result = scoreMng.GetAllRecords(out var records);
         if (result == DefinedErrors.Pass){
             if (records != null){
-                if (records.Count != record.Count) // あとでちゃんと内容比較に変えること
+                if (records.Count != recordList.Count) // あとでちゃんと内容比較に変えること
                 {
-                    record = records;
+                    recordList = records;
                     recordChanged = true;
                 }
             }
@@ -54,12 +55,13 @@ public class ScorebordSceneController : MonoBehaviour
     {
         // Initialzed All texts
         InitializeRecordTexts();
-        if (record.Count > 0)
+        if (recordList == null){return;}
+        if (recordList.Count > 0)
         {
-            for (var i = 0; i < record.Count || i < rankLabels.Length ; ++i)
+            for (var i = 0; i < recordList.Count && i < rankLabels.Length ; ++i)
             {
-                var score = record[i].GameScore();
-                var name = record[i].UserName;
+                var score = recordList[i].GameScore();
+                var name = recordList[i].UserName;
                 
                 SetTexts(rankLabels[i] + "/" + objNames[0], name);
                 SetTexts(rankLabels[i] + "/" + objNames[1], score.ToString());
