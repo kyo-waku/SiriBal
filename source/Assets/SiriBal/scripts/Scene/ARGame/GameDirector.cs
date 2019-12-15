@@ -82,7 +82,7 @@ public class GameDirector : MonoBehaviour
     void Start()
     {
         gameSceneMng = new GameSceneManager();
-        scoreMng = new ScoreManager();
+        scoreMng = new ScoreManager(DataManager.service);
 
         timerText = GameObject.Find("Timer");
         scoreText = GameObject.Find("Score");

@@ -3,19 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using Generic;
 using System;
+using Generic.Firebase;
+using System.Threading.Tasks;
 
 namespace Generic.Manager{
     public class ScoreManager : MonoBehaviour
     {
+        FirebaseService service;
+        Boolean fetchComplete;
+        int fetchCount = 20;
+        List<Record> entries;
+
         // Load Cached scores
-        public DefinedErrors LoadRecords()
+        public ScoreManager(FirebaseService fb)
         {
-            var result = DefinedErrors.Pass;
-            
-            // Load all records from server
-            // not impl.
-            
-            return result;
+            fetchComplete = false;
+            entries = new List<Record>();
+
+            if (fb == null){
+                fb = new FirebaseService();
+            }
+            service = fb;
+
+            if(DataManager.RecordList == null)
+            { 
+                DataManager.RecordList = new List<Record>();
+            }
         }
 
         // Register current score
@@ -37,14 +50,18 @@ namespace Generic.Manager{
                 DataManager.MyBestRecord = currentScore;
                 // データ登録時にベストレコードだけローカルキャッシュに保存する
                 SaveRecordToLocal(currentScore);
+                // サーバーにも登録する
+                SaveRecordToRemote(currentScore);
             }
             else
             {
-                if (DataManager.MyBestRecord.GameScore() < currentScore.GameScore())
+                if (DataManager.MyBestRecord.GameScore() <= currentScore.GameScore())
                 {
                     DataManager.MyBestRecord = currentScore;
                     // データ登録時にベストレコードだけローカルキャッシュに保存する
                     SaveRecordToLocal(currentScore);
+                    // サーバーにも登録する
+                    SaveRecordToRemote(currentScore);
                 }
             }
             return result;
@@ -55,18 +72,31 @@ namespace Generic.Manager{
         {
             var result = DefinedErrors.Pass;
             Ranks = new List<Record>();
-            if(DataManager.RecordList == null)
+            // 1. ローカルにある１個以下のレコードを確認する
+            var record = LoadRecordFromLocal();
+            if (record != null)
             {
-                var record = LoadRecordFromLocal();
-                if (record == null)
-                {
-                    // ローカルキャッシュにもない
-                    return result = DefinedErrors.E_Fail;
-                }
-                // ロードできたので登録する
-                result = RegisterRecord(record);
+                DataManager.MyBestRecord = record;
             }
-            Ranks = DataManager.RecordList;
+
+            // 2. サーバーにある０個以上のレコードを取得する
+            if (!fetchComplete)
+            {
+                LoadRecordFromRemote();
+                fetchComplete = true;
+            }
+
+            if (entries != null)
+            {
+                if(DataManager.RecordList != null)
+                { 
+                    DataManager.RecordList.Clear();
+                    DataManager.RecordList.AddRange(entries);
+                }
+            }
+
+            Ranks.AddRange(DataManager.RecordList);
+            Ranks.Add(DataManager.MyBestRecord); // 存在チェックしたほうが良い
             Ranks.Sort();
             Ranks.Reverse();
             
@@ -90,6 +120,68 @@ namespace Generic.Manager{
             var balloon = PlayerPrefs.GetInt("BalloonScore", 0);
 
             return new Record(name, time, balloon, DateTime.Parse(dateStr));
+        }
+
+        internal void SaveRecordToRemote(Record record)
+        {
+            AddEntry(
+            entry: record,
+            onComplete: () =>
+            {
+                //  成功時
+                Debug.Log("registered");
+            },
+            onError: (exception) =>
+            {
+                //  失敗時
+                Debug.LogException(exception);
+            }
+            );
+        }
+        public void AddEntry(Record entry, Action onComplete, Action<AggregateException> onError)
+        {
+            service.AddEntryAsync(entry).ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    onError?.Invoke(task.Exception);
+                }
+                else
+                {
+                    onComplete?.Invoke();
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        internal void LoadRecordFromRemote()
+        {
+            UpdateEntries(
+            onComplete: () =>
+            {
+            },
+            onError: (exception) =>
+            {
+                Debug.LogException(exception);
+            }
+            );
+        }
+
+
+        public void UpdateEntries(Action onComplete, Action<AggregateException> onError)
+        {
+            service.GetTopEntriesAsync(fetchCount).ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    onError?.Invoke(task.Exception);
+                }
+                else
+                {
+                    entries.Clear();
+                    entries.AddRange(task.Result);
+                    onComplete?.Invoke();
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }
