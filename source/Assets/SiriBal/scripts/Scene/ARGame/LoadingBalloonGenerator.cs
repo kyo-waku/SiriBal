@@ -23,7 +23,7 @@ public class LoadingBalloonGenerator : MonoBehaviour
             //GameDirector.BalloonLimitはPublicにして良いか確認してから反映
             //if (GameDirector.BalloonCounter >= GameDirector.BalloonLimit || GameDirector.TimeValue <= 0 || Input.GetKeyDown(KeyCode.L))
             //Lキーはdebug用。
-            if (GameDirector.BalloonCounter >= 30 || GameDirector.TimeValue <= 0 || Input.GetKeyDown(KeyCode.L))
+            if (GameDirector.BalloonCounter >= 10 || GameDirector.TimeValue <= 0 || Input.GetKeyDown(KeyCode.L))
             {
                 GameDirector.BalloonCounter = 0;
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
