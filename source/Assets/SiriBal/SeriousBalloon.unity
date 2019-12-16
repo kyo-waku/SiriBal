@@ -690,12 +690,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 354708997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9d794c02eeae4cd18e2961e5c5975f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 08850637f34d849bf8aa676ab251e73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingBalloonPrefab: {fileID: 7389803817465507768, guid: b7d7f3d6c53b0433085e81e1a9a9fa2f,
     type: 3}
-  canvas: {fileID: 0}
 --- !u!4 &354708999
 Transform:
   m_ObjectHideFlags: 0
@@ -1175,7 +1174,7 @@ Camera:
   m_GameObject: {fileID: 944761995}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1238,7 +1237,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944761995}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce437cef046e841aabd6070890e79d41, type: 3}
   m_Name: 
@@ -1250,7 +1249,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944761995}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b58ecea7a196242dd879c814ac05084c, type: 3}
   m_Name: 
