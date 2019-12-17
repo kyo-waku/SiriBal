@@ -69,7 +69,7 @@ public class ScorebordSceneController : MonoBehaviour
         if (recordList == null){return;}
         if (recordList.Count > 0)
         {
-            for (var i = 0; i < recordList.Count; ++i)
+            for (var i = 0; i < recordList.Count && i < 5 ; ++i) //とりあえず最大5個 
             {
                 var score = recordList[i].GameScore();
                 var balloon = recordList[i].BalloonScore;

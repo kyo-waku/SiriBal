@@ -137,8 +137,8 @@ public class GameDirector : MonoBehaviour
     public Record ConvertScoreToRecord()
     {
         var UserName = "Guest"; // consider later
-        var timeScore = (int)(TimeValue / TimeLimit * 100);
-        var balloonScore = (int)(BalloonCounter / BalloonLimit * 100);
+        var timeScore = (int)(TimeValue / TimeLimit * 1000);
+        var balloonScore = (int)((BalloonLimit - BalloonCounter) / BalloonLimit * 1000);
         return new Record(UserName, timeScore, balloonScore, DateTime.Now); // at the moment, balloon score and time score is not separated.
     }
 
