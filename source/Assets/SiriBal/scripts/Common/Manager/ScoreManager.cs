@@ -72,12 +72,12 @@ namespace Generic.Manager{
         {
             var result = DefinedErrors.Pass;
             Ranks = new List<Record>();
-            // 1. ローカルにある１個以下のレコードを確認する
-            var record = LoadRecordFromLocal();
-            if (record != null)
-            {
-                DataManager.MyBestRecord = record;
-            }
+            // 1. ローカルにある１個以下のレコードを確認する // 一旦ローカルは無視（サーバーに入ればあとでとれる）
+            // var record = LoadRecordFromLocal();
+            // if (record != null)
+            // {
+            //     DataManager.MyBestRecord = record;
+            // }
 
             // 2. サーバーにある０個以上のレコードを取得する
             if (!fetchComplete)
@@ -96,7 +96,6 @@ namespace Generic.Manager{
             }
 
             Ranks.AddRange(DataManager.RecordList);
-            Ranks.Add(DataManager.MyBestRecord); // 存在チェックしたほうが良い
             Ranks.Sort();
             Ranks.Reverse();
             

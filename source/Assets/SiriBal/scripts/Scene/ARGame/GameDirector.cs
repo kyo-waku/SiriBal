@@ -13,8 +13,9 @@ public class GameDirector : MonoBehaviour
     private int _throwConter;
     private int _score;
     private int resultScore;
-    private int BalloonLimit=10;
-    private int ThrowLimit=100;
+    private int BalloonLimit = 10;
+    private int ThrowLimit = 100;
+    private float TimeLimit = 30.0f;
     private GameObject timerText;
     private GameObject scoreText;
     private GameObject BalloonCountText;
@@ -99,7 +100,7 @@ public class GameDirector : MonoBehaviour
         switch(gameMode.GameMode)
         {
             case GameModeController.eGameMode.None:
-                TimeValue = 30.0f;
+                TimeValue = TimeLimit;
                 resultScore=0;
                 break;
             case GameModeController.eGameMode.Balloon:
@@ -112,18 +113,16 @@ public class GameDirector : MonoBehaviour
                 }
                 break;
             case GameModeController.eGameMode.WaitTime:
-                TimeValue = 30.0f;
+                TimeValue = TimeLimit;
                 break;
             case GameModeController.eGameMode.Shooting:
                 scoreText.GetComponent<Text>().text = Score.ToString("F0");
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
-                BalloonCountText.GetComponent<Text>().text=BalloonCounter.ToString("F0")+"/"+BalloonLimit;
-                ThrowCountText.GetComponent<Text>().text=ThrowCounter.ToString("F0")+"/"+ThrowLimit;
+                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0")+"/"+BalloonLimit;
+                ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0")+"/"+ThrowLimit;
                 if(TimeValue < 0 || BalloonCounter == 0|| ThrowCounter/ThrowLimit == 1) {
-                    resultScore = Score;
-                    var record = ConvertScoreToRecord(resultScore);
-                    
+                    var record = ConvertScoreToRecord();
                     scoreMng.RegisterRecord(record);
                     gameSceneMng.ChangeScene(GameScenes.Result);
                 }
@@ -135,10 +134,12 @@ public class GameDirector : MonoBehaviour
         gameSceneMng.ChangeScene(GameScenes.Top);
     }
 
-    public Record ConvertScoreToRecord(int score)
+    public Record ConvertScoreToRecord()
     {
         var UserName = "Guest"; // consider later
-        return new Record(UserName, score, 0, DateTime.Now); // at the moment, balloon score and time score is not separated.
+        var timeScore = (int)(TimeValue / TimeLimit * 100);
+        var balloonScore = (int)(BalloonCounter / BalloonLimit * 100);
+        return new Record(UserName, timeScore, balloonScore, DateTime.Now); // at the moment, balloon score and time score is not separated.
     }
 
     #endregion

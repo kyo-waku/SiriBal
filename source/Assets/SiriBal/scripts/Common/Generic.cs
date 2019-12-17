@@ -40,7 +40,7 @@ namespace Generic
 
         // Methods
         //-- Get/Set
-        public int GameScore(int alpha = 100, int beta = 10){
+        public int GameScore(int alpha = 10, int beta = 10){
             return TimeScore * alpha + BalloonScore * beta;
         }
 
