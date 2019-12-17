@@ -108,6 +108,7 @@ namespace Generic.Manager{
             PlayerPrefs.SetString("PlayDateTime", score.PlayDateTime.ToString());
             PlayerPrefs.SetInt("TimeScore", score.TimeScore);
             PlayerPrefs.SetInt("BalloonScore", score.BalloonScore);
+            PlayerPrefs.SetInt("HitScore", score.HitScore);
             PlayerPrefs.Save();
         }
 
@@ -117,8 +118,9 @@ namespace Generic.Manager{
             var dateStr = PlayerPrefs.GetString("PlayDateTime", DateTime.Now.ToString());
             var time = PlayerPrefs.GetInt("TimeScore", 0);
             var balloon = PlayerPrefs.GetInt("BalloonScore", 0);
+            var hit = PlayerPrefs.GetInt("HitScore", 0);
 
-            return new Record(name, time, balloon, DateTime.Parse(dateStr));
+            return new Record(name, time, balloon, 0, DateTime.Parse(dateStr));
         }
 
         internal void SaveRecordToRemote(Record record)

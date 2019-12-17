@@ -11,6 +11,7 @@ exports.addEntry = functions
         name : data.name,
         time : data.time,
         balloon : data.balloon,
+        hit : data.hit,
         date : data.date
     };
     return admin.firestore().collection('entries')

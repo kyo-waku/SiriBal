@@ -44,6 +44,7 @@ namespace Generic.Firebase
                 { "name", entry.UserName },
                 { "time", entry.TimeScore },
                 { "balloon", entry.BalloonScore},
+                { "hit", entry.HitScore},
                 { "date", entry.PlayDateTime.ToString()}
             };
 
@@ -77,6 +78,7 @@ namespace Generic.Firebase
                 name: (string)entry["name"],
                 time: Convert.ToInt32(entry["time"]),
                 balloon: Convert.ToInt32(entry["balloon"]),
+                hit: Convert.ToInt32(entry["hit"]),
                 date: DateTime.Parse(Convert.ToString(entry["date"]))
                 );
         }

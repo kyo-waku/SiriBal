@@ -139,7 +139,7 @@ public class GameDirector : MonoBehaviour
         var UserName = "Guest"; // consider later
         var timeScore = (int)(TimeValue / TimeLimit * 1000);
         var balloonScore = (int)((BalloonLimit - BalloonCounter) / BalloonLimit * 1000);
-        return new Record(UserName, timeScore, balloonScore, DateTime.Now); // at the moment, balloon score and time score is not separated.
+        return new Record(UserName, timeScore, balloonScore, 0, DateTime.Now); 
     }
 
     #endregion

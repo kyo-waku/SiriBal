@@ -35,6 +35,8 @@ namespace Generic
         //-- Balloon result
         public int BalloonScore{get;set;}
 
+        public int HitScore{get;set;}
+
         // Date and Time
         public DateTime PlayDateTime{get;set;}
 
@@ -44,11 +46,12 @@ namespace Generic
             return TimeScore * alpha + BalloonScore * beta;
         }
 
-        public Record(string name, int time, int balloon, DateTime date)
+        public Record(string name, int time, int balloon, int hit, DateTime date)
         {
             UserName = name;
             TimeScore = time;
             BalloonScore = balloon;
+            HitScore = hit;
             PlayDateTime = date;
         }
 
