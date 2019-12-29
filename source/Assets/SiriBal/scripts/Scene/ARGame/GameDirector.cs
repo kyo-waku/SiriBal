@@ -72,11 +72,11 @@ public class GameDirector : MonoBehaviour
 
     //CountScore
     public void DestroyCount(){
-        Score += 70;
+        Score += 1;
     }
 
     public void HitCount(){
-        Score += 10;
+        Score += 1;
     }
     
     // Start is called before the first frame update
@@ -139,7 +139,8 @@ public class GameDirector : MonoBehaviour
         var UserName = "Guest"; // consider later
         var timeScore = (int)(TimeValue / TimeLimit * 1000);
         var balloonScore = (int)((BalloonLimit - BalloonCounter) / BalloonLimit * 1000);
-        return new Record(UserName, timeScore, balloonScore, 0, DateTime.Now); 
+        var HitProbability = (int)((Score　*　1000)/　ThrowCounter);
+        return new Record(UserName, timeScore, balloonScore, HitProbability, DateTime.Now); 
     }
 
     #endregion
