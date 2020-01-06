@@ -119,7 +119,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 this.director.GetComponent<GameDirector>().HitCount();
                 if(BalloonHP==BreakCount)
                 {
-                    this.director.GetComponent<GameDirector>().DestroyCount();
+                    //this.director.GetComponent<GameDirector>().DestroyCount();
                     this.director.GetComponent<GameDirector>().BalloonCounter -= 1;
                     Destroy(gameObject);
                 }

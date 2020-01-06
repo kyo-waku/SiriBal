@@ -42,8 +42,8 @@ namespace Generic
 
         // Methods
         //-- Get/Set
-        public int GameScore(int alpha = 10, int beta = 10){
-            return TimeScore * alpha + BalloonScore * beta;
+        public int GameScore(int alpha = 20, int beta = 10, int ganma = 5 ){
+            return TimeScore * alpha + BalloonScore * beta + HitScore* ganma ;
         }
 
         public Record(string name, int time, int balloon, int hit, DateTime date)
