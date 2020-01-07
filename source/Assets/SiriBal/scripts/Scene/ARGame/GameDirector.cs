@@ -25,6 +25,12 @@ public class GameDirector : MonoBehaviour
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
 
+    private GameObject ShootingModeButton;
+    public Sprite _MasterBall;
+    public Sprite _Hammer;
+    private bool spriteFlg = true;
+    private bool buttonFlg = false;
+
     // properties
     #region properties
     public int BalloonCounter
@@ -92,6 +98,8 @@ public class GameDirector : MonoBehaviour
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
         BalloonCountText.GetComponent<Text>().text=BalloonCounter.ToString("F0")+"/"+BalloonLimit;
         ThrowCountText.GetComponent<Text>().text=ThrowCounter.ToString("F0")+"/"+ThrowLimit;
+        ShootingModeButton = GameObject.Find("ShootingModeButtun");
+        ShootingModeButton.transform.Translate (0, -300, 0);//暫定措置：ボタンを画面外に出す。
     }
 
     // Update is called once per frame
@@ -116,6 +124,10 @@ public class GameDirector : MonoBehaviour
                 TimeValue = TimeLimit;
                 break;
             case GameModeController.eGameMode.Shooting:
+                if(buttonFlg == false){
+                    ShootingModeButton.transform.Translate (0, 300, 0);//暫定措置：ボタンを画面内に戻す。
+                    buttonFlg = !buttonFlg;
+                }
                 scoreText.GetComponent<Text>().text = Score.ToString("F0");
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
@@ -132,6 +144,14 @@ public class GameDirector : MonoBehaviour
     public void BackButtonClicked()
     {
         gameSceneMng.ChangeScene(GameScenes.Top);
+    }
+
+    public void ShootingModeButtonClicked()
+    {
+        //Debug.Log("ShootingModeChange!");
+        var img = ShootingModeButton.GetComponent<Image> ();
+        spriteFlg = !spriteFlg;
+        img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
     }
 
     public Record ConvertScoreToRecord()
