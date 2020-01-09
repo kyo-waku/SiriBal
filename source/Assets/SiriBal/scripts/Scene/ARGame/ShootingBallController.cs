@@ -37,7 +37,7 @@ public class ShootingBallController : MonoBehaviour
             #if UNITY_EDITOR
             ShootingBall(Input.mousePosition);
             #else
-            ShootingBall(touch.touchPosition);
+            ShootingBall(touch.touchStartPosition);
             #endif
         }
         

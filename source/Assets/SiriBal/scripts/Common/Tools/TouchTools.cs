@@ -20,7 +20,8 @@ public class TouchTools : MonoBehaviour
 
 #region Values
     private TouchPhaseExtended _touchPhaseEx;
-    private Vector3 _touchPosition;
+    private Vector3 _touchStartPosition;
+    private Vector3 _touchEndPosition;
 #endregion
 
 #region Properties
@@ -37,12 +38,21 @@ public class TouchTools : MonoBehaviour
     }
 
     // TouchPosition
-    public Vector3 touchPosition{
+    public Vector3 touchStartPosition{
         get{
-            return _touchPosition;
+            return _touchStartPosition;
         }
         set{
-            _touchPosition = value;
+            _touchStartPosition = value;
+        }
+    }
+
+    public Vector3 touchEndPosition{
+        get{
+            return _touchEndPosition;
+        }
+        set{
+            _touchEndPosition = value;
         }
     }
 #endregion
@@ -57,25 +67,22 @@ public class TouchTools : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             touchPhaseEx = TouchPhaseExtended.Began;
+            touchStartPosition = Input.mousePosition;
         }
         // Just after the releasing
         else if (Input.GetMouseButtonUp(0))
         {
             touchPhaseEx = TouchPhaseExtended.Ended;
+            touchEndPosition = Input.mousePosition;
         }
         // Mouse Dragging
         else if (Input.GetMouseButton(0))
         {
             touchPhaseEx = TouchPhaseExtended.Moved;
+            touchEndPosition = Input.mousePosition;
         }
         else{
             touchPhaseEx = TouchPhaseExtended.None;
-        }
-        
-        // Update Position
-        if (touchPhaseEx != TouchPhaseExtended.None)
-        {
-            touchPosition = Input.mousePosition;
         }
 
         // --- SMART DEVICES ---
@@ -83,28 +90,27 @@ public class TouchTools : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
+            Vector3 position = new Vector3();
+            position.x = touch.position.x;
+            position.y = touch.position.y;
+            
             switch (touch.phase)
             {
                 case TouchPhase.Began:
                     touchPhaseEx = TouchPhaseExtended.Began;
+                    touchStartPosition = position;
                     break;
                 case TouchPhase.Ended:
                     touchPhaseEx = TouchPhaseExtended.Ended;
+                    touchEndPosition = position;
                     break;
                 case TouchPhase.Moved:
                     touchPhaseEx = TouchPhaseExtended.Moved;
+                    touchEndPosition = position;
                     break;
                 default:
                     touchPhaseEx = TouchPhaseExtended.None;
                     break;
-            }
-
-            if (touchPhaseEx != TouchPhaseExtended.None)
-            {
-                Vector3 position = new Vector3();
-                position.x = touch.position.x;
-                position.y = touch.position.y;
-                touchPosition = position;
             }
         }
         #endif
