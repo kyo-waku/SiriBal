@@ -17,6 +17,7 @@ public class GameDirector : MonoBehaviour
     private int ThrowLimit = 100;
     private float TimeLimit = 30.0f;
     private GameObject timerText;
+    private GameObject timerUI;
     private GameObject scoreText;
     private GameObject BalloonCountText;
     private GameObject ThrowCountText;
@@ -92,6 +93,8 @@ public class GameDirector : MonoBehaviour
         scoreMng = new ScoreManager(DataManager.service);
 
         timerText = GameObject.Find("Timer");
+        timerUI =  GameObject.Find("TimerIcon");
+        timerUI.GetComponent<TimerUiController>();
         scoreText = GameObject.Find("Score");
         BalloonCountText = GameObject.Find("BalloonCount");
         ThrowCountText = GameObject.Find("ThrowCount");
@@ -114,6 +117,7 @@ public class GameDirector : MonoBehaviour
             case GameModeController.eGameMode.Balloon:
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text= _time.ToString("F1");//F1 は書式指定子
+                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, TimeLimit);//TimerUIの更新
                 BalloonCountText.GetComponent<Text>().text=BalloonCounter.ToString("F0")+"/"+BalloonLimit;
                 if(_time < 0|| BalloonCounter == 10)
                 {
@@ -131,6 +135,7 @@ public class GameDirector : MonoBehaviour
                 scoreText.GetComponent<Text>().text = Score.ToString("F0");
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
+                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, TimeLimit);//TimerUIの更新
                 BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0")+"/"+BalloonLimit;
                 ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0")+"/"+ThrowLimit;
                 if(TimeValue < 0 || BalloonCounter == 0|| ThrowCounter/ThrowLimit == 1) {
