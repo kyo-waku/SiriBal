@@ -13,6 +13,7 @@ namespace Generic
         ScoreBoard,
         Login,
         UserRegistered,
+        Home,
     }
 
     // Error Handling

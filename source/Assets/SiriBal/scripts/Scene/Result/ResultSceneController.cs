@@ -44,10 +44,10 @@ public class ResultSceneController : MonoBehaviour
 
     public void RankingButtonClicked()
     {
-        gameSceneMng.ChangeScene(GameScenes.ScoreBoard);
+        gameSceneMng.ChangeScene(GameScenes.Home);
     }
     public void ToTopButtonClicked()
     {
-        gameSceneMng.ChangeScene(GameScenes.Top);
+        gameSceneMng.ChangeScene(GameScenes.Home);
     }
 }

@@ -143,7 +143,7 @@ public class GameDirector : MonoBehaviour
     }
     public void BackButtonClicked()
     {
-        gameSceneMng.ChangeScene(GameScenes.Top);
+        gameSceneMng.ChangeScene(GameScenes.Home);
     }
 
     public void ShootingModeButtonClicked()
