@@ -176,6 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4160783384d64e3c8218a8b83dd126f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackMissle: {fileID: 2000341097746316527, guid: 370cabc4defe741cea9d757a7c1d80fb,
+    type: 3}
 --- !u!23 &-578271968255581640
 MeshRenderer:
   m_ObjectHideFlags: 0

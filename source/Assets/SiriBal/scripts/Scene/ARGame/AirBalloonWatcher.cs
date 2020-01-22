@@ -13,9 +13,15 @@ public class AirBalloonWatcher : MonoBehaviour
     float timeElapsed;
     float mutekiTime;
     bool mutekiFlag=false;
+    float AttackSpan;
+    float AttackTime;
 
     //find GameDirector for scoring
     GameObject director;
+    GameObject PlayerCamera;
+
+    public GameObject AttackMissle;
+    float MissileClearance = 5.0f;
 
     GameModeController controlGameMode;//for ReadGameMode
 
@@ -69,10 +75,14 @@ public class AirBalloonWatcher : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         
         //Find GameDirector for Scoring
-        this.director = GameObject.Find("GameDirector");
-
+        director = GameObject.Find("GameDirector");
+        PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
+        AttackSpan = 3.0f;//デバッグ用の攻撃間隔
+        //ActionSpan = Random.Range(5,15);
+        
         //Decision 1st ActionSpan
         ActionSpan = Random.Range(3,5);
+
     }
 
     // Update is called once per frame
@@ -96,18 +106,36 @@ public class AirBalloonWatcher : MonoBehaviour
                     ActionMode = Random.Range(0,5);
                     GetAction(ActionMode);
                 }
+                //攻撃する
+                AttackTime += Time.deltaTime;
+                if (AttackTime >= ActionSpan){
+                    AttackTime = 0.0f;
+                    AttackAction(MissileClearance,AttackMissle);
+                }
                 break;
         }
         
+        //多重接触防止の暫定措置：要変更
         if(mutekiFlag==true)
         {
             mutekiTime += Time.deltaTime;
             if(mutekiTime > 0.1f) mutekiFlag=false;
         }
+
+        
         
 
     }
 
+    //攻撃する
+    void AttackAction(float Clearance, GameObject Attackprefab){
+        Vector3 vctr1 = transform.position;//このオブジェクトの座標を取得
+        Vector3 vctr2 = PlayerCamera.transform.position;//プレイヤーカメラの座標を取得
+        Vector3 vctr3 = vctr2 - vctr1;//このオブジェクトとプレイヤー間のベクトルを算出
+        GameObject go = Instantiate(AttackMissle) as GameObject;
+        go.transform.position = vctr1 + Clearance * (vctr3/vctr3.magnitude);
+    }
+    
     //Detect Collision
     void OnCollisionEnter(Collision other)
     {
