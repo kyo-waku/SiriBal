@@ -6,8 +6,8 @@ public class EnemyAttack_missileController : MonoBehaviour
 {
     Rigidbody rigidbody;
     GameObject PlayerCamera;
-    float MovingForce = 30.0f;
-    float timeOut=6.0f;
+    float MovingForce = 40.0f;
+    float timeOut=8.0f;
     float timeElapsed;
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class EnemyAttack_missileController : MonoBehaviour
         Vector3 vctr1 = transform.position;//このオブジェクトの座標を取得
         Vector3 vctr2 = PlayerCamera.transform.position;//プレイヤーカメラの座標を取得
         Vector3 vctr3 = vctr2 - vctr1;//このオブジェクトとプレイヤー間のベクトルを算出
-        this.transform.rotation = Quaternion.FromToRotation(Vector3.down, vctr3);//向きを適切に回転
+        this.transform.rotation = Quaternion.FromToRotation(Vector3.down, -vctr3);//向きを適切に回転
         this.rigidbody.AddForce(MovingForce * (vctr3 / vctr3.magnitude));//プレイヤーに向かっていく向きに力を加える
     }
 
