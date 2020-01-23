@@ -238,7 +238,12 @@ public class GameDirector : MonoBehaviour
         var UserName = "Guest"; // consider later
         var timeScore = (int)(TimeValue / TimeLimit * 1000);
         var balloonScore = (int)((BalloonLimit - BalloonCounter) / BalloonLimit * 1000);
-        var HitProbability = (int)((Score * 1000) / ThrowCounter);
+        int HitProbability;
+        if(ThrowCounter != 0) {
+            HitProbability = (int)((Score * 1000) / ThrowCounter);
+        } else {
+            HitProbability = 0;
+        }
         return new Record(UserName, timeScore, balloonScore, HitProbability, DateTime.Now);
     }
 
