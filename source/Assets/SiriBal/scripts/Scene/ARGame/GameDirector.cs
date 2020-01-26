@@ -25,7 +25,6 @@ public class GameDirector : MonoBehaviour
     private GameModeController gameMode; //for ReadGameMode
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
-
     private GameObject ShootingModeButton;
     private GameObject ShadeUI;
     private GameObject DescriptionUI;
@@ -34,9 +33,11 @@ public class GameDirector : MonoBehaviour
     public Sprite _Hammer;
     private bool spriteFlg = true;
     private bool buttonFlg = false;
-    public bool bMinLoadingBalloonPosYJudge1 = false;
-    public bool bMinLoadingBalloonPosYJudge2 = false;
-    public float MinLoadingBalloonPosY = -1.0f;
+    public bool bJudgeGenerateLoadingBalloon = false; //LoadingBalloonを生成したか判定
+    public bool bJudgeUpdateLoadingBalloonPosMinY = false; //LoadingBalloonのY座標の最小値を更新済みか判定
+    public float LoadingBalloonPosMinY = -1.0f; //LoadingBalloonのY座標最小値
+    public float LoadingBalloonPosMinYMinus = -1.0f; //LoadingBalloonのY座標最小値がマイナスの時
+    public float LoadingBalloonPosMinYPlus = 1.0f;　//LoadingBalloonのY座標最小値がプラスの時
 
 
 
@@ -174,49 +175,60 @@ public class GameDirector : MonoBehaviour
                 break;
         }
 
+        //LoadingBalloon生成時は画面が隠れているか判定
+        if (bJudgeHideScreenByLoadingBalloon() == true)
+        {
+            ControlDispWaitingScreen(true); //待機画面表示
+        }
+
         //Debug用
         if (Input.GetKeyDown(KeyCode.L))
         {
             LoadBalGen.GetComponent<LoadingBalloonGenerator>().GenerateLoadingBalloons();
         }
 
-        LoadingBalloonPosYJudge();
-
-    }
-
-    public void LoadingBalloonPosYJudge()
-    {
         //Debug用
         if (Input.GetKeyDown(KeyCode.S))
         {
-            ShadeUI.gameObject.SetActive(false);
-            DescriptionUI.gameObject.SetActive(false);
+            ControlDispWaitingScreen(false);
         }
 
         //Debug用
         if (Input.GetKeyDown(KeyCode.D))
         {
-            ShadeUI.gameObject.SetActive(true);
-            DescriptionUI.gameObject.SetActive(true);
+            ControlDispWaitingScreen(true);
         }
 
-        if (bMinLoadingBalloonPosYJudge1 == true)
-        {
-            if (bMinLoadingBalloonPosYJudge2 == true && MinLoadingBalloonPosY > 0.0f)
-            {
-                ShadeUI.gameObject.SetActive(true);
-                DescriptionUI.gameObject.SetActive(true);
-                bMinLoadingBalloonPosYJudge1 = false;
-            }
-            MinLoadingBalloonPosY = 1.0f;
-            bMinLoadingBalloonPosYJudge2 = false;
-        }
     }
 
-    public void ShadeClicked()
+    private bool bJudgeHideScreenByLoadingBalloon() //LoadingBalloonで画面が隠れているか判定
     {
-        ShadeUI.gameObject.SetActive(false);
-        DescriptionUI.gameObject.SetActive(false);
+        bool bReturn = false;
+
+        //LoadingBalloonで画面が隠れているか判定
+        if (bJudgeGenerateLoadingBalloon == true)
+        {
+            if (bJudgeUpdateLoadingBalloonPosMinY == true && LoadingBalloonPosMinY > 0.0f)
+            {
+                bReturn = true;
+                bJudgeGenerateLoadingBalloon = false;
+            }
+            LoadingBalloonPosMinY = LoadingBalloonPosMinYPlus;
+            bJudgeUpdateLoadingBalloonPosMinY = false;
+        }
+        return bReturn;
+    }
+
+    public void ControlDispWaitingScreen(bool bSetActive) //待機画面の表示制御
+    {
+        ShadeUI.gameObject.SetActive(bSetActive);
+        DescriptionUI.gameObject.SetActive(bSetActive);
+    }
+
+
+    public void ShadeClicked() //ShadeUIクリック時
+    {
+        ControlDispWaitingScreen(false);
         gameMode.GameMode = GameModeController.eGameMode.Shooting;
     }
 
@@ -239,9 +251,12 @@ public class GameDirector : MonoBehaviour
         var timeScore = (int)(TimeValue / TimeLimit * 1000);
         var balloonScore = (int)((BalloonLimit - BalloonCounter) / BalloonLimit * 1000);
         int HitProbability;
-        if(ThrowCounter != 0) {
+        if (ThrowCounter != 0)
+        {
             HitProbability = (int)((Score * 1000) / ThrowCounter);
-        } else {
+        }
+        else
+        {
             HitProbability = 0;
         }
         return new Record(UserName, timeScore, balloonScore, HitProbability, DateTime.Now);

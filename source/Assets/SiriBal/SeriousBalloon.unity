@@ -2619,9 +2619,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MasterBall: {fileID: 21300000, guid: aac9e61d8110d411aaf1262877a2c860, type: 3}
   _Hammer: {fileID: 21300000, guid: dd1fc7879e4f44d96b2c94e76db6e28d, type: 3}
-  bMinLoadingBalloonPosYJudge1: 0
-  bMinLoadingBalloonPosYJudge2: 0
-  MinLoadingBalloonPosY: -1
+  bJudgeGenerateLoadingBalloon: 0
+  bJudgeUpdateLoadingBalloonPosMinY: 0
+  LoadingBalloonPosMinY: -1
+  LoadingBalloonPosMinYMinus: -1
+  LoadingBalloonPosMinYPlus: 1
 --- !u!114 &1925247169
 MonoBehaviour:
   m_ObjectHideFlags: 0
