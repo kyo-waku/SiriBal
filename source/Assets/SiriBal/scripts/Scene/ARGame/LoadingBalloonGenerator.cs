@@ -24,10 +24,9 @@ public class LoadingBalloonGenerator : MonoBehaviour
 
     public void GenerateLoadingBalloons()
     {
-        //GameDirector.BalloonCounter = 0;
-        GameDirector.MinLoadingBalloonPosY = -1.0f;
-        GameDirector.bMinLoadingBalloonPosYJudge1 = true;
-        GameDirector.bMinLoadingBalloonPosYJudge2 = false;
+        GameDirector.LoadingBalloonPosMinY = GameDirector.LoadingBalloonPosMinYMinus;
+        GameDirector.bJudgeGenerateLoadingBalloon = true;
+        GameDirector.bJudgeUpdateLoadingBalloonPosMinY = false;
         GenerateLoadingBalloonLine(32, 1, 0, 8);
         GenerateLoadingBalloonLine(32, 2, 0, 8);
         GenerateLoadingBalloonLine(32, 3, 0, 8);
@@ -42,6 +41,12 @@ public class LoadingBalloonGenerator : MonoBehaviour
 
     private void GenerateLoadingBalloonLine(int TheNumberOfBalloons, int LowNumber, int MinColumn, int MaxColumn)
     {
+        float BasePosX = 0; //X方向の生成基準位置
+        float BasePosY = -6400; //Y方向の生成基準位置
+        float BasePosZ = 0; //Z方向の生成基準位置
+        float IntervalX = 150; //X方向の生成間隔
+        float IntervalY = 400; //Y方向の生成間隔
+
         while (count < TheNumberOfBalloons)
         {
             count++;
@@ -49,7 +54,7 @@ public class LoadingBalloonGenerator : MonoBehaviour
             //UIのImageはCanvasの子じゃないとGUI表示されないため
             var canvas = GameObject.FindObjectOfType<Canvas>();
             LoadingBalloon.transform.SetParent(canvas.transform, false);
-            LoadingBalloon.transform.position = new Vector3((Random.Range(MinColumn, MaxColumn) * 150), (LowNumber * 400) - 6400 + Random.Range(-200, 200), 0);
+            LoadingBalloon.transform.position = new Vector3(BasePosX + (Random.Range(MinColumn, MaxColumn) * IntervalX), + BasePosY + (LowNumber * IntervalY) + Random.Range(-IntervalY/2, IntervalY/2), BasePosZ);
         }
         count = 0;
     }
