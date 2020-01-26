@@ -8,6 +8,8 @@ using Generic.Manager;
 public class HomeSceneController : MonoBehaviour
 {
     private GameSceneManager _gameSceneMng;
+    private ScoreManager _scoreManager;
+    private List<Record> _records;
     private enum StageIndices
     {
         easy = 1,
@@ -18,6 +20,7 @@ public class HomeSceneController : MonoBehaviour
     {
         // 委譲
         _gameSceneMng = new GameSceneManager();
+        _scoreManager = new ScoreManager(DataManager.service);
 
         // Top画面は回転したくない
         Screen.autorotateToLandscapeLeft = false;
@@ -25,8 +28,43 @@ public class HomeSceneController : MonoBehaviour
     }
     public void Update()
     {
-        // not impl.
+        if(GameObject.Find("RankToggle").GetComponent<Toggle>().isOn)
+        {
+            UpdateRanks(GetRecords());
+        }
     }
+
+    private List<Record> GetRecords()
+    {
+        var result = _scoreManager.GetAllRecords(out var records);
+        if (result == DefinedErrors.Pass){
+            if (records != null){
+                return records;
+            }
+        }
+        return null; // empty
+    }
+
+    private void UpdateRanks(List<Record> records)
+    {
+        if (records == null)
+        {
+            return ;
+        }
+        if (records.Count > 0)
+        {
+            // 基本、固定で8個なのでベタ書きする
+            var objName = "";
+            for( var count = 0; count < records.Count && count < 8; ++count)
+            {
+                objName = "Score"+ (count+1);
+                // 0個目:Label, 1個目:Score, 2個目:Name　の順にScoreにぶら下がっている。（これ崩さないでね・・・）
+                var obj1 = GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].GameScore().ToString();
+                var obj2 = GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
+            }
+        }
+    }
+
     public void GameStartButtonClicked()
     {
         var nextScene = GameScenes.Home;
