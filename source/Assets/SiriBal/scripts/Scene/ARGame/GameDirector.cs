@@ -126,10 +126,9 @@ public class GameDirector : MonoBehaviour
         ShootingModeButton = GameObject.Find("ShootingModeButtun");
         ShootingModeButton.transform.Translate(0, -300, 0);//暫定措置：ボタンを画面外に出す。
 
-        //ShadeUI = GameObject.Find("Shade");
         ShadeUI.gameObject.SetActive(false);
-        //DescriptionUI = GameObject.Find("Description");
         DescriptionUI.gameObject.SetActive(false);
+        ShowStartUpDescription(); // バルーン置いてねのメッセージ用、ここからスタートする
         LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
 
     }
@@ -182,6 +181,7 @@ public class GameDirector : MonoBehaviour
         if (bJudgeHideScreenByLoadingBalloon() == true)
         {
             ControlDispWaitingScreen(true); //待機画面表示
+            GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = "つぎはタップでバルーンをうちおとそう";
         }
 
         //Debug用
@@ -204,6 +204,11 @@ public class GameDirector : MonoBehaviour
 
     }
 
+    private void ShowStartUpDescription()
+    {
+        ControlDispWaitingScreen(true);
+        GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = "まずはバルーンをセットしよう";
+    }
     private bool bJudgeHideScreenByLoadingBalloon() //LoadingBalloonで画面が隠れているか判定
     {
         bool bReturn = false;
@@ -232,7 +237,18 @@ public class GameDirector : MonoBehaviour
     public void ShadeClicked() //ShadeUIクリック時
     {
         ControlDispWaitingScreen(false);
-        gameMode.GameMode = GameModeController.eGameMode.Shooting;
+        if(gameMode.GameMode == GameModeController.eGameMode.None)
+        {
+            gameMode.GameMode = GameModeController.eGameMode.Balloon;
+        }
+        else if (gameMode.GameMode == GameModeController.eGameMode.WaitTime)
+        {
+            gameMode.GameMode = GameModeController.eGameMode.Shooting;
+        }
+        else
+        {
+            //Undefined
+        }
     }
 
     public void BackButtonClicked()
