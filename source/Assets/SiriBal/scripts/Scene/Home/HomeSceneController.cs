@@ -59,8 +59,19 @@ public class HomeSceneController : MonoBehaviour
             {
                 objName = "Score"+ (count+1);
                 // 0個目:Label, 1個目:Score, 2個目:Name　の順にScoreにぶら下がっている。（これ崩さないでね・・・）
-                var obj1 = GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].GameScore().ToString();
-                var obj2 = GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
+                GameObject.Find(objName).transform.GetChild(0).gameObject.GetComponent<Text>().text = (count+1).ToString();
+                GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].GameScore().ToString();
+                GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
+            }
+            
+            // 8個に満たない場合、使っていないランクを非表示にする
+            if (records.Count < 8)
+            {
+                for (var i = records.Count; i < 8; ++i)
+                {
+                    objName = "Score" + (i+1);
+                    GameObject.Find(objName).SetActive(false);
+                }
             }
         }
     }
