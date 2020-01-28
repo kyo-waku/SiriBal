@@ -36,7 +36,7 @@ public class GameDirector : MonoBehaviour
     public Sprite _Hammer;
     private bool spriteFlg = true;
     private bool buttonFlg = false;
-    public bool bJudgeGenerateLoadingBalloon = false; //LoadingBalloonを生成したか判定
+    private bool bJudgeGenerateLoadingBalloon = false; //LoadingBalloonを生成したか判定
     public bool bJudgeUpdateLoadingBalloonPosMinY = false; //LoadingBalloonのY座標の最小値を更新済みか判定
     public float LoadingBalloonPosMinY = -1.0f; //LoadingBalloonのY座標最小値
     public float LoadingBalloonPosMinYMinus = -1.0f; //LoadingBalloonのY座標最小値がマイナスの時
@@ -90,6 +90,16 @@ public class GameDirector : MonoBehaviour
         private set
         {
             _time = value;
+        }
+    }
+
+    public bool JudgeGenerateLoadingBalloon
+    {
+        get{
+            return bJudgeGenerateLoadingBalloon;
+        }
+        set{
+            bJudgeGenerateLoadingBalloon = value;
         }
     }
 
@@ -214,12 +224,12 @@ public class GameDirector : MonoBehaviour
         bool bReturn = false;
 
         //LoadingBalloonで画面が隠れているか判定
-        if (bJudgeGenerateLoadingBalloon == true)
+        if (JudgeGenerateLoadingBalloon == true)
         {
             if (bJudgeUpdateLoadingBalloonPosMinY == true && LoadingBalloonPosMinY > 0.0f)
             {
                 bReturn = true;
-                bJudgeGenerateLoadingBalloon = false;
+                JudgeGenerateLoadingBalloon = false;
             }
             LoadingBalloonPosMinY = LoadingBalloonPosMinYPlus;
             bJudgeUpdateLoadingBalloonPosMinY = false;
