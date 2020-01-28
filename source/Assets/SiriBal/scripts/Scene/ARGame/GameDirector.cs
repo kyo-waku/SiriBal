@@ -26,7 +26,10 @@ public class GameDirector : MonoBehaviour
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
     private GameObject ShootingModeButton;
+    
+    [SerializeField]
     private GameObject ShadeUI;
+    [SerializeField]
     private GameObject DescriptionUI;
     private GameObject LoadBalGen;
     public Sprite _MasterBall;
@@ -123,9 +126,9 @@ public class GameDirector : MonoBehaviour
         ShootingModeButton = GameObject.Find("ShootingModeButtun");
         ShootingModeButton.transform.Translate(0, -300, 0);//暫定措置：ボタンを画面外に出す。
 
-        ShadeUI = GameObject.Find("Shade");
+        //ShadeUI = GameObject.Find("Shade");
         ShadeUI.gameObject.SetActive(false);
-        DescriptionUI = GameObject.Find("Description");
+        //DescriptionUI = GameObject.Find("Description");
         DescriptionUI.gameObject.SetActive(false);
         LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
 
