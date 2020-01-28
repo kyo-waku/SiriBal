@@ -87,7 +87,7 @@ public class LoadingBalloonController : MonoBehaviour
 
     void UpdateLoadingBalloonPosMinY() //LoadingBalloonのY座標の最小値を更新
     {
-        if (GameDirector.bJudgeGenerateLoadingBalloon == true)
+        if (GameDirector.JudgeGenerateLoadingBalloon == true)
         {
             if (this.transform.position.y < GameDirector.LoadingBalloonPosMinY)
             {
