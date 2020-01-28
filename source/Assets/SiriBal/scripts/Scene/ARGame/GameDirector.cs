@@ -172,7 +172,7 @@ public class GameDirector : MonoBehaviour
                 if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter / ThrowLimit == 1)
                 {
                     var record = ConvertScoreToRecord();
-                    scoreMng.RegisterRecord(record);
+                    DataManager.MyLatestRecord = record;
                     gameSceneMng.ChangeScene(GameScenes.Result);
                 }
                 break;
