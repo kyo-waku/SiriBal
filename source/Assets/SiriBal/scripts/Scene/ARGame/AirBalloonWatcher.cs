@@ -21,7 +21,7 @@ public class AirBalloonWatcher : MonoBehaviour
     GameObject PlayerCamera;
 
     public GameObject AttackMissle;
-    float MissileClearance = 5.0f;
+    float MissileClearance = 0.5f;
 
     GameModeController controlGameMode;//for ReadGameMode
 
@@ -34,7 +34,7 @@ public class AirBalloonWatcher : MonoBehaviour
 
     //Decision Balloon's Action
     void GetAction(int ActionNo){
-        float force = Random.Range(250.0f,750.0f);
+        float force = Random.Range(100.0f,200.0f);
         Vector3 UpperForce = new Vector3 (0.0f,force,0.0f);
         Vector3 sideForce = new Vector3 (force,0.0f, 0.0f);
         switch(ActionNo){
@@ -44,7 +44,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 break;
             
             case 1:
-                rb.AddForce (2.0f*UpperForce);
+                rb.AddForce (1.2f*UpperForce);
                 break;
             case 2:
                 rb.AddForce (sideForce);
@@ -77,7 +77,7 @@ public class AirBalloonWatcher : MonoBehaviour
         //Find GameDirector for Scoring
         director = GameObject.Find("GameDirector");
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
-        AttackSpan = 3.0f;//デバッグ用の攻撃間隔
+        AttackSpan = 4.0f;//デバッグ用の攻撃間隔
         //ActionSpan = Random.Range(5,15);
         
         //Decision 1st ActionSpan
