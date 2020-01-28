@@ -42,7 +42,7 @@ public class ResultSceneController : MonoBehaviour
         gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 
-    public void RankingButtonClicked()
+    public void RegisterButtonClicked()
     {
         gameSceneMng.ChangeScene(GameScenes.Home);
     }
