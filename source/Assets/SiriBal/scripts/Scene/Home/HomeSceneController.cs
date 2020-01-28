@@ -10,6 +10,8 @@ public class HomeSceneController : MonoBehaviour
     private GameSceneManager _gameSceneMng;
     private ScoreManager _scoreManager;
     private List<Record> _records;
+
+    private bool updateFlag;
     private enum StageIndices
     {
         easy = 1,
@@ -25,6 +27,9 @@ public class HomeSceneController : MonoBehaviour
         // Top画面は回転したくない
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;
+
+        // 情報更新フラグ
+        updateFlag = true;
     }
     public void Update()
     {
@@ -51,7 +56,7 @@ public class HomeSceneController : MonoBehaviour
         {
             return ;
         }
-        if (records.Count > 0)
+        if (records.Count > 0 && updateFlag == true)
         {
             // 基本、固定で8個なのでベタ書きする
             var objName = "";
@@ -73,6 +78,7 @@ public class HomeSceneController : MonoBehaviour
                     GameObject.Find(objName).SetActive(false);
                 }
             }
+            updateFlag = false; // 更新完了
         }
     }
 
