@@ -64,9 +64,12 @@ namespace Generic.Manager{
                     SaveRecordToRemote(currentScore);
                 }
             }
+
+            // 登録したなら再取得していいので
+            // fetchComplete情報の初期化
+            fetchComplete = false;
             return result;
         }
-
         // すべてのレコードを取得する（ソート済）
         public DefinedErrors GetAllRecords(out List<Record> Ranks)
         {
