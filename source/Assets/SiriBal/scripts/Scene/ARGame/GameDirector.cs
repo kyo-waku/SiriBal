@@ -25,6 +25,8 @@ public class GameDirector : MonoBehaviour
     private GameModeController gameMode; //for ReadGameMode
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
+
+    [SerializeField]
     private GameObject ShootingModeButton;
     
     [SerializeField]
@@ -123,8 +125,6 @@ public class GameDirector : MonoBehaviour
         gameMode = GameObject.Find("ModeSwitcher").GetComponent<GameModeController>();
         BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + BalloonLimit;
         ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + ThrowLimit;
-        ShootingModeButton = GameObject.Find("ShootingModeButtun");
-        ShootingModeButton.transform.Translate(0, -300, 0);//暫定措置：ボタンを画面外に出す。
 
         ShadeUI.gameObject.SetActive(false);
         DescriptionUI.gameObject.SetActive(false);
@@ -159,7 +159,7 @@ public class GameDirector : MonoBehaviour
             case GameModeController.eGameMode.Shooting:
                 if (buttonFlg == false)
                 {
-                    ShootingModeButton.transform.Translate(0, 300, 0);//暫定措置：ボタンを画面内に戻す。
+                    ShootingModeButton.gameObject.SetActive(true);//shootingModeButtonを表示
                     buttonFlg = !buttonFlg;
                 }
                 scoreText.GetComponent<Text>().text = Score.ToString("F0");
