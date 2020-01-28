@@ -6,7 +6,7 @@ public class EnemyAttack_missileController : MonoBehaviour
 {
     Rigidbody rigidbody;
     GameObject PlayerCamera;
-    float MovingForce = 40.0f;
+    float MovingForce = 25.0f;
     float timeOut=8.0f;
     float timeElapsed;
     // Start is called before the first frame update

@@ -2477,7 +2477,7 @@ MonoBehaviour:
     type: 3}
   ShootingMacePrefab: {fileID: 8672767528289221475, guid: b63262e9d5877f645abde1c23fbae65c,
     type: 3}
-  ShootingForce: 2000
+  ShootingForce: 1000
   ShootingMode: 0
 --- !u!4 &1760627951
 Transform:

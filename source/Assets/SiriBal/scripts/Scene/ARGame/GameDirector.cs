@@ -251,8 +251,8 @@ public class GameDirector : MonoBehaviour
     public Record ConvertScoreToRecord()
     {
         var UserName = "Guest"; // consider later
-        var timeScore = (int)(TimeValue / TimeLimit * 1000);
-        var balloonScore = (int)((BalloonLimit - BalloonCounter) / BalloonLimit * 1000);
+        var timeScore = (int)(1000 * TimeValue / TimeLimit);
+        var balloonScore = (int)( 1000 * (BalloonLimit - BalloonCounter) / BalloonLimit );
         int HitProbability;
         if (ThrowCounter != 0)
         {
