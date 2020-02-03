@@ -38,11 +38,11 @@ public class GameDirector : MonoBehaviour
     public Sprite _Hammer;
     private bool spriteFlg = true;
     private bool buttonFlg = false;
-    private bool bJudgeGenerateLoadingBalloon = false; //LoadingBalloonを生成したか判定
-    public bool bJudgeUpdateLoadingBalloonPosMinY = false; //LoadingBalloonのY座標の最小値を更新済みか判定
-    public float LoadingBalloonPosMinY = -1.0f; //LoadingBalloonのY座標最小値
-    public float LoadingBalloonPosMinYMinus = -1.0f; //LoadingBalloonのY座標最小値がマイナスの時
-    public float LoadingBalloonPosMinYPlus = 1.0f;　//LoadingBalloonのY座標最小値がプラスの時
+    private bool _bJudgeGenerateLoadingBalloon = false; //LoadingBalloonを生成したか判定
+    private bool _bJudgeUpdateLoadingBalloonPosMinY = false; //LoadingBalloonのY座標の最小値を更新済みか判定
+    private float _LoadingBalloonPosMinY = -1.0f; //LoadingBalloonのY座標最小値
+    private float _LoadingBalloonPosMinYMinus = -1.0f; //LoadingBalloonのY座標最小値がマイナスの時
+    private float _LoadingBalloonPosMinYPlus = 1.0f;　//LoadingBalloonのY座標最小値がプラスの時
 
 
 
@@ -95,15 +95,49 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    public bool JudgeGenerateLoadingBalloon
+    public bool bJudgeGenerateLoadingBalloon
     {
         get{
-            return bJudgeGenerateLoadingBalloon;
+            return _bJudgeGenerateLoadingBalloon;
         }
         set{
-            bJudgeGenerateLoadingBalloon = value;
+            _bJudgeGenerateLoadingBalloon = value;
         }
     }
+    public bool bJudgeUpdateLoadingBalloonPosMinY{
+        get{
+            return _bJudgeUpdateLoadingBalloonPosMinY;
+
+        }
+        set{
+            _bJudgeUpdateLoadingBalloonPosMinY = value;
+        }
+    }
+    public float LoadingBalloonPosMinY{
+        get{
+            return _LoadingBalloonPosMinY;
+        }
+        set{
+            _LoadingBalloonPosMinY = value;
+        }
+    }
+   public float LoadingBalloonPosMinYMinus{
+        get{
+            return _LoadingBalloonPosMinYMinus;
+        }
+        set{
+            _LoadingBalloonPosMinYMinus = value;
+        }
+    }
+    public float LoadingBalloonPosMinYPlus{
+        get{
+            return _LoadingBalloonPosMinYPlus;
+        }
+        set{
+            _LoadingBalloonPosMinYPlus = value;
+        }
+    }
+
 
     #endregion
 
@@ -224,12 +258,12 @@ public class GameDirector : MonoBehaviour
         bool bReturn = false;
 
         //LoadingBalloonで画面が隠れているか判定
-        if (JudgeGenerateLoadingBalloon == true)
+        if (bJudgeGenerateLoadingBalloon == true)
         {
             if (bJudgeUpdateLoadingBalloonPosMinY == true && LoadingBalloonPosMinY > 0.0f)
             {
                 bReturn = true;
-                JudgeGenerateLoadingBalloon = false;
+                bJudgeGenerateLoadingBalloon = false;
             }
             LoadingBalloonPosMinY = LoadingBalloonPosMinYPlus;
             bJudgeUpdateLoadingBalloonPosMinY = false;

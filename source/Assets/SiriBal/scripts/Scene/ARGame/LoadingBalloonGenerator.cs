@@ -25,7 +25,7 @@ public class LoadingBalloonGenerator : MonoBehaviour
     public void GenerateLoadingBalloons()
     {
         GameDirector.LoadingBalloonPosMinY = GameDirector.LoadingBalloonPosMinYMinus;
-        GameDirector.JudgeGenerateLoadingBalloon = true;
+        GameDirector.bJudgeGenerateLoadingBalloon = true;
         GameDirector.bJudgeUpdateLoadingBalloonPosMinY = false;
         GenerateLoadingBalloonLine(32, 1, 0, 8);
         GenerateLoadingBalloonLine(32, 2, 0, 8);
