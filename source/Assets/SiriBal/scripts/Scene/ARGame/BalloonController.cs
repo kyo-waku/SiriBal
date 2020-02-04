@@ -112,4 +112,27 @@ public class BalloonController : MonoBehaviour {
 		return new Vector3();
 	}
 
+	public void RandomBalloonButtonClicked(){	//バルーンをランダムに生成
+
+		# if UNITY_EDITOR
+			//ランダム範囲
+			float RandomPositionX = Random.Range(-3,3);
+			float RandomPositionY = Random.Range(-3,3);
+			float RandomPositionZ = Random.Range(0,10);
+
+			Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
+			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z + 15.0f) + RandomPosition);
+
+		# else
+			//ランダム範囲(暫定。実機見ながら調整する)
+			float RandomPositionX = Random.Range(-5,5);
+			float RandomPositionY = Random.Range(-1,1);
+			float RandomPositionZ = Random.Range(-5,5);
+
+			Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
+			CreateBalloon(cameraTransform.position + RandomPosition);
+
+		#endif
+	}
+
 }
