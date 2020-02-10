@@ -14,6 +14,7 @@ namespace Generic
         Login,
         UserRegistered,
         Home,
+        WeaponChallenge,
     }
 
     // Error Handling

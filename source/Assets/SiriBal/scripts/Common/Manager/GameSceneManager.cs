@@ -8,7 +8,8 @@ namespace Generic.Manager{
 
     // Note: "SceneManager" has alrady used as the class name of the Unity official library.
     public class GameSceneManager
-    {        
+    {
+        public static int WeaponChallengeLevelNum = 0;
         public DefinedErrors ChangeScene(GameScenes next)
         {
             SceneManager.LoadScene(next.ToString());
@@ -23,7 +24,6 @@ namespace Generic.Manager{
             var result = ChangeScene(DataManager.PrevScene);
             return result;
         }
-
     }
 
 }
