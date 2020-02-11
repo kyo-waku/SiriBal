@@ -191,7 +191,7 @@ public class GameDirector : MonoBehaviour
                 timerText.GetComponent<Text>().text = _time.ToString("F1");//F1 は書式指定子
                 timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, TimeLimit);//TimerUIの更新
                 BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + BalloonLimit;
-                if (_time < 0 || BalloonCounter == 10)
+                if (_time < 0 || BalloonCounter >= 10)
                 {
                     gameMode.GameMode = GameModeController.eGameMode.WaitTime;
                     LoadBalGen.GetComponent<LoadingBalloonGenerator>().GenerateLoadingBalloons();
