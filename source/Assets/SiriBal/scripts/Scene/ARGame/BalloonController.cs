@@ -21,7 +21,7 @@ public class BalloonController : MonoBehaviour {
 	void Start () {
 		touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
-		this.GameDirector = GameObject.Find("GameDirector");
+		GameDirector = GameObject.Find("GameDirector");
 		mainCamera = GameObject.Find("MainCamera");
 	}
 
@@ -116,22 +116,28 @@ public class BalloonController : MonoBehaviour {
 
 		# if UNITY_EDITOR
 			//ランダム範囲
-			float RandomPositionX = Random.Range(-3,3);
-			float RandomPositionY = Random.Range(-3,3);
-			float RandomPositionZ = Random.Range(0,10);
+			for (int i = 0; i < 10; i++) {
+				float RandomPositionX = Random.Range(-15,15)/10.0f;
+				float RandomPositionY = Random.Range(-30,30)/10.0f;
+				float RandomPositionZ = Random.Range(0,5);
 
-			Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
-			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z + 15.0f) + RandomPosition);
+				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
+				CreateBalloon (new Vector3 (cameraTransform.position.x + 0.0f, cameraTransform.position.y, cameraTransform.position.z + 9.0f) + RandomPosition);
+			}
+			GameDirector.GetComponent<GameDirector>().ShadeClicked();
+			
 
 		# else
 			//ランダム範囲(暫定。実機見ながら調整する)
-			float RandomPositionX = Random.Range(-5,5);
-			float RandomPositionY = Random.Range(-1,1);
-			float RandomPositionZ = Random.Range(-5,5);
-
-			Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
-			CreateBalloon(cameraTransform.position + RandomPosition);
-
+			for (int i = 0; i < 10; i++) {
+				float RandomPositionX = Random.Range(-75,75)/10.0f;
+				float RandomPositionY = Random.Range(-10,10)/10.0f;
+				float RandomPositionZ = Random.Range(-75,75)/10.0f;
+			
+				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
+				CreateBalloon(cameraTransform.position + RandomPosition);
+			}
+			GameDirector.GetComponent<GameDirector>().ShadeClicked();
 		#endif
 	}
 
