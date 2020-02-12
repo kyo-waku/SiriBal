@@ -24,5 +24,10 @@ namespace Generic.Manager{
         public static FirebaseService service;
 
         #endregion
+
+
+        #region StageDefine
+        public static Stage currentStage;
+        #endregion
     }
 }

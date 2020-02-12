@@ -9,19 +9,14 @@ using Generic.Manager;
 public class GameDirector : MonoBehaviour
 {
     // Parameters
-    private int _balloonConter;
-    private int _throwConter;
-    private int _score;
+    public Stage stage;
     private int resultScore;
-    private int BalloonLimit = 10;
-    private int ThrowLimit = 100;
-    private float TimeLimit = 30.0f;
+
+    // UI component references
     private GameObject timerText;
     private GameObject timerUI;
-    private GameObject scoreText;
     private GameObject BalloonCountText;
     private GameObject ThrowCountText;
-    private float _time;
     private GameModeController gameMode; //for ReadGameMode
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
@@ -38,106 +33,18 @@ public class GameDirector : MonoBehaviour
     public Sprite _Hammer;
     private bool spriteFlg = true;
     private bool buttonFlg = false;
-    private bool _bJudgeGenerateLoadingBalloon = false; //LoadingBalloonを生成したか判定
-    private bool _bJudgeUpdateLoadingBalloonPosMinY = false; //LoadingBalloonのY座標の最小値を更新済みか判定
-    private float _LoadingBalloonPosMinY = -1.0f; //LoadingBalloonのY座標最小値
-    private float _LoadingBalloonPosMinYMinus = -1.0f; //LoadingBalloonのY座標最小値がマイナスの時
-    private float _LoadingBalloonPosMinYPlus = 1.0f;　//LoadingBalloonのY座標最小値がプラスの時
-
-
 
     // properties
     #region properties
-    public int BalloonCounter
-    {
-        get
-        {
-            return _balloonConter;
-        }
-        set
-        {
-            _balloonConter = value;
-        }
-    }
-
-    public int ThrowCounter
-    {
-        get
-        {
-            return _throwConter;
-        }
-        set
-        {
-            _throwConter = value;
-        }
-    }
-    public int Score
-    {
-        get
-        {
-            return _score;
-        }
-        private set
-        {
-            _score = value;
-        }
-    }
-
-    public float TimeValue
-    {
-        get
-        {
-            return _time;
-        }
-        private set
-        {
-            _time = value;
-        }
-    }
-
-    public bool bJudgeGenerateLoadingBalloon
-    {
-        get{
-            return _bJudgeGenerateLoadingBalloon;
-        }
-        set{
-            _bJudgeGenerateLoadingBalloon = value;
-        }
-    }
-    public bool bJudgeUpdateLoadingBalloonPosMinY{
-        get{
-            return _bJudgeUpdateLoadingBalloonPosMinY;
-
-        }
-        set{
-            _bJudgeUpdateLoadingBalloonPosMinY = value;
-        }
-    }
-    public float LoadingBalloonPosMinY{
-        get{
-            return _LoadingBalloonPosMinY;
-        }
-        set{
-            _LoadingBalloonPosMinY = value;
-        }
-    }
-   public float LoadingBalloonPosMinYMinus{
-        get{
-            return _LoadingBalloonPosMinYMinus;
-        }
-        set{
-            _LoadingBalloonPosMinYMinus = value;
-        }
-    }
-    public float LoadingBalloonPosMinYPlus{
-        get{
-            return _LoadingBalloonPosMinYPlus;
-        }
-        set{
-            _LoadingBalloonPosMinYPlus = value;
-        }
-    }
-
+    public int BalloonCounter{get; internal set;}
+    public int ThrowCounter{get; internal set;}
+    public int Score{get; internal set;}
+    public float TimeValue{get; internal set;}
+    public bool bJudgeGenerateLoadingBalloon{get; internal set;} = false;
+    public bool bJudgeUpdateLoadingBalloonPosMinY{get; internal set;} = false;
+    public float LoadingBalloonPosMinY{get; internal set;} = -1.0f;
+    public float LoadingBalloonPosMinYMinus{get; internal set;} = -1.0f;
+    public float LoadingBalloonPosMinYPlus{get; internal set;} = 1.0f;
 
     #endregion
 
@@ -154,26 +61,56 @@ public class GameDirector : MonoBehaviour
         Score += 1;
     }
 
+    void SetupStageProperties(Stage currentStage)
+    {
+        if (currentStage == null)
+        {
+            stage = new Stage();
+        }
+        else
+        {
+            stage = currentStage;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         gameSceneMng = new GameSceneManager();
         scoreMng = new ScoreManager(DataManager.service);
 
+        // ステージ情報のセットアップ
+        SetupStageProperties(DataManager.currentStage);
+
         timerText = GameObject.Find("Timer");
         timerUI = GameObject.Find("TimerIcon");
         timerUI.GetComponent<TimerUiController>();
-        scoreText = GameObject.Find("Score");
         BalloonCountText = GameObject.Find("BalloonCount");
+        BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
         ThrowCountText = GameObject.Find("ThrowCount");
+        ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + stage.ShootingLimit;
         gameMode = GameObject.Find("ModeSwitcher").GetComponent<GameModeController>();
-        BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + BalloonLimit;
-        ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + ThrowLimit;
+        LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
 
         ShadeUI.gameObject.SetActive(false);
         DescriptionUI.gameObject.SetActive(false);
-        ShowStartUpDescription(); // バルーン置いてねのメッセージ用、ここからスタートする
-        LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
+
+        switch(stage.BalloonArrangementMode)
+        {
+            // 自動セットアップから開始するパターン
+            case Stage.ArrangementMode.Preset:
+            case Stage.ArrangementMode.Random:
+                // Auto arrange function
+                ShowDescription("　");
+                gameMode.GameMode = GameModeController.eGameMode.WaitTime;
+                break;
+
+            // 手動セットアップから開始するパターン
+            case Stage.ArrangementMode.Manual:
+            default:
+                ShowDescription("まずはバルーンをセットしよう");
+                break;
+        }
 
     }
 
@@ -183,22 +120,22 @@ public class GameDirector : MonoBehaviour
         switch (gameMode.GameMode)
         {
             case GameModeController.eGameMode.None:
-                TimeValue = TimeLimit;
+                TimeValue = stage.TimeLimit;
                 resultScore = 0;
                 break;
             case GameModeController.eGameMode.Balloon:
                 TimeValue -= Time.deltaTime;
-                timerText.GetComponent<Text>().text = _time.ToString("F1");//F1 は書式指定子
-                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, TimeLimit);//TimerUIの更新
-                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + BalloonLimit;
-                if (_time < 0 || BalloonCounter >= 10)
+                timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
+                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, stage.TimeLimit);//TimerUIの更新
+                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
+                if (TimeValue < 0 || BalloonCounter >= stage.BalloonLimit)
                 {
                     gameMode.GameMode = GameModeController.eGameMode.WaitTime;
                     LoadBalGen.GetComponent<LoadingBalloonGenerator>().GenerateLoadingBalloons();
                 }
                 break;
             case GameModeController.eGameMode.WaitTime:
-                TimeValue = TimeLimit;
+                TimeValue = stage.TimeLimit;
                 break;
             case GameModeController.eGameMode.Shooting:
                 if (buttonFlg == false)
@@ -206,13 +143,12 @@ public class GameDirector : MonoBehaviour
                     ShootingModeButton.gameObject.SetActive(true);//shootingModeButtonを表示
                     buttonFlg = !buttonFlg;
                 }
-                scoreText.GetComponent<Text>().text = Score.ToString("F0");
                 TimeValue -= Time.deltaTime;
                 timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
-                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, TimeLimit);//TimerUIの更新
-                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + BalloonLimit;
-                ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + ThrowLimit;
-                if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter / ThrowLimit == 1)
+                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, stage.TimeLimit);//TimerUIの更新
+                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
+                ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + stage.ShootingLimit;
+                if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter / stage.ShootingLimit == 1)
                 {
                     var record = ConvertScoreToRecord();
                     DataManager.MyLatestRecord = record;
@@ -224,8 +160,7 @@ public class GameDirector : MonoBehaviour
         //LoadingBalloon生成時は画面が隠れているか判定
         if (bJudgeHideScreenByLoadingBalloon() == true)
         {
-            ControlDispWaitingScreen(true); //待機画面表示
-            GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = "つぎはタップでバルーンをうちおとそう";
+            ShowDescription("つぎはタップでバルーンをうちおとそう");
         }
 
         //Debug用
@@ -248,10 +183,10 @@ public class GameDirector : MonoBehaviour
 
     }
 
-    private void ShowStartUpDescription()
+    private void ShowDescription(string message)
     {
         ControlDispWaitingScreen(true);
-        GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = "まずはバルーンをセットしよう";
+        GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = message;
     }
     private bool bJudgeHideScreenByLoadingBalloon() //LoadingBalloonで画面が隠れているか判定
     {
@@ -311,8 +246,8 @@ public class GameDirector : MonoBehaviour
     public Record ConvertScoreToRecord()
     {
         var UserName = "Guest"; // consider later
-        var timeScore = (int)(1000 * TimeValue / TimeLimit);
-        var balloonScore = (int)( 1000 * (BalloonLimit - BalloonCounter) / BalloonLimit );
+        var timeScore = (int)(1000 * TimeValue / stage.TimeLimit);
+        var balloonScore = (int)( 1000 * (stage.BalloonLimit - BalloonCounter) / stage.BalloonLimit );
         int HitProbability;
         if (ThrowCounter != 0)
         {

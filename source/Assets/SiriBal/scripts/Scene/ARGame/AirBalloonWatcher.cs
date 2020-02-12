@@ -7,9 +7,11 @@ public class AirBalloonWatcher : MonoBehaviour
     // define balloon paramater
     Rigidbody rb;
     int ActionMode;
-    int BalloonHP=0;
-    int BreakCount=3;
+    int BalloonHP = 0;
+    public int BreakCount = 3;
     float ActionSpan;
+    public bool isAction = true;
+
     float timeElapsed;
     float mutekiTime;
     bool mutekiFlag=false;
@@ -34,6 +36,9 @@ public class AirBalloonWatcher : MonoBehaviour
 
     //Decision Balloon's Action
     void GetAction(int ActionNo){
+        
+        if (isAction == false) return; // Action なし
+
         float force = Random.Range(100.0f,200.0f);
         Vector3 UpperForce = new Vector3 (0.0f,force,0.0f);
         Vector3 sideForce = new Vector3 (force,0.0f, 0.0f);
@@ -145,7 +150,7 @@ public class AirBalloonWatcher : MonoBehaviour
             {
                 BalloonHP += 1;
                 this.director.GetComponent<GameDirector>().HitCount();
-                if(BalloonHP==BreakCount)
+                if(BalloonHP == BreakCount)
                 {
                     //this.director.GetComponent<GameDirector>().DestroyCount();
                     this.director.GetComponent<GameDirector>().BalloonCounter -= 1;

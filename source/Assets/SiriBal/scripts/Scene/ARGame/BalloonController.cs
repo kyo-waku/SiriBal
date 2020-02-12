@@ -6,8 +6,10 @@ using UnityEngine.XR.iOS;
 
 public class BalloonController : MonoBehaviour {
 
-	public Transform cameraTransform;
-	public GameObject balloonPrefab;
+	Transform cameraTransform;
+	
+	[SerializeField]
+	GameObject balloonPrefab;
 	GameModeController gameMode;
 	TouchTools touch;
 	GameObject GameDirector;
@@ -23,12 +25,17 @@ public class BalloonController : MonoBehaviour {
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
 		GameDirector = GameObject.Find("GameDirector");
 		mainCamera = GameObject.Find("MainCamera");
+		
 	}
 
 	// atPosition座標にバルーンを置く
 	GameObject CreateBalloon(Vector3 atPosition)
 	{
 		GameDirector.GetComponent<GameDirector>().BalloonCounter += 1;
+		
+		// バルーンのステータスをStage情報から取得する
+		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().BreakCount = GameDirector.GetComponent<GameDirector>().stage.BalloonHP;
+		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().isAction = GameDirector.GetComponent<GameDirector>().stage.IsBalloonAction;
 		return Instantiate (balloonPrefab, atPosition, Quaternion.identity);
 	}
 
