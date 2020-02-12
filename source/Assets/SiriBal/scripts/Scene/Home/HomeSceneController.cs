@@ -128,14 +128,4 @@ public class HomeSceneController : MonoBehaviour
         }
         return value;
     }
-
-
-    public void WeaponChallengeButtonClicked(int challengeMode)
-    {
-        // 他の画面は回転してもOK
-        Screen.autorotateToLandscapeLeft = true;
-        Screen.autorotateToLandscapeRight = true;
-        GameSceneManager.WeaponChallengeLevelNum = challengeMode;
-        _gameSceneMng.ChangeScene(GameScenes.WeaponChallenge);
-    }
 }
