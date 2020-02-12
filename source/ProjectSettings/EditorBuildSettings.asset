@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SiriBal/Home.unity
     guid: d7b3badab254a4c83a2ab4b59ad45662
+  - enabled: 1
+    path: Assets/SiriBal/WeaponChallenge.unity
+    guid: cba790e74d1de4cab82cc9ca7f23e088
   m_configObjects: {}

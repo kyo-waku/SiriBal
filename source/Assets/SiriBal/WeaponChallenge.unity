@@ -281,6 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 867689839}
   - component: {fileID: 867689840}
+  - component: {fileID: 867689841}
   m_Layer: 0
   m_Name: GameDirector
   m_TagString: Untagged
@@ -316,6 +317,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balloonPrefab: {fileID: 5835538450973738708, guid: 044047ff090784df5b175968065d859b,
     type: 3}
+  weapon1: {fileID: 7196459049477730099, guid: 84c57544d1dd046f491210351e96fba6, type: 3}
+--- !u!114 &867689841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867689838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d91c30c984d24238a5442348e70b9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1144229225
 GameObject:
   m_ObjectHideFlags: 0

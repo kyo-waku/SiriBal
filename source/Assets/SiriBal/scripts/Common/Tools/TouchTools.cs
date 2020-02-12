@@ -19,7 +19,7 @@ public class TouchTools : MonoBehaviour
 #endregion
 
 #region Values
-    private TouchPhaseExtended _touchPhaseEx;
+    private TouchPhaseExtended _touchPhaseEx = TouchPhaseExtended.None;
     private Vector3 _touchStartPosition;
     private Vector3 _touchEndPosition;
 #endregion
