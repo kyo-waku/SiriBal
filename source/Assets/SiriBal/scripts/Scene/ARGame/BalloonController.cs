@@ -43,7 +43,7 @@ public class BalloonController : MonoBehaviour {
 	void Update () {
 		cameraTransform = mainCamera.transform;
 
-		// Balloon Mode
+		// Balloon Mode でないなら処理不要
 		if(GameModeController.eGameMode.Balloon != gameMode.GameMode)
 		{
 			return;

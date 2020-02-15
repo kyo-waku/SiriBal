@@ -8,7 +8,7 @@ using Generic.Manager;
 
 public class GameDirector : MonoBehaviour
 {
-    // Parameters
+    // Key Parameters
     public Stage stage;
     private int resultScore;
 
@@ -82,16 +82,21 @@ public class GameDirector : MonoBehaviour
         // ステージ情報のセットアップ
         SetupStageProperties(DataManager.currentStage);
 
+        // タイマー　
         timerText = GameObject.Find("Timer");
         timerUI = GameObject.Find("TimerIcon");
         timerUI.GetComponent<TimerUiController>();
+        // バルーン数　
         BalloonCountText = GameObject.Find("BalloonCount");
         BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
+        // 投げ数
         ThrowCountText = GameObject.Find("ThrowCount");
         ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + stage.ShootingLimit;
+        // ゲームモード
         gameMode = GameObject.Find("ModeSwitcher").GetComponent<GameModeController>();
+        // 画面遷移用
         LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
-
+        // 説明文
         ShadeUI.gameObject.SetActive(false);
         DescriptionUI.gameObject.SetActive(false);
 
@@ -108,6 +113,7 @@ public class GameDirector : MonoBehaviour
             // 手動セットアップから開始するパターン
             case Stage.ArrangementMode.Manual:
             default:
+                gameMode.GameMode = GameModeController.eGameMode.None;
                 ShowDescription("まずはバルーンをセットしよう");
                 break;
         }
@@ -125,9 +131,7 @@ public class GameDirector : MonoBehaviour
                 break;
             case GameModeController.eGameMode.Balloon:
                 TimeValue -= Time.deltaTime;
-                timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
-                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, stage.TimeLimit);//TimerUIの更新
-                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
+                UpdateHeaderContents(TimeValue, BalloonCounter, -1);
                 if (TimeValue < 0 || BalloonCounter >= stage.BalloonLimit)
                 {
                     gameMode.GameMode = GameModeController.eGameMode.WaitTime;
@@ -144,10 +148,7 @@ public class GameDirector : MonoBehaviour
                     buttonFlg = !buttonFlg;
                 }
                 TimeValue -= Time.deltaTime;
-                timerText.GetComponent<Text>().text = TimeValue.ToString("F1");//F1 は書式指定子
-                timerUI.GetComponent<TimerUiController>().TimerCount(TimeValue, stage.TimeLimit);//TimerUIの更新
-                BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
-                ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + stage.ShootingLimit;
+                UpdateHeaderContents(TimeValue, BalloonCounter, ThrowCounter);
                 if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter / stage.ShootingLimit == 1)
                 {
                     var record = ConvertScoreToRecord();
@@ -183,16 +184,38 @@ public class GameDirector : MonoBehaviour
 
     }
 
+    // ヘッダー要素の表示更新
+    // 更新したくない場合は負の値をセットすればいい
+    private void UpdateHeaderContents(float timeValue, int balloonCount, int throwCount)
+    {
+        if (timeValue >= 0)
+        {
+            timerText.GetComponent<Text>().text = timeValue.ToString("F1");//F1 は書式指定子
+            timerUI.GetComponent<TimerUiController>().TimerCount(timeValue, stage.TimeLimit);//TimerUIの更新
+        }
+        if (balloonCount >= 0)
+        {
+            BalloonCountText.GetComponent<Text>().text = balloonCount.ToString("F0") + "/" + stage.BalloonLimit;
+        }
+        if (throwCount >= 0)
+        {
+            ThrowCountText.GetComponent<Text>().text = throwCount.ToString("F0") + "/" + stage.ShootingLimit;
+        }
+    }
+
+    // 説明用画面の表示
     private void ShowDescription(string message)
     {
         ControlDispWaitingScreen(true);
         GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = message;
     }
-    private bool bJudgeHideScreenByLoadingBalloon() //LoadingBalloonで画面が隠れているか判定
+
+    // LoadingBalloonで画面が隠れているか判定
+    private bool bJudgeHideScreenByLoadingBalloon()
     {
         bool bReturn = false;
 
-        //LoadingBalloonで画面が隠れているか判定
+        // LoadingBalloonで画面が隠れているか判定
         if (bJudgeGenerateLoadingBalloon == true)
         {
             if (bJudgeUpdateLoadingBalloonPosMinY == true && LoadingBalloonPosMinY > 0.0f)
@@ -206,14 +229,15 @@ public class GameDirector : MonoBehaviour
         return bReturn;
     }
 
-    public void ControlDispWaitingScreen(bool bSetActive) //待機画面の表示制御
+    public void ControlDispWaitingScreen(bool bSetActive) // 待機画面の表示制御
     {
         ShadeUI.gameObject.SetActive(bSetActive);
         DescriptionUI.gameObject.SetActive(bSetActive);
     }
 
 
-    public void ShadeClicked() //ShadeUIクリック時
+    // ShadeUIクリック時
+    public void ShadeClicked() 
     {
         ControlDispWaitingScreen(false);
         if(gameMode.GameMode == GameModeController.eGameMode.None)
@@ -237,12 +261,12 @@ public class GameDirector : MonoBehaviour
 
     public void ShootingModeButtonClicked()
     {
-        //Debug.Log("ShootingModeChange!");
         var img = ShootingModeButton.GetComponent<Image>();
         spriteFlg = !spriteFlg;
         img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
     }
 
+    // スコアの定義はここで決まる。
     public Record ConvertScoreToRecord()
     {
         var UserName = "Guest"; // consider later

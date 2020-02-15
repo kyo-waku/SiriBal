@@ -8,10 +8,10 @@ public class GameModeController : MonoBehaviour
     // Defines
     public enum eGameMode
     {
-        Shooting,
-        Balloon,
-        WaitTime,
-        None
+        Shooting,  // 投げる
+        Balloon,  // バルーン配置
+        WaitTime,  // 投げ前の待機
+        None  // 起点
     }
 
     // Values
