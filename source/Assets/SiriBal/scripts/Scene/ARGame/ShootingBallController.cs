@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Generic;
+using Generic.Manager;
 
 public class ShootingBallController : MonoBehaviour
 {
@@ -10,7 +12,10 @@ public class ShootingBallController : MonoBehaviour
     public float ShootingForce = 200.0f;
 	GameModeController gameMode;
     TouchTools touch;
+    WeaponHolder weaponHolder;
     public int ShootingMode;
+    List<Weapons> availableWeapons;
+    int currentWeaponIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +23,15 @@ public class ShootingBallController : MonoBehaviour
         touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
         ShootingMode=0;
-        this.GameDirector = GameObject.Find("GameDirector");
+        GameDirector = GameObject.Find("GameDirector");
+        var stage = GameDirector.GetComponent<GameDirector>().stage;
+        if( stage == null)
+        {
+            stage = DataManager.currentStage;
+        }
+        stage.GetRegisteredShootingWeapons(out availableWeapons);
+        currentWeaponIndex = 0;
+        weaponHolder = GameObject.Find("WeaponHolder").GetComponent<WeaponHolder>();
     }
 
     // Update is called once per frame
@@ -35,46 +48,34 @@ public class ShootingBallController : MonoBehaviour
         {
             //ボールを飛ばすよ
             #if UNITY_EDITOR
-            ShootingBall(Input.mousePosition);
+            Shooting(Input.mousePosition);
             #else
-            ShootingBall(touch.touchStartPosition);
+            Shooting(touch.touchStartPosition);
             #endif
         }
         
     }
 
-    void ShootingBall(Vector3 position)
+    void Shooting(Vector3 position)
     {
-        if(ShootingMode==0){
-            GameObject ShootingBall = Instantiate(ShootingBallPrefab) as GameObject;
-            Ray ray = Camera.main.ScreenPointToRay(position);
-            ShootingBall.transform.position = ray.origin;
-            ShootingBall.GetComponent<ShootingBallWatcher>().Shoot(ray.direction.normalized * ShootingForce);
-        }
-        else if(ShootingMode==1){
-            GameObject ShootingMace = Instantiate(ShootingMacePrefab) as GameObject;
-            Ray ray = Camera.main.ScreenPointToRay(position);
-            ShootingMace.transform.position = ray.origin;
-            ShootingMace.GetComponent<ShootingMaceWatcher>().Shoot(ray.direction.normalized * ShootingForce);
-        }
+        var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
+        if (shootingPrefab == null){return;}
+
+        GameObject ShootingObj = Instantiate(shootingPrefab) as GameObject;
+        Ray ray = Camera.main.ScreenPointToRay(position);
+        ShootingObj.transform.position = ray.origin;
+        ShootingObj.GetComponent<ShootingWatcher>().Shoot(ray.direction.normalized * ShootingForce);
+    
         //投げ回数のカウント
         GameDirector.GetComponent<GameDirector>().ThrowCounter += 1;
     }
 
     public void ShootingModeButtonClicked()
     {
-        
-        switch(ShootingMode)
+        ++currentWeaponIndex;
+        if (currentWeaponIndex > availableWeapons.Count - 1)
         {
-            case 0:
-                ShootingMode=1;
-                break;
-            case 1:
-                ShootingMode=0;
-                break;
-            default:
-                ShootingMode=0;
-                break;
+            currentWeaponIndex = 0;
         }
     }
 }

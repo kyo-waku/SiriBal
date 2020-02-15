@@ -22,8 +22,8 @@ public class AirBalloonWatcher : MonoBehaviour
     GameObject director;
     GameObject PlayerCamera;
 
-    public GameObject AttackMissle;
-    float MissileClearance = 0.5f;
+    public GameObject AttackWeapon;
+    float WeaponClearance = 0.5f;
 
     GameModeController controlGameMode;//for ReadGameMode
 
@@ -115,7 +115,10 @@ public class AirBalloonWatcher : MonoBehaviour
                 AttackTime += Time.deltaTime;
                 if (AttackTime >= ActionSpan){
                     AttackTime = 0.0f;
-                    AttackAction(MissileClearance,AttackMissle);
+                    if (AttackWeapon != null)
+                    {
+                        AttackAction(WeaponClearance,AttackWeapon);
+                    }
                 }
                 break;
         }
@@ -137,7 +140,7 @@ public class AirBalloonWatcher : MonoBehaviour
         Vector3 vctr1 = transform.position;//このオブジェクトの座標を取得
         Vector3 vctr2 = PlayerCamera.transform.position;//プレイヤーカメラの座標を取得
         Vector3 vctr3 = vctr2 - vctr1;//このオブジェクトとプレイヤー間のベクトルを算出
-        GameObject go = Instantiate(AttackMissle) as GameObject;
+        GameObject go = Instantiate(Attackprefab) as GameObject;
         go.transform.position = vctr1 + Clearance * (vctr3/vctr3.magnitude);
     }
     

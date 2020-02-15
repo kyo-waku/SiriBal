@@ -9,8 +9,8 @@ namespace Generic
         public static Stage easyStage = new Stage(
             5, // BalloonLimit
             3, // Balloon HP
-            Weapons.missile, // Balloon Weapon
-            true, // Balloon Action
+            Weapons.None, // Balloon Weapon
+            false, // Balloon Action
             Stage.ArrangementMode.Random, // ランダム配置
             30, // 時間制限
             100 // 投げ数上限
@@ -19,8 +19,8 @@ namespace Generic
         public static Stage normalStage = new Stage(
             10, // BalloonLimit
             3, // Balloon HP
-            Weapons.missile, // Balloon Weapon
-            true, // Balloon Action
+            Weapons.Missile, // Balloon Weapon
+            false, // Balloon Action
             Stage.ArrangementMode.Random, // ランダム配置
             30, // 時間制限
             100 // 投げ数上限
@@ -29,7 +29,7 @@ namespace Generic
         public static Stage hardStage = new Stage(
             15, // BalloonLimit
             5, // Balloon HP
-            Weapons.missile, // Balloon Weapon
+            Weapons.Missile, // Balloon Weapon
             true, // Balloon Action
             Stage.ArrangementMode.Random, // ランダム配置
             30, // 時間制限

@@ -29,10 +29,12 @@ namespace Generic
 
     // 使用可能なウェポンのキー登録
     // ウェポンのゲームオブジェクト自体はゲームシーンで保持して管理すること
+    // GetRegisteredShootingWeaponsで全ウェポンを返すところがあるのでWeaponを増やしたらそこも増やすこと
     public enum Weapons{
-        Stone = 0,
+        None = 0,
+        Stone,
         Hammer,
-        missile,
+        Missile,
     }
 
     // Score Management
@@ -114,8 +116,9 @@ namespace Generic
 
 
         // Constructor ------
-        public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.missile, 
-                    bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100)
+        public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.Missile, 
+                    bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100
+                    )
         {
             BalloonLimit = bLim;
             BalloonHP = bHP;
@@ -159,17 +162,13 @@ namespace Generic
             return DefinedErrors.Pass;
         }
 
-        public DefinedErrors RegisterShootingWeapon(Weapons weapon)
+        public DefinedErrors RegisterShootingWeaponKeys(List<Weapons> weapons)
         {
             if (ShootingWeapons == null)
             {
                 ShootingWeapons = new List<Weapons>();
             }
-            if (ShootingWeapons.Contains(weapon))
-            {
-                return DefinedErrors.E_Duplicate;
-            }
-            ShootingWeapons.Add(weapon);
+            ShootingWeapons = weapons;
             return DefinedErrors.Pass;
         }
 
@@ -191,15 +190,17 @@ namespace Generic
         public DefinedErrors GetRegisteredShootingWeapons(out List<Weapons> weapons)
         {
             weapons = new List<Weapons>();
-            if(ShootingWeapons == null) // 登録なし
+            if(ShootingWeapons == null || ShootingWeapons.Count <= 0)
             {
-                return DefinedErrors.E_Fail;
+                // 登録がなければ全部使えるものとする
+                // Weapon追加時は忘れずここにも追加してね
+                weapons.Add(Weapons.Stone);
+                weapons.Add(Weapons.Hammer);
             }
-            if(ShootingWeapons.Count > 0) // 登録数が足りない
+            else
             {
-                return DefinedErrors.E_Fail;
+                weapons = ShootingWeapons;
             }
-            weapons = ShootingWeapons;
             return DefinedErrors.Pass;
         }
 

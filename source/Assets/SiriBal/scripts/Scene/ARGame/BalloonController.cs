@@ -15,6 +15,7 @@ public class BalloonController : MonoBehaviour {
 	GameObject GameDirector;
 	GameObject mainCamera;
 	GameObject lastCreatedBalloon;
+	WeaponHolder weaponHolder;
 	Vector3 lastCreatedVector;
 	Vector3 lastCreatedBalloonPosition;
 
@@ -25,6 +26,7 @@ public class BalloonController : MonoBehaviour {
 		GameDirector = GameObject.Find("GameDirector");
 		mainCamera = GameObject.Find("MainCamera");
 		cameraTransform = mainCamera.transform;
+		weaponHolder = GameObject.Find("WeaponHolder").GetComponent<WeaponHolder>();
 	}
 
 	// atPosition座標にバルーンを置く
@@ -35,6 +37,8 @@ public class BalloonController : MonoBehaviour {
 		// バルーンのステータスをStage情報から取得する
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().BreakCount = GameDirector.GetComponent<GameDirector>().stage.BalloonHP;
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().isAction = GameDirector.GetComponent<GameDirector>().stage.IsBalloonAction;
+		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = weaponHolder.GetWeaponObjectByKey(GameDirector.GetComponent<GameDirector>().stage.BalloonWeaponKey);
+
 		return Instantiate (balloonPrefab, atPosition, Quaternion.identity);
 	}
 
