@@ -23,8 +23,16 @@ namespace Generic
         Pass = 0, // success.
         E_Fail, // generic fails. Not grouped.
         E_InvalidArg, // invalid argument.
-        E_DuplicateKeys, // duplicate dictionary key.
+        E_Duplicate, // duplicate registration.
         W_NotRequired, // in case the process not required. But that won't make any issues.
+    }
+
+    // 使用可能なウェポンのキー登録
+    // ウェポンのゲームオブジェクト自体はゲームシーンで保持して管理すること
+    public enum Weapons{
+        Stone = 0,
+        Hammer,
+        missile,
     }
 
     // Score Management
@@ -81,13 +89,14 @@ namespace Generic
         }
 
         // Properties ------
-        public int BalloonLimit{get; set;}
-        public int BalloonHP{get; set;}
-        public GameObject BalloonWeapon{get; set;} // バルーンが攻撃してくるときのウェポン
-        public bool IsBalloonAction{get; set;}
-        public ArrangementMode BalloonArrangementMode{get; set;}
-        public int TimeLimit{get; set;}
-        public int ShootingLimit{get; set;}
+        public int BalloonLimit{get; internal set;}
+        public int BalloonHP{get; internal set;}
+        public Weapons BalloonWeaponKey{get; internal set;} // バルーンが攻撃してくるときのウェポンのキー
+        public bool IsBalloonAction{get; internal set;}
+        public ArrangementMode BalloonArrangementMode{get; internal set;}
+        public int TimeLimit{get; internal set;}
+        public int ShootingLimit{get; internal set;}
+        public string StageDescription{get; internal set;} = "Play Serious Balloon";
         
         public bool isAvailable{
             get{
@@ -105,12 +114,12 @@ namespace Generic
 
 
         // Constructor ------
-        public Stage(int bLim = 10, int bHP = 3, GameObject bWp = null, 
+        public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.missile, 
                     bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100)
         {
             BalloonLimit = bLim;
             BalloonHP = bHP;
-            BalloonWeapon = bWp;
+            BalloonWeaponKey = bWp;
             IsBalloonAction = isAct;
             BalloonArrangementMode = bArr;
             TimeLimit = tLim;
@@ -119,7 +128,7 @@ namespace Generic
 
         // Members ------
         public List<Vector3> BalloonPositions{get; internal set;}
-        public Dictionary<int, GameObject> ShootingWeaponDic{get; internal set;}
+        public List<Weapons> ShootingWeapons{get; internal set;}
         public DefinedErrors RegisterBalloonPosition(Vector3 position)
         {
             // Manual Mode : Position not required (User will arrange balloons by their hand)
@@ -150,18 +159,57 @@ namespace Generic
             return DefinedErrors.Pass;
         }
 
-        public DefinedErrors RegisterShootingWeapon(int key, GameObject weapon)
+        public DefinedErrors RegisterShootingWeapon(Weapons weapon)
         {
-            if (ShootingWeaponDic == null)
+            if (ShootingWeapons == null)
             {
-                ShootingWeaponDic = new Dictionary<int, GameObject>();
+                ShootingWeapons = new List<Weapons>();
             }
-            if (ShootingWeaponDic.ContainsKey(key))
+            if (ShootingWeapons.Contains(weapon))
             {
-                return DefinedErrors.E_DuplicateKeys;
+                return DefinedErrors.E_Duplicate;
             }
-            ShootingWeaponDic.Add(key, weapon);
+            ShootingWeapons.Add(weapon);
             return DefinedErrors.Pass;
+        }
+
+        public DefinedErrors GetRegisteredPositions(out List<Vector3> positions)
+        {
+            positions = new List<Vector3>();
+            if(BalloonPositions == null) // 登録なし
+            {
+                return DefinedErrors.E_Fail;
+            }
+            if(BalloonPositions.Count != BalloonLimit) // 登録数が足りない
+            {
+                return DefinedErrors.E_Fail;
+            }
+            positions = BalloonPositions;
+            return DefinedErrors.Pass;
+        }
+
+        public DefinedErrors GetRegisteredShootingWeapons(out List<Weapons> weapons)
+        {
+            weapons = new List<Weapons>();
+            if(ShootingWeapons == null) // 登録なし
+            {
+                return DefinedErrors.E_Fail;
+            }
+            if(ShootingWeapons.Count > 0) // 登録数が足りない
+            {
+                return DefinedErrors.E_Fail;
+            }
+            weapons = ShootingWeapons;
+            return DefinedErrors.Pass;
+        }
+
+        // ステージの説明文を登録する
+        public void SetStageDescription(string description)
+        {
+            if (description != null)
+            {
+                StageDescription = description;
+            }
         }
     }
 

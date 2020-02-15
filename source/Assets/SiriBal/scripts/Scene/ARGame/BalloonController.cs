@@ -14,7 +14,6 @@ public class BalloonController : MonoBehaviour {
 	TouchTools touch;
 	GameObject GameDirector;
 	GameObject mainCamera;
-
 	GameObject lastCreatedBalloon;
 	Vector3 lastCreatedVector;
 	Vector3 lastCreatedBalloonPosition;
@@ -25,7 +24,7 @@ public class BalloonController : MonoBehaviour {
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
 		GameDirector = GameObject.Find("GameDirector");
 		mainCamera = GameObject.Find("MainCamera");
-		
+		cameraTransform = mainCamera.transform;
 	}
 
 	// atPosition座標にバルーンを置く
@@ -119,11 +118,11 @@ public class BalloonController : MonoBehaviour {
 		return new Vector3();
 	}
 
-	public void RandomBalloonButtonClicked(){	//バルーンをランダムに生成
-
+	public void RandomBalloonButtonClicked(int balloonCount = 10)
+	{	//バルーンをランダムに生成
 		# if UNITY_EDITOR
 			//ランダム範囲
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < balloonCount; i++) {
 				float RandomPositionX = Random.Range(-15,15)/10.0f;
 				float RandomPositionY = Random.Range(-30,30)/10.0f;
 				float RandomPositionZ = Random.Range(0,5);
@@ -132,11 +131,9 @@ public class BalloonController : MonoBehaviour {
 				CreateBalloon (new Vector3 (cameraTransform.position.x + 0.0f, cameraTransform.position.y, cameraTransform.position.z + 9.0f) + RandomPosition);
 			}
 			GameDirector.GetComponent<GameDirector>().ShadeClicked();
-			
-
 		# else
 			//ランダム範囲(暫定。実機見ながら調整する)
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < balloonCount; i++) {
 				float RandomPositionX = Random.Range(-75,75)/10.0f;
 				float RandomPositionY = Random.Range(-10,10)/10.0f;
 				float RandomPositionZ = Random.Range(-75,75)/10.0f;
@@ -146,6 +143,17 @@ public class BalloonController : MonoBehaviour {
 			}
 			GameDirector.GetComponent<GameDirector>().ShadeClicked();
 		#endif
+	}
+
+	public void PresetArrangement(List<Vector3> positions)
+	{
+		if(positions != null)
+		{
+			foreach(var position in positions)
+			{
+				CreateBalloon(position);
+			}
+		}
 	}
 
 }

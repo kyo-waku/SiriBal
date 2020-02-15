@@ -89,8 +89,15 @@ public class HomeSceneController : MonoBehaviour
         switch (GetActiveStageIndex())
         {
             case StageIndices.easy:
+                DataManager.currentStage = StageDefines.easyStage;
+                nextScene = GameScenes.SeriousBalloon;
+                break;
             case StageIndices.normal:
+                DataManager.currentStage = StageDefines.normalStage;
+                nextScene = GameScenes.SeriousBalloon;
+                break;
             case StageIndices.hard:
+                DataManager.currentStage = StageDefines.hardStage;
                 nextScene = GameScenes.SeriousBalloon;
                 break;
             default:

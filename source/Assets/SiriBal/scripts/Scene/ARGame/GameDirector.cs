@@ -20,6 +20,7 @@ public class GameDirector : MonoBehaviour
     private GameModeController gameMode; //for ReadGameMode
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
+    private BalloonController balloonController;
 
     [SerializeField]
     private GameObject ShootingModeButton;
@@ -80,7 +81,7 @@ public class GameDirector : MonoBehaviour
         scoreMng = new ScoreManager(DataManager.service);
 
         // ステージ情報のセットアップ
-        SetupStageProperties(DataManager.currentStage);
+        SetupStageProperties(DataManager.currentStage); // ゲームシーンに来る前に登録しておくこと
 
         // タイマー　
         timerText = GameObject.Find("Timer");
@@ -99,17 +100,37 @@ public class GameDirector : MonoBehaviour
         // 説明文
         ShadeUI.gameObject.SetActive(false);
         DescriptionUI.gameObject.SetActive(false);
+        // バルーンコントローラー
+        balloonController = GameObject.Find("BalloonController").GetComponent<BalloonController>();
 
         switch(stage.BalloonArrangementMode)
         {
             // 自動セットアップから開始するパターン
             case Stage.ArrangementMode.Preset:
-            case Stage.ArrangementMode.Random:
-                // Auto arrange function
-                ShowDescription("　");
+                // 登録数に満たない分はランダムに生成
+                var randomCreate = 0;
+                if(DefinedErrors.Pass == stage.GetRegisteredPositions(out var positions))
+                {
+                    randomCreate = (positions.Count < stage.BalloonLimit)? stage.BalloonLimit - positions.Count: 0;
+                    balloonController.PresetArrangement(positions);
+                    ShowDescription(stage.StageDescription);
+                }
+                else //自動配置に失敗したらランダムで処理する
+                {
+                    randomCreate = stage.BalloonLimit;
+                }
+                if (randomCreate > 0) // ランダムに作る数が登録されている場合
+                {
+                    balloonController.RandomBalloonButtonClicked(randomCreate);
+                    ShowDescription("ランダムにセットされたバルーンをうちおとそう");
+                }
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
                 break;
-
+            case Stage.ArrangementMode.Random:
+                balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
+                ShowDescription("ランダムにセットされたバルーンをうちおとそう");
+                gameMode.GameMode = GameModeController.eGameMode.WaitTime;
+                break;
             // 手動セットアップから開始するパターン
             case Stage.ArrangementMode.Manual:
             default:
@@ -117,7 +138,6 @@ public class GameDirector : MonoBehaviour
                 ShowDescription("まずはバルーンをセットしよう");
                 break;
         }
-
     }
 
     // Update is called once per frame
