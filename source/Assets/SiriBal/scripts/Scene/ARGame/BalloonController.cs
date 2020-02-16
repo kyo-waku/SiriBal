@@ -138,9 +138,9 @@ public class BalloonController : MonoBehaviour {
 		# else
 			//ランダム範囲(暫定。実機見ながら調整する)
 			for (int i = 0; i < balloonCount; i++) {
-				float RandomPositionX = Random.Range(-75,75)/10.0f;
+				float RandomPositionX = Random.Range(-30,30)/10.0f;
 				float RandomPositionY = Random.Range(-10,10)/10.0f;
-				float RandomPositionZ = Random.Range(-75,75)/10.0f;
+				float RandomPositionZ = Random.Range(-30,30)/10.0f;
 			
 				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
 				CreateBalloon(cameraTransform.position + RandomPosition);
@@ -155,7 +155,7 @@ public class BalloonController : MonoBehaviour {
 		{
 			foreach(var position in positions)
 			{
-				CreateBalloon(position);
+				CreateBalloon(cameraTransform.position + position);
 			}
 		}
 	}

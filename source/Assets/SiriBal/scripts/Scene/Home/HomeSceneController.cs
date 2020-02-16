@@ -37,6 +37,26 @@ public class HomeSceneController : MonoBehaviour
         {
             UpdateRanks(GetRecords());
         }
+        else if(GameObject.Find("WeaponToggle").GetComponent<Toggle>().isOn)
+        {
+            LoadWeaponResultFromCache();
+        }
+    }
+
+    private void LoadWeaponResultFromCache()
+    {
+        var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
+        if (stone == 1)
+        {
+            GameObject.Find("Weapon1").GetComponent<Image>().color = Color.blue;
+            // Stone Button Be Active
+        }
+        var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
+        if (hammer == 1)
+        {
+            GameObject.Find("Weapon2").GetComponent<Image>().color = Color.blue;
+            // Hammer Button Be Active
+        }
     }
 
     private List<Record> GetRecords()
@@ -134,5 +154,35 @@ public class HomeSceneController : MonoBehaviour
             value = StageIndices.hard;
         }
         return value;
+    }
+
+    // Weapon番号でゲームスタートする
+    // 番号は基本的にWeaponsのEnum定義どおりに使うこと
+    public void WeaponGameStartButtonClicked(int weapon)
+    {
+        var nextScene = GameScenes.Home;
+        switch((Weapons)weapon)
+        {
+            case Weapons.Stone:
+                var stage = StageDefines.StoneStage;
+                foreach (var position in StageDefines.StoneStageArrangement)
+                {
+                    stage.RegisterBalloonPosition(position);
+                }
+                stage.RegisterShootingWeaponKeys(new List<Weapons>(){Weapons.Stone});
+                stage.SetStageDescription("すべてのバルーンを撃ち落としてみよう");
+                DataManager.currentStage = stage;
+                nextScene = GameScenes.SeriousBalloon;
+                break;
+            case Weapons.Hammer:
+                break;
+            default:
+                break;
+        }
+        // 他の画面は回転してもOK
+        Screen.autorotateToLandscapeLeft = true;
+        Screen.autorotateToLandscapeRight = true;
+
+        _gameSceneMng.ChangeScene(nextScene);
     }
 }

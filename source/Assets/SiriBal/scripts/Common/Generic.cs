@@ -14,7 +14,7 @@ namespace Generic
         Login,
         UserRegistered,
         Home,
-        WeaponChallenge,
+        WeaponResult,
     }
 
     // Error Handling
@@ -30,6 +30,7 @@ namespace Generic
     // 使用可能なウェポンのキー登録
     // ウェポンのゲームオブジェクト自体はゲームシーンで保持して管理すること
     // GetRegisteredShootingWeaponsで全ウェポンを返すところがあるのでWeaponを増やしたらそこも増やすこと
+    // バルーンが使うWeaponはちょっと挙動が違うのであとで別の定義に分けるかも・・・
     public enum Weapons{
         None = 0,
         Stone,
@@ -37,7 +38,9 @@ namespace Generic
         Missile,
     }
 
-    // Score Management
+    //--------------
+    // スコアの管理用クラス
+    //--------------
     public class Record: IComparable
     {
         // Members
@@ -77,7 +80,9 @@ namespace Generic
         }
     }
 
-    // ゲームシーンのステージ定義に使う
+    //-------------
+    // ゲームシーンのステージ定義用クラス
+    //-------------
     public class Stage
     {
         // Defines ------
@@ -90,6 +95,16 @@ namespace Generic
             Manual, // User Arrangement 
         }
 
+        // Game Clear Conditions
+        public enum ClearCondition
+        {
+            None = 0,
+            DestroyAll, 
+            // 他になんかあんのかな・・・
+        }
+
+
+
         // Properties ------
         public int BalloonLimit{get; internal set;}
         public int BalloonHP{get; internal set;}
@@ -99,7 +114,7 @@ namespace Generic
         public int TimeLimit{get; internal set;}
         public int ShootingLimit{get; internal set;}
         public string StageDescription{get; internal set;} = "Play Serious Balloon";
-        
+        public ClearCondition GameClearCondition{get; internal set;} = ClearCondition.None;
         public bool isAvailable{
             get{
                 // PresetとRandomは事前登録が必須
@@ -113,11 +128,10 @@ namespace Generic
                 return true;
             }
         }
-
-
         // Constructor ------
         public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.Missile, 
-                    bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100
+                    bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100,
+                    ClearCondition condition = ClearCondition.None
                     )
         {
             BalloonLimit = bLim;
@@ -127,6 +141,7 @@ namespace Generic
             BalloonArrangementMode = bArr;
             TimeLimit = tLim;
             ShootingLimit = sLim;
+            GameClearCondition = condition;
         }
 
         // Members ------
@@ -214,4 +229,12 @@ namespace Generic
         }
     }
 
+    //--------------
+    // ウェポン獲得ゲームの結果管理クラス
+    //--------------
+    public class WeaponResult
+    {
+        public bool ClearFlag {get; set;}= false;
+        public List<Weapons> Weapons{get; set;}
+    }
 }

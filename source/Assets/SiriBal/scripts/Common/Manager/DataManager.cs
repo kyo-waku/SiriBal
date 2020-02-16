@@ -29,5 +29,9 @@ namespace Generic.Manager{
         #region StageDefine
         public static Stage currentStage;
         #endregion
+
+        #region WeaponGame
+        public static WeaponResult WResult;
+        #endregion
     }
 }

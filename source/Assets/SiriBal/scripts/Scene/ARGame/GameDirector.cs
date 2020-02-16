@@ -169,11 +169,23 @@ public class GameDirector : MonoBehaviour
                 }
                 TimeValue -= Time.deltaTime;
                 UpdateHeaderContents(TimeValue, BalloonCounter, ThrowCounter);
-                if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter / stage.ShootingLimit == 1)
+                if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter > stage.ShootingLimit) //ThrowConterを ==  で判定すると最後の1つを投げた瞬間に終わってしまう
                 {
-                    var record = ConvertScoreToRecord();
-                    DataManager.MyLatestRecord = record;
-                    gameSceneMng.ChangeScene(GameScenes.Result);
+                    if (stage.GameClearCondition == Stage.ClearCondition.None) // クリア条件なし = 通常の点数制
+                    {
+                        var record = ConvertScoreToRecord();
+                        DataManager.MyLatestRecord = record;
+                        gameSceneMng.ChangeScene(GameScenes.Result);
+                    }
+                    else if (stage.GameClearCondition == Stage.ClearCondition.DestroyAll) // ウェポン獲得ゲームの場合
+                    {
+                        var wr = new WeaponResult();
+                        wr.ClearFlag = (BalloonCounter == 0)? true : false;
+                        stage.GetRegisteredShootingWeapons(out var weapons);
+                        wr.Weapons = weapons;
+                        DataManager.WResult = wr;
+                        gameSceneMng.ChangeScene(GameScenes.WeaponResult);
+                    }
                 }
                 break;
         }
