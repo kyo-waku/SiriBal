@@ -103,8 +103,6 @@ namespace Generic
             // 他になんかあんのかな・・・
         }
 
-
-
         // Properties ------
         public int BalloonLimit{get; internal set;}
         public int BalloonHP{get; internal set;}
@@ -234,7 +232,7 @@ namespace Generic
     //--------------
     public class WeaponResult
     {
-        public bool ClearFlag {get; set;}= false;
-        public List<Weapons> Weapons{get; set;}
+        public bool ClearFlag {get; set;} = false;
+        public Weapons Weapon{get; set;} = Weapons.None;
     }
 }

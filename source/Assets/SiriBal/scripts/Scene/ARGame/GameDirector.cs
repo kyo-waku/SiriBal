@@ -182,9 +182,15 @@ public class GameDirector : MonoBehaviour
                         var wr = new WeaponResult();
                         wr.ClearFlag = (BalloonCounter == 0)? true : false;
                         stage.GetRegisteredShootingWeapons(out var weapons);
-                        wr.Weapons = weapons;
-                        DataManager.WResult = wr;
-                        gameSceneMng.ChangeScene(GameScenes.WeaponResult);
+                        if(weapons != null)
+                        {
+                            if(weapons.Count > 0)
+                            {
+                                wr.Weapon = weapons[0]; // ウェポン獲得ゲームの場合、ウェポン数は基本的に1個
+                                DataManager.WResult = wr;
+                                gameSceneMng.ChangeScene(GameScenes.WeaponResult);
+                            }
+                        }
                     }
                 }
                 break;

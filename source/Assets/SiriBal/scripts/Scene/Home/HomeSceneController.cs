@@ -11,6 +11,17 @@ public class HomeSceneController : MonoBehaviour
     private ScoreManager _scoreManager;
     private List<Record> _records;
 
+    // Weapon UI
+    [SerializeField]
+    Sprite stone_on;
+    [SerializeField]
+    Sprite stone_off;
+    [SerializeField]
+    Sprite hammer_on;
+    [SerializeField]
+    Sprite hammer_off;
+    //--------
+
     private bool updateFlag;
     private enum StageIndices
     {
@@ -48,13 +59,13 @@ public class HomeSceneController : MonoBehaviour
         var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
         if (stone == 1)
         {
-            GameObject.Find("Weapon1").GetComponent<Image>().color = Color.blue;
+            GameObject.Find("Weapon1").GetComponent<Image>().sprite = stone_on;
             // Stone Button Be Active
         }
         var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
         if (hammer == 1)
         {
-            GameObject.Find("Weapon2").GetComponent<Image>().color = Color.blue;
+            GameObject.Find("Weapon2").GetComponent<Image>().sprite = hammer_on;
             // Hammer Button Be Active
         }
     }
