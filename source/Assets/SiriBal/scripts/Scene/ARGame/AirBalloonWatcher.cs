@@ -27,6 +27,8 @@ public class AirBalloonWatcher : MonoBehaviour
 
     GameModeController controlGameMode;//for ReadGameMode
 
+    [SerializeField]
+    GameObject particle;
 
     //LevelDesign
     public void SetParameter(int BalloonHP, int BreakCount){
@@ -155,6 +157,12 @@ public class AirBalloonWatcher : MonoBehaviour
                 this.director.GetComponent<GameDirector>().HitCount();
                 if(BalloonHP == BreakCount)
                 {
+                    // Explosion
+                    if (particle != null)
+                    {
+                        Instantiate (particle, transform.position,transform.rotation);
+                    }
+                    
                     //this.director.GetComponent<GameDirector>().DestroyCount();
                     this.director.GetComponent<GameDirector>().BalloonCounter -= 1;
                     Destroy(gameObject);
