@@ -162,7 +162,7 @@ public class AirBalloonWatcher : MonoBehaviour
                     {
                         Instantiate (particle, transform.position,transform.rotation);
                     }
-                    
+
                     //this.director.GetComponent<GameDirector>().DestroyCount();
                     this.director.GetComponent<GameDirector>().BalloonCounter -= 1;
                     Destroy(gameObject);
