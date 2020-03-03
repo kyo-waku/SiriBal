@@ -123,7 +123,9 @@ public class BalloonController : MonoBehaviour {
 	}
 
 	public void RandomBalloonButtonClicked(int balloonCount = 10)
-	{	//バルーンをランダムに生成
+	{	
+		cameraTransform = mainCamera.transform;
+		//バルーンをランダムに生成
 		# if UNITY_EDITOR
 			//ランダム範囲
 			for (int i = 0; i < balloonCount; i++) {
@@ -151,6 +153,7 @@ public class BalloonController : MonoBehaviour {
 
 	public void PresetArrangement(List<Vector3> positions)
 	{
+		cameraTransform = mainCamera.transform;
 		if(positions != null)
 		{
 			foreach(var position in positions)

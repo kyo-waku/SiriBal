@@ -141,6 +141,19 @@ public class HomeSceneController : MonoBehaviour
         IsSwipeInStages = true;
     }
 
+    public void PairModeButtonClicked()
+    {
+        var nextScene = GameScenes.SeriousBalloon;
+        var stage = StageDefines.normalStage;
+        stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
+        DataManager.currentStage = stage;
+        // 他の画面は回転してもOK
+        Screen.autorotateToLandscapeLeft = true;
+        Screen.autorotateToLandscapeRight = true;
+
+        _gameSceneMng.ChangeScene(nextScene);
+    }
+
     private void SwipeOutPlayModeUI()
     {
         var playModeUI = GameObject.Find("PlayModes").GetComponent<RectTransform>();
@@ -154,6 +167,7 @@ public class HomeSceneController : MonoBehaviour
             IsSwipeOutPlayMode = false;
         }
     }
+
     private void SwipeInStageUI()
     {
         var stageUI = GameObject.Find("Stages").GetComponent<RectTransform>();
