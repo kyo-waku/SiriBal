@@ -7,11 +7,17 @@ using Generic.Manager;
 
 public class HomeSceneController : MonoBehaviour
 {
+    // COMMON
     private GameSceneManager _gameSceneMng;
+    //----------
+
+    // RANK UI
     private ScoreManager _scoreManager;
     private List<Record> _records;
+    private bool updateFlag;
+    //---------
 
-    // Weapon UI
+    // WEAPON UI
     [SerializeField]
     Sprite stone_on;
     [SerializeField]
@@ -22,13 +28,24 @@ public class HomeSceneController : MonoBehaviour
     Sprite hammer_off;
     //--------
 
-    private bool updateFlag;
+    // GAME UI
     private enum StageIndices
     {
         easy = 1,
         normal,
         hard,
     }
+
+    [SerializeField]
+    GameObject DescriptionUI;
+
+    // 画面動作制御用フラグ
+    bool IsSwipeOutPlayMode = false;
+    bool IsSwipeInStages = false;
+    //------------
+
+#region Start-Update
+    // MAIN
     public void Start()
     {
         // 委譲
@@ -52,67 +69,17 @@ public class HomeSceneController : MonoBehaviour
         {
             LoadWeaponResultFromCache();
         }
-    }
 
-    private void LoadWeaponResultFromCache()
-    {
-        var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
-        if (stone == 1)
-        {
-            GameObject.Find("Weapon1").GetComponent<Image>().sprite = stone_on;
-            // Stone Button Be Active
-        }
-        var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
-        if (hammer == 1)
-        {
-            GameObject.Find("Weapon2").GetComponent<Image>().sprite = hammer_on;
-            // Hammer Button Be Active
-        }
-    }
+        // UIの更新(SWIPE)
+        if(IsSwipeOutPlayMode) SwipeOutPlayModeUI();
+        if(IsSwipeInStages) SwipeInStageUI();
 
-    private List<Record> GetRecords()
-    {
-        var result = _scoreManager.GetAllRecords(out var records);
-        if (result == DefinedErrors.Pass){
-            if (records != null){
-                return records;
-            }
-        }
-        return null; // empty
-    }
 
-    private void UpdateRanks(List<Record> records)
-    {
-        if (records == null)
-        {
-            return ;
-        }
-        if (records.Count > 0 && updateFlag == true)
-        {
-            // 基本、固定で8個なのでベタ書きする
-            var objName = "";
-            for( var count = 0; count < records.Count && count < 8; ++count)
-            {
-                objName = "Score"+ (count+1);
-                // 0個目:Label, 1個目:Score, 2個目:Name　の順にScoreにぶら下がっている。（これ崩さないでね・・・）
-                GameObject.Find(objName).transform.GetChild(0).gameObject.GetComponent<Text>().text = (count+1).ToString();
-                GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].GameScore().ToString();
-                GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
-            }
-            
-            // 8個に満たない場合、使っていないランクを非表示にする
-            if (records.Count < 8)
-            {
-                for (var i = records.Count; i < 8; ++i)
-                {
-                    objName = "Score" + (i+1);
-                    GameObject.Find(objName).SetActive(false);
-                }
-            }
-            updateFlag = false; // 更新完了
-        }
     }
+    //-----------
+#endregion
 
+#region GAME-UI
     public void GameStartButtonClicked()
     {
         var nextScene = GameScenes.Home;
@@ -167,6 +134,122 @@ public class HomeSceneController : MonoBehaviour
         return value;
     }
 
+    public void SingleModeButtonClicked()
+    {
+        // PlayModeのUIを消し、StageのUIを出す
+        IsSwipeOutPlayMode = true;
+        IsSwipeInStages = true;
+    }
+
+    private void SwipeOutPlayModeUI()
+    {
+        var playModeUI = GameObject.Find("PlayModes").GetComponent<RectTransform>();
+        var left = playModeUI.offsetMin.x - 100;
+        var right = playModeUI.offsetMax.x - 100;
+        playModeUI.offsetMin = new Vector2(left, playModeUI.offsetMin.y);
+        playModeUI.offsetMax = new Vector2(right, playModeUI.offsetMax.y);
+
+        if (playModeUI.offsetMin.x < -1500 )
+        {
+            IsSwipeOutPlayMode = false;
+        }
+    }
+    private void SwipeInStageUI()
+    {
+        var stageUI = GameObject.Find("Stages").GetComponent<RectTransform>();
+        var left = stageUI.offsetMin.x - 100 < 0? 0 : stageUI.offsetMin.x - 100;
+        var right = stageUI.offsetMax.x - 100;
+
+        stageUI.offsetMin = new Vector2(left, stageUI.offsetMin.y);
+        stageUI.offsetMax = new Vector2(right, stageUI.offsetMax.y);
+
+        if (stageUI.offsetMin.x == 0 )
+        {
+            IsSwipeInStages = false;
+            DescriptionUI.SetActive(true);
+        }
+    }
+
+    // Swipe動作で移動した画面をもとに戻す
+    public void InitializeSwipedUIs()
+    {
+        var playModeUI = GameObject.Find("PlayModes").GetComponent<RectTransform>();
+        playModeUI.offsetMin = new Vector2(0, playModeUI.offsetMin.y);
+        playModeUI.offsetMax = new Vector2(0, playModeUI.offsetMax.y);
+        IsSwipeOutPlayMode = false;
+
+        var stageUI = GameObject.Find("Stages").GetComponent<RectTransform>();
+        stageUI.offsetMin = new Vector2(1500, stageUI.offsetMin.y);
+        stageUI.offsetMax = new Vector2(1500, stageUI.offsetMax.y);
+        IsSwipeInStages = false;
+
+        DescriptionUI.SetActive(false);
+    }
+#endregion 
+
+#region RANK-UI
+    private List<Record> GetRecords()
+    {
+        var result = _scoreManager.GetAllRecords(out var records);
+        if (result == DefinedErrors.Pass){
+            if (records != null){
+                return records;
+            }
+        }
+        return null; // empty
+    }
+
+    private void UpdateRanks(List<Record> records)
+    {
+        if (records == null)
+        {
+            return ;
+        }
+        if (records.Count > 0 && updateFlag == true)
+        {
+            // 基本、固定で8個なのでベタ書きする
+            var objName = "";
+            for( var count = 0; count < records.Count && count < 8; ++count)
+            {
+                objName = "Score"+ (count+1);
+                // 0個目:Label, 1個目:Score, 2個目:Name　の順にScoreにぶら下がっている。（これ崩さないでね・・・）
+                GameObject.Find(objName).transform.GetChild(0).gameObject.GetComponent<Text>().text = (count+1).ToString();
+                GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].GameScore().ToString();
+                GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
+            }
+            
+            // 8個に満たない場合、使っていないランクを非表示にする
+            if (records.Count < 8)
+            {
+                for (var i = records.Count; i < 8; ++i)
+                {
+                    objName = "Score" + (i+1);
+                    GameObject.Find(objName).SetActive(false);
+                }
+            }
+            updateFlag = false; // 更新完了
+        }
+    }
+
+#endregion
+
+#region WEAPON-UI
+    private void LoadWeaponResultFromCache()
+    {
+        var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
+        if (stone == 1)
+        {
+            GameObject.Find("Weapon1").GetComponent<Image>().sprite = stone_on;
+            // Stone Button Be Active
+        }
+        var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
+        if (hammer == 1)
+        {
+            GameObject.Find("Weapon2").GetComponent<Image>().sprite = hammer_on;
+            // Hammer Button Be Active
+        }
+    }
+
     // Weapon番号でゲームスタートする
     // 番号は基本的にWeaponsのEnum定義どおりに使うこと
     public void WeaponGameStartButtonClicked(int weapon)
@@ -196,4 +279,7 @@ public class HomeSceneController : MonoBehaviour
 
         _gameSceneMng.ChangeScene(nextScene);
     }
+
+#endregion
+
 }
