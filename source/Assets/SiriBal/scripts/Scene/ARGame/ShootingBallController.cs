@@ -28,6 +28,10 @@ public class ShootingBallController : MonoBehaviour
         if( stage == null)
         {
             stage = DataManager.currentStage;
+            if(stage == null)
+            {
+                stage = new Stage();
+            }
         }
         stage.GetRegisteredShootingWeapons(out availableWeapons);
         currentWeaponIndex = 0;

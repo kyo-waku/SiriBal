@@ -187,12 +187,16 @@ public class HomeSceneController : MonoBehaviour
     // Swipe動作で移動した画面をもとに戻す
     public void InitializeSwipedUIs()
     {
-        var playModeUI = GameObject.Find("PlayModes").GetComponent<RectTransform>();
+        var playModeObj = GameObject.Find("PlayModes");
+        if(playModeObj == null) return;
+        var playModeUI = playModeObj.GetComponent<RectTransform>();
         playModeUI.offsetMin = new Vector2(0, playModeUI.offsetMin.y);
         playModeUI.offsetMax = new Vector2(0, playModeUI.offsetMax.y);
         IsSwipeOutPlayMode = false;
 
-        var stageUI = GameObject.Find("Stages").GetComponent<RectTransform>();
+        var stageObj = GameObject.Find("Stages").GetComponent<RectTransform>();
+        if (stageObj == null) return;
+        var stageUI = stageObj.GetComponent<RectTransform>();
         stageUI.offsetMin = new Vector2(1500, stageUI.offsetMin.y);
         stageUI.offsetMax = new Vector2(1500, stageUI.offsetMax.y);
         IsSwipeInStages = false;
