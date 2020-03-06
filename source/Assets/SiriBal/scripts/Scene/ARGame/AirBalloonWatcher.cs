@@ -131,10 +131,6 @@ public class AirBalloonWatcher : MonoBehaviour
             mutekiTime += Time.deltaTime;
             if(mutekiTime > 0.1f) mutekiFlag=false;
         }
-
-        
-        
-
     }
 
     //攻撃する
@@ -149,6 +145,8 @@ public class AirBalloonWatcher : MonoBehaviour
     //Detect Collision
     void OnCollisionEnter(Collision other)
     {
+        if (controlGameMode == null) return;
+
         if(controlGameMode.GameMode == GameModeController.eGameMode.Shooting)//get point! if gameMode is shooting
         {
             if (other.gameObject.tag == "player_shoot")
@@ -163,8 +161,7 @@ public class AirBalloonWatcher : MonoBehaviour
                         Instantiate (particle, transform.position,transform.rotation);
                     }
 
-                    //this.director.GetComponent<GameDirector>().DestroyCount();
-                    this.director.GetComponent<GameDirector>().BalloonCounter -= 1;
+                    this.director.GetComponent<GameDirector>().DestroyedBalloonCount += 1;
                     Destroy(gameObject);
                 }
             }

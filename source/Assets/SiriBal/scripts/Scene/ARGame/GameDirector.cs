@@ -13,8 +13,8 @@ public class GameDirector : MonoBehaviour
     private int resultScore;
 
     // UI component references
-    private GameObject timerText;
-    private GameObject timerUI;
+    private GameObject TimerText;
+    private GameObject TimerUI;
     private GameObject BalloonCountText;
     private GameObject ThrowCountText;
     private GameModeController gameMode; //for ReadGameMode
@@ -23,21 +23,22 @@ public class GameDirector : MonoBehaviour
     private BalloonController balloonController;
 
     [SerializeField]
-    private GameObject ShootingModeButton;
-    
-    [SerializeField]
-    private GameObject ShadeUI;
+    private GameObject WeaponToggleButton;
+
     [SerializeField]
     private GameObject DescriptionUI;
+    [SerializeField]
+    private GameObject YarikomiHeader;
+
     private GameObject LoadBalGen;
     public Sprite _MasterBall;
     public Sprite _Hammer;
     private bool spriteFlg = true;
-    private bool buttonFlg = false;
 
     // properties
     #region properties
-    public int BalloonCounter{get; internal set;}
+    public int BalloonCounter{get; internal set;} = 0;
+    public int DestroyedBalloonCount{get; internal set;} = 0;
     public int ThrowCounter{get; internal set;}
     public int Score{get; internal set;}
     public float TimeValue{get; internal set;}
@@ -52,11 +53,6 @@ public class GameDirector : MonoBehaviour
     #region methods
 
     //CountScore
-    public void DestroyCount()
-    {
-        Score += 1;
-    }
-
     public void HitCount()
     {
         Score += 1;
@@ -74,6 +70,52 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    // Set up initial UI components
+    private void SetupUIComponents()
+    {
+        // タイマー　
+        TimerText = GameObject.Find("Timer");
+        TimerUI = GameObject.Find("TimerIcon");
+        if (TimerUI != null)
+        {
+            TimerUI.GetComponent<TimerUiController>();
+        }
+        // バルーン数　
+        BalloonCountText = GameObject.Find("BalloonCount");
+        if (BalloonCountText != null)
+        {
+            BalloonCountText.GetComponent<Text>().text = (BalloonCounter - DestroyedBalloonCount).ToString("F0") + "/" + BalloonCounter;
+        }
+        // 投げ数
+        ThrowCountText = GameObject.Find("ThrowCount");
+        if (ThrowCountText != null)
+        {
+            ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + stage.ShootingLimit;
+        }
+        // ゲームモード
+        gameMode = GameObject.Find("ModeSwitcher").GetComponent<GameModeController>();
+        // 画面遷移用
+        LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
+        // 説明文
+        DescriptionUI.gameObject.SetActive(false);
+        // バルーンコントローラー
+        balloonController = GameObject.Find("BalloonController").GetComponent<BalloonController>();
+
+        // やりこみモード
+        if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi)
+        {
+            // やりこみモードでは、通常のヘッダー要素は使わない
+            var header = GameObject.Find("Header");
+            if (header != null)
+            {
+                header.SetActive(false);
+            }
+            // 専用ヘッダーをアクティブにする
+            YarikomiHeader.SetActive(true);
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,26 +124,8 @@ public class GameDirector : MonoBehaviour
 
         // ステージ情報のセットアップ
         SetupStageProperties(DataManager.currentStage); // ゲームシーンに来る前に登録しておくこと
-
-        // タイマー　
-        timerText = GameObject.Find("Timer");
-        timerUI = GameObject.Find("TimerIcon");
-        timerUI.GetComponent<TimerUiController>();
-        // バルーン数　
-        BalloonCountText = GameObject.Find("BalloonCount");
-        BalloonCountText.GetComponent<Text>().text = BalloonCounter.ToString("F0") + "/" + stage.BalloonLimit;
-        // 投げ数
-        ThrowCountText = GameObject.Find("ThrowCount");
-        ThrowCountText.GetComponent<Text>().text = ThrowCounter.ToString("F0") + "/" + stage.ShootingLimit;
-        // ゲームモード
-        gameMode = GameObject.Find("ModeSwitcher").GetComponent<GameModeController>();
-        // 画面遷移用
-        LoadBalGen = GameObject.Find("LoadingBalloonGenerator");
-        // 説明文
-        ShadeUI.gameObject.SetActive(false);
-        DescriptionUI.gameObject.SetActive(false);
-        // バルーンコントローラー
-        balloonController = GameObject.Find("BalloonController").GetComponent<BalloonController>();
+        // UI コンポーネントのセットアップ
+        SetupUIComponents();
 
         switch(stage.BalloonArrangementMode)
         {
@@ -127,8 +151,17 @@ public class GameDirector : MonoBehaviour
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
                 break;
             case Stage.ArrangementMode.Random:
-                balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
-                ShowDescription("ランダムにセットされたバルーンをうちおとそう");
+                if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi) // やりこみモード
+                {
+                    // とりあえず 10個 おいておく。あとから徐々に増える
+                    balloonController.RandomBalloonButtonClicked(10);
+                    ShowDescription("ひたすらバルーンをうちおとそう");
+                }
+                else
+                {
+                    balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
+                    ShowDescription("ランダムにセットされたバルーンをうちおとそう");
+                }
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
                 break;
             // 手動セットアップから開始するパターン
@@ -145,57 +178,127 @@ public class GameDirector : MonoBehaviour
     {
         switch (gameMode.GameMode)
         {
+            // ゲームの状態がいずれでもない場合
             case GameModeController.eGameMode.None:
-                TimeValue = stage.TimeLimit;
-                resultScore = 0;
+                InitGameSettings();
                 break;
+            // ゲームの状態がバルーンを配置するモードの場合
             case GameModeController.eGameMode.Balloon:
-                TimeValue -= Time.deltaTime;
-                UpdateHeaderContents(TimeValue, BalloonCounter, -1);
-                if (TimeValue < 0 || BalloonCounter >= stage.BalloonLimit)
-                {
-                    gameMode.GameMode = GameModeController.eGameMode.WaitTime;
-                    LoadBalGen.GetComponent<LoadingBalloonGenerator>().GenerateLoadingBalloons();
-                }
+                BalloonPlaceSubproc();
                 break;
+            // ゲームの状態が次のゲーム開始までの待機状態の場合
             case GameModeController.eGameMode.WaitTime:
-                TimeValue = stage.TimeLimit;
+                InitGameSettings();
                 break;
+            // ゲームの状態がバルーンを撃ち落とすモードの場合
             case GameModeController.eGameMode.Shooting:
-                if (buttonFlg == false)
+                ShootingSubproc();
+                break;
+        }
+        // ローディング画面制御用プロセス (バルーン配置　→　撃ち落とし　の切り替えなど)
+        LoadingBalloonSubprocess();
+    }
+
+#region Subprocesses
+    private void InitGameSettings()
+    {
+        TimeValue = stage.TimeLimit > 0? stage.TimeLimit: 0;
+        resultScore = 0;
+    }
+
+    // バルーン配置
+    private void BalloonPlaceSubproc()
+    {
+        TimeValue -= Time.deltaTime;
+        UpdateHeaderContents(TimeValue, (BalloonCounter - DestroyedBalloonCount), -1);
+        if (TimeValue < 0 || (BalloonCounter - DestroyedBalloonCount) >= stage.BalloonLimit)
+        {
+            gameMode.GameMode = GameModeController.eGameMode.WaitTime;
+            LoadBalGen.GetComponent<LoadingBalloonGenerator>().GenerateLoadingBalloons();
+        }
+    }
+
+    // 撃ち落としゲームの本編
+    private void ShootingSubproc()
+    {
+        // Weapon切り替えボタンの表示
+        var weaponToggle = WeaponToggleButton.gameObject;
+        if (!weaponToggle.activeSelf)
+        {
+            weaponToggle.SetActive(true);
+        }
+
+        if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi)
+        {
+            YarikomiProc();
+        }
+        else
+        {
+            TimeValue -= Time.deltaTime;
+            UpdateHeaderContents(TimeValue, (BalloonCounter - DestroyedBalloonCount), ThrowCounter);
+            if (TimeValue < 0 || BalloonCounter <= DestroyedBalloonCount || ThrowCounter > stage.ShootingLimit) //ThrowConterを ==  で判定すると最後の1つを投げた瞬間に終わってしまう
+            {
+                if (stage.GameClearCondition == Stage.ClearConditions.None) // クリア条件なし = 通常の点数制
                 {
-                    ShootingModeButton.gameObject.SetActive(true);//shootingModeButtonを表示
-                    buttonFlg = !buttonFlg;
+                    var record = ConvertScoreToRecord();
+                    DataManager.MyLatestRecord = record;
+                    gameSceneMng.ChangeScene(GameScenes.Result);
                 }
-                TimeValue -= Time.deltaTime;
-                UpdateHeaderContents(TimeValue, BalloonCounter, ThrowCounter);
-                if (TimeValue < 0 || BalloonCounter == 0 || ThrowCounter > stage.ShootingLimit) //ThrowConterを ==  で判定すると最後の1つを投げた瞬間に終わってしまう
+                else if (stage.GameClearCondition == Stage.ClearConditions.DestroyAll) // ウェポン獲得ゲームの場合
                 {
-                    if (stage.GameClearCondition == Stage.ClearCondition.None) // クリア条件なし = 通常の点数制
+                    var wr = new WeaponResult();
+                    wr.ClearFlag = (BalloonCounter <= DestroyedBalloonCount)? true : false;
+                    stage.GetRegisteredShootingWeapons(out var weapons);
+                    if(weapons != null)
                     {
-                        var record = ConvertScoreToRecord();
-                        DataManager.MyLatestRecord = record;
-                        gameSceneMng.ChangeScene(GameScenes.Result);
-                    }
-                    else if (stage.GameClearCondition == Stage.ClearCondition.DestroyAll) // ウェポン獲得ゲームの場合
-                    {
-                        var wr = new WeaponResult();
-                        wr.ClearFlag = (BalloonCounter == 0)? true : false;
-                        stage.GetRegisteredShootingWeapons(out var weapons);
-                        if(weapons != null)
+                        if(weapons.Count > 0)
                         {
-                            if(weapons.Count > 0)
-                            {
-                                wr.Weapon = weapons[0]; // ウェポン獲得ゲームの場合、ウェポン数は基本的に1個
-                                DataManager.WResult = wr;
-                                gameSceneMng.ChangeScene(GameScenes.WeaponResult);
-                            }
+                            wr.Weapon = weapons[0]; // ウェポン獲得ゲームの場合、ウェポン数は基本的に1個
+                            DataManager.WResult = wr;
+                            gameSceneMng.ChangeScene(GameScenes.WeaponResult);
                         }
                     }
                 }
-                break;
+            }
+        }
+    }
+
+    // やりこみモード専用処理
+    // スコア：バルーンを倒した数に関連して増える。
+    // ライフ：時間が立つ、物を投げる、と減る。バルーンを倒すと増える。アイテムでも増える。ゼロでゲーム終了
+    private void YarikomiProc()
+    {
+        // 時間計測
+        TimeValue += Time.deltaTime;
+
+        // 定期的に増えるバルーン
+        var makeBalloon = 10 - (BalloonCounter - DestroyedBalloonCount);
+        if (makeBalloon > 0)
+        {
+            balloonController.RandomBalloonButtonClicked(makeBalloon);
         }
 
+        // スコア計算
+        var score = DestroyedBalloonCount * 33;
+
+        // ライフポイント計算 (本当は蓄積系の計算のほうが良い。後で変える)
+        var life = (100 + DestroyedBalloonCount * 5) - (int)TimeValue - (int)(ThrowCounter/3);
+        life = life < 0 ? 0 : life;
+
+        UpdateYarikomiHeaderContents(score, life);
+        if (life <= 0) // ゲーム終了
+        {
+            // とりあえずHOMEに戻る
+            gameSceneMng.ChangeScene(GameScenes.Home);
+        }
+    }
+
+#endregion 
+
+#region LoadingUI
+    // ローディング画面の制御
+    private void LoadingBalloonSubprocess()
+    {
         //LoadingBalloon生成時は画面が隠れているか判定
         if (bJudgeHideScreenByLoadingBalloon() == true)
         {
@@ -207,45 +310,16 @@ public class GameDirector : MonoBehaviour
         {
             LoadBalGen.GetComponent<LoadingBalloonGenerator>().GenerateLoadingBalloons();
         }
-
         //Debug用
         if (Input.GetKeyDown(KeyCode.S))
         {
             ControlDispWaitingScreen(false);
         }
-
         //Debug用
         if (Input.GetKeyDown(KeyCode.D))
         {
             ControlDispWaitingScreen(true);
         }
-
-    }
-
-    // ヘッダー要素の表示更新
-    // 更新したくない場合は負の値をセットすればいい
-    private void UpdateHeaderContents(float timeValue, int balloonCount, int throwCount)
-    {
-        if (timeValue >= 0)
-        {
-            timerText.GetComponent<Text>().text = timeValue.ToString("F1");//F1 は書式指定子
-            timerUI.GetComponent<TimerUiController>().TimerCount(timeValue, stage.TimeLimit);//TimerUIの更新
-        }
-        if (balloonCount >= 0)
-        {
-            BalloonCountText.GetComponent<Text>().text = balloonCount.ToString("F0") + "/" + stage.BalloonLimit;
-        }
-        if (throwCount >= 0)
-        {
-            ThrowCountText.GetComponent<Text>().text = throwCount.ToString("F0") + "/" + stage.ShootingLimit;
-        }
-    }
-
-    // 説明用画面の表示
-    private void ShowDescription(string message)
-    {
-        ControlDispWaitingScreen(true);
-        GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = message;
     }
 
     // LoadingBalloonで画面が隠れているか判定
@@ -266,14 +340,81 @@ public class GameDirector : MonoBehaviour
         }
         return bReturn;
     }
+#endregion
 
-    public void ControlDispWaitingScreen(bool bSetActive) // 待機画面の表示制御
+#region UpdateUIHeaders
+    // ヘッダー要素の表示更新
+    // 更新したくない場合は負の値をセットすればいい
+    private void UpdateHeaderContents(float timeValue, int balloonCount, int throwCount)
     {
-        ShadeUI.gameObject.SetActive(bSetActive);
+        if (timeValue >= 0)
+        {
+            if (TimerText != null)
+            {
+                TimerText.GetComponent<Text>().text = timeValue.ToString("F1");//F1 は書式指定子
+            }
+            if (TimerUI != null)
+            {
+                TimerUI.GetComponent<TimerUiController>().TimerCount(timeValue, stage.TimeLimit);//TimerUIの更新
+            }
+        }
+        if (balloonCount >= 0)
+        {
+            if (BalloonCountText)
+            {
+                BalloonCountText.GetComponent<Text>().text = balloonCount.ToString("F0") + "/" + stage.BalloonLimit;
+            }
+        }
+        if (throwCount >= 0)
+        {
+            if (ThrowCountText != null)
+            {
+                ThrowCountText.GetComponent<Text>().text = throwCount.ToString("F0") + "/" + stage.ShootingLimit;
+            }
+        }
+    }
+
+    // やりこみモード用ヘッダー更新
+    // score : int
+    // life : int(%)
+    private void UpdateYarikomiHeaderContents(int score, int life)
+    {
+        var ScoreText = GameObject.Find("CurrentScore");
+        ScoreText.GetComponent<Text>().text = score.ToString();
+        var LifeBar = GameObject.Find("LIFEBar");
+        LifeBar.GetComponent<Image>().fillAmount = (float)life/100;
+
+        // GREEN: 50, 210, 90, 255
+        // RED: 230, 90, 50, 255
+        if (life < 20)
+        {
+            LifeBar.GetComponent<Image>().color = Color.red;
+        }
+    }
+
+    // 説明用画面の表示
+    private void ShowDescription(string message)
+    {
+        ControlDispWaitingScreen(true);
+        GameObject.Find("WaitingText").gameObject.GetComponent<Text>().text = message;
+    }
+
+    // 待機画面の表示制御
+    public void ControlDispWaitingScreen(bool bSetActive)
+    {
         DescriptionUI.gameObject.SetActive(bSetActive);
     }
 
+    // 投げるWeaponを切り替えるボタン
+    public void ShootingModeButtonClicked()
+    {
+        var img = WeaponToggleButton.GetComponent<Image>();
+        spriteFlg = !spriteFlg;
+        img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
+    }
+#endregion
 
+#region ControlGameMode
     // ShadeUIクリック時
     public void ShadeClicked() 
     {
@@ -292,24 +433,21 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    // HOMEに戻る
     public void BackButtonClicked()
     {
         gameSceneMng.ChangeScene(GameScenes.Home);
     }
 
-    public void ShootingModeButtonClicked()
-    {
-        var img = ShootingModeButton.GetComponent<Image>();
-        spriteFlg = !spriteFlg;
-        img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
-    }
+#endregion
+
 
     // スコアの定義はここで決まる。
     public Record ConvertScoreToRecord()
     {
         var UserName = "Guest"; // consider later
         var timeScore = (int)(1000 * TimeValue / stage.TimeLimit);
-        var balloonScore = (int)( 1000 * (stage.BalloonLimit - BalloonCounter) / stage.BalloonLimit );
+        var balloonScore = (int)( 1000 * (BalloonCounter - DestroyedBalloonCount) / BalloonCounter );
         int HitProbability;
         if (ThrowCounter != 0)
         {

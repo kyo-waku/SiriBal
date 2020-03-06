@@ -143,7 +143,6 @@ public class HomeSceneController : MonoBehaviour
 
     public void PairModeButtonClicked()
     {
-        var nextScene = GameScenes.SeriousBalloon;
         var stage = StageDefines.normalStage;
         stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
         DataManager.currentStage = stage;
@@ -151,7 +150,18 @@ public class HomeSceneController : MonoBehaviour
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToLandscapeRight = true;
 
-        _gameSceneMng.ChangeScene(nextScene);
+        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
+    }
+
+    public void YarikomiModeButtonClicked()
+    {
+        var stage = StageDefines.yarikomiStage;
+        DataManager.currentStage = stage;
+        // 他の画面は回転してもOK
+        Screen.autorotateToLandscapeLeft = true;
+        Screen.autorotateToLandscapeRight = true;
+
+        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 
     private void SwipeOutPlayModeUI()

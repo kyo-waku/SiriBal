@@ -96,10 +96,11 @@ namespace Generic
         }
 
         // Game Clear Conditions
-        public enum ClearCondition
+        public enum ClearConditions
         {
             None = 0,
             DestroyAll, 
+            Yarikomi,
             // 他になんかあんのかな・・・
         }
 
@@ -112,7 +113,7 @@ namespace Generic
         public int TimeLimit{get; internal set;}
         public int ShootingLimit{get; internal set;}
         public string StageDescription{get; internal set;} = "Play Serious Balloon";
-        public ClearCondition GameClearCondition{get; internal set;} = ClearCondition.None;
+        public ClearConditions GameClearCondition{get; internal set;} = ClearConditions.None;
         public bool isAvailable{
             get{
                 // PresetとRandomは事前登録が必須
@@ -129,7 +130,7 @@ namespace Generic
         // Constructor ------
         public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.Missile, 
                     bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100,
-                    ClearCondition condition = ClearCondition.None
+                    ClearConditions condition = ClearConditions.None
                     )
         {
             BalloonLimit = bLim;
