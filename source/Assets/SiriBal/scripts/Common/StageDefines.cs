@@ -42,15 +42,22 @@ namespace Generic
 
 #region Yarikomi
         public static Stage yarikomiStage = new Stage(
-            -1, // BalloonLimit < 0 means YARIKOMI MODE
-            3, // Balloon HP
-            Weapons.Missile, // Balloon Weapon
-            true, // Balloon Action
+            10, // BalloonLimit < 0 means YARIKOMI MODE
+            1, // Balloon HP
+            Weapons.None, // Balloon Weapon
+            false, // Balloon Action
             Stage.ArrangementMode.Random, // ランダム配置
             -1, // 時間制限 < 0 YARIKOMI MODE
             -1, // 投げ数上限 < 0 YARIKOMI MODE
             Stage.ClearConditions.Yarikomi // やりこみモード
         );
+        public static Stage yarikomi_rank2 = new Stage(
+            15, 3, Weapons.None, false, Stage.ArrangementMode.Random, -1, -1, Stage.ClearConditions.Yarikomi
+        );
+        public static Stage yarikomi_rank3 = new Stage(
+            20, 5, Weapons.Missile, true, Stage.ArrangementMode.Random, -1, -1, Stage.ClearConditions.Yarikomi
+        );
+
 
 #endregion
 

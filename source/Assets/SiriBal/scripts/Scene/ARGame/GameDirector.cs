@@ -29,7 +29,7 @@ public class GameDirector : MonoBehaviour
     private GameObject DescriptionUI;
     [SerializeField]
     private GameObject YarikomiHeader;
-
+    private int currentRank = 1;
     private GameObject LoadBalGen;
     public Sprite _MasterBall;
     public Sprite _Hammer;
@@ -154,7 +154,7 @@ public class GameDirector : MonoBehaviour
                 if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi) // やりこみモード
                 {
                     // とりあえず 10個 おいておく。あとから徐々に増える
-                    balloonController.RandomBalloonButtonClicked(10);
+                    balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
                     ShowDescription("ひたすらバルーンをうちおとそう");
                 }
                 else
@@ -272,7 +272,7 @@ public class GameDirector : MonoBehaviour
         TimeValue += Time.deltaTime;
 
         // 定期的に増えるバルーン
-        var makeBalloon = 10 - (BalloonCounter - DestroyedBalloonCount);
+        var makeBalloon = stage.BalloonLimit - (BalloonCounter - DestroyedBalloonCount);
         if (makeBalloon > 0)
         {
             balloonController.RandomBalloonButtonClicked(makeBalloon);
@@ -280,6 +280,8 @@ public class GameDirector : MonoBehaviour
 
         // スコア計算
         var score = DestroyedBalloonCount * 33;
+        // ランクアップ処理
+        RankUpYarikomi(score);
 
         // ライフポイント計算 (本当は蓄積系の計算のほうが良い。後で変える)
         var life = (100 + DestroyedBalloonCount * 5) - (int)TimeValue - (int)(ThrowCounter/3);
@@ -293,6 +295,33 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+
+    private void RankUpYarikomi(int score)
+    {
+        // ステージの切り替え ランクアップ！
+        if (score > 1000 && currentRank == 1)
+        {
+            var obj = GameObject.Find("YarikomiDescription");
+            if (obj != null)
+            {
+                obj.GetComponent<Text>().text = "ランクアップ!! \n 1 -> 2";
+                obj.GetComponent<OriginalEffects>().SetUpFadeIn();
+            }
+            SetupStageProperties(StageDefines.yarikomi_rank2);
+            currentRank = 2;
+        }
+        else if (score > 3000 && currentRank == 2)
+        {            
+            var obj = GameObject.Find("YarikomiDescription");
+            if (obj != null)
+            {
+                obj.GetComponent<Text>().text = "ランクアップ!! \n 2 -> 3";
+                obj.GetComponent<OriginalEffects>().SetUpFadeIn();
+            }
+            SetupStageProperties(StageDefines.yarikomi_rank3);
+            currentRank = 3;
+        }
+    }
 #endregion 
 
 #region LoadingUI
