@@ -307,6 +307,7 @@ public class GameDirector : MonoBehaviour
                 obj.GetComponent<Text>().fontSize = 120;
             }
             Invoke("ResultSubproc", 4f);
+            scoreMng.SaveYarikomiScoreToLocal(score);
         }
     }
 

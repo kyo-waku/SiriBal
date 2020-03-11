@@ -187,5 +187,27 @@ namespace Generic.Manager{
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
+
+        // やりこみモード用
+        // ローカルキャッシュに登録
+        public void SaveYarikomiScoreToLocal(int score){
+            PlayerPrefs.SetInt("LatestScore", score);
+            var bestScore = PlayerPrefs.GetInt("BestScore", 0);
+            if (bestScore < score)
+            {
+                PlayerPrefs.SetInt("BestScore", score);
+            }
+            PlayerPrefs.Save();
+        }
+
+        // ローカルキャッシュから最新の結果を取得
+        public int LoadYarikomiLatestFromLocal(){
+            return PlayerPrefs.GetInt("LatestScore", 0);
+        }
+        
+        // ローカルキャッシュからベストの結果を取得
+        public int LoadYarikomiBestFromLocal(){
+            return PlayerPrefs.GetInt("BestScore", 0);
+        }
     }
 }
