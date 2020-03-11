@@ -11,6 +11,7 @@ public class GameModeController : MonoBehaviour
         Shooting,  // 投げる
         Balloon,  // バルーン配置
         WaitTime,  // 投げ前の待機
+        BeforeResult, // 結果表示前の待機
         None  // 起点
     }
 

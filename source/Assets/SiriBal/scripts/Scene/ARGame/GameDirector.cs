@@ -182,10 +182,6 @@ public class GameDirector : MonoBehaviour
     {
         switch (gameMode.GameMode)
         {
-            // ゲームの状態がいずれでもない場合
-            case GameModeController.eGameMode.None:
-                InitGameSettings();
-                break;
             // ゲームの状態がバルーンを配置するモードの場合
             case GameModeController.eGameMode.Balloon:
                 BalloonPlaceSubproc();
@@ -197,6 +193,14 @@ public class GameDirector : MonoBehaviour
             // ゲームの状態がバルーンを撃ち落とすモードの場合
             case GameModeController.eGameMode.Shooting:
                 ShootingSubproc();
+                break;
+            // ゲームの状態が結果表示前野待機状態の場合
+            case GameModeController.eGameMode.BeforeResult:
+                break;
+            // ゲームの状態がいずれでもない場合
+            case GameModeController.eGameMode.None:
+            default:
+                InitGameSettings();
                 break;
         }
         // ローディング画面制御用プロセス (バルーン配置　→　撃ち落とし　の切り替えなど)
@@ -288,17 +292,28 @@ public class GameDirector : MonoBehaviour
         RankUpYarikomi(score);
 
         // ライフポイント計算 (本当は蓄積系の計算のほうが良い。後で変える)
-        var life = (100 + DestroyedBalloonCount * 5) - (int)TimeValue - (int)(ThrowCounter/3);
+        var life = (100 + DestroyedBalloonCount * 2) - (int)TimeValue * 30 - (int)(ThrowCounter/3);
         life = life < 0 ? 0 : life;
 
         UpdateYarikomiHeaderContents(score, life);
         if (life <= 0) // ゲーム終了
         {
-            // とりあえずHOMEに戻る
-            gameSceneMng.ChangeScene(GameScenes.Home);
+            gameMode.GameMode = GameModeController.eGameMode.BeforeResult;
+            var obj = GameObject.Find("YarikomiDescription");
+            if (obj != null)
+            {
+                obj.GetComponent<Text>().text = "そこまで!!";
+                obj.GetComponent<Text>().color = new Color(0, 0, 0, 1); 
+                obj.GetComponent<Text>().fontSize = 120;
+            }
+            Invoke("ResultSubproc", 4f);
         }
     }
 
+    private void ResultSubproc()
+    {
+        gameSceneMng.ChangeScene(GameScenes.YarikomiResult);
+    }
 
     private void RankUpYarikomi(int score)
     {

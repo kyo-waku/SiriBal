@@ -15,6 +15,7 @@ namespace Generic
         UserRegistered,
         Home,
         WeaponResult,
+        YarikomiResult,
     }
 
     // Error Handling
