@@ -292,7 +292,7 @@ public class GameDirector : MonoBehaviour
         RankUpYarikomi(score);
 
         // ライフポイント計算 (本当は蓄積系の計算のほうが良い。後で変える)
-        var life = (100 + DestroyedBalloonCount * 2) - (int)TimeValue * 30 - (int)(ThrowCounter/3);
+        var life = (100 + DestroyedBalloonCount * 2) - (int)TimeValue * 2 - (int)(ThrowCounter/3);
         life = life < 0 ? 0 : life;
 
         UpdateYarikomiHeaderContents(score, life);
