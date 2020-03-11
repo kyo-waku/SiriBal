@@ -3355,6 +3355,10 @@ MonoBehaviour:
   YarikomiHeader: {fileID: 1084975847}
   _MasterBall: {fileID: 21300000, guid: aac9e61d8110d411aaf1262877a2c860, type: 3}
   _Hammer: {fileID: 21300000, guid: dd1fc7879e4f44d96b2c94e76db6e28d, type: 3}
+  yarikomiStage_rank2: {fileID: 11400000, guid: de835e7d0e5e949478545b942bbc8523,
+    type: 2}
+  yarikomiStage_rank3: {fileID: 11400000, guid: bc59b471f26084ddcb7f8cd3768b5e46,
+    type: 2}
 --- !u!114 &1925247169
 MonoBehaviour:
   m_ObjectHideFlags: 0

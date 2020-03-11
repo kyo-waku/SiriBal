@@ -35,6 +35,10 @@ public class GameDirector : MonoBehaviour
     public Sprite _Hammer;
     private bool spriteFlg = true;
 
+    // Stages
+    public StageData yarikomiStage_rank2;
+    public StageData yarikomiStage_rank3;
+
     // properties
     #region properties
     public int BalloonCounter{get; internal set;} = 0;
@@ -102,7 +106,7 @@ public class GameDirector : MonoBehaviour
         balloonController = GameObject.Find("BalloonController").GetComponent<BalloonController>();
 
         // やりこみモード
-        if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi)
+        if (stage.GameClearCondition == Stage.ClearCondition.Yarikomi)
         {
             // やりこみモードでは、通常のヘッダー要素は使わない
             var header = GameObject.Find("Header");
@@ -151,7 +155,7 @@ public class GameDirector : MonoBehaviour
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
                 break;
             case Stage.ArrangementMode.Random:
-                if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi) // やりこみモード
+                if (stage.GameClearCondition == Stage.ClearCondition.Yarikomi) // やりこみモード
                 {
                     // とりあえず 10個 おいておく。あとから徐々に増える
                     balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
@@ -228,7 +232,7 @@ public class GameDirector : MonoBehaviour
             weaponToggle.SetActive(true);
         }
 
-        if (stage.GameClearCondition == Stage.ClearConditions.Yarikomi)
+        if (stage.GameClearCondition == Stage.ClearCondition.Yarikomi)
         {
             YarikomiProc();
         }
@@ -238,13 +242,13 @@ public class GameDirector : MonoBehaviour
             UpdateHeaderContents(TimeValue, (BalloonCounter - DestroyedBalloonCount), ThrowCounter);
             if (TimeValue < 0 || BalloonCounter <= DestroyedBalloonCount || ThrowCounter > stage.ShootingLimit) //ThrowConterを ==  で判定すると最後の1つを投げた瞬間に終わってしまう
             {
-                if (stage.GameClearCondition == Stage.ClearConditions.None) // クリア条件なし = 通常の点数制
+                if (stage.GameClearCondition == Stage.ClearCondition.None) // クリア条件なし = 通常の点数制
                 {
                     var record = ConvertScoreToRecord();
                     DataManager.MyLatestRecord = record;
                     gameSceneMng.ChangeScene(GameScenes.Result);
                 }
-                else if (stage.GameClearCondition == Stage.ClearConditions.DestroyAll) // ウェポン獲得ゲームの場合
+                else if (stage.GameClearCondition == Stage.ClearCondition.DestroyAll) // ウェポン獲得ゲームの場合
                 {
                     var wr = new WeaponResult();
                     wr.ClearFlag = (BalloonCounter <= DestroyedBalloonCount)? true : false;
@@ -307,7 +311,7 @@ public class GameDirector : MonoBehaviour
                 obj.GetComponent<Text>().text = "ランクアップ!! \n 1 -> 2";
                 obj.GetComponent<OriginalEffects>().SetUpFadeIn();
             }
-            SetupStageProperties(StageDefines.yarikomi_rank2);
+            SetupStageProperties(new Stage(yarikomiStage_rank2));
             currentRank = 2;
         }
         else if (score > 3000 && currentRank == 2)
@@ -318,7 +322,7 @@ public class GameDirector : MonoBehaviour
                 obj.GetComponent<Text>().text = "ランクアップ!! \n 2 -> 3";
                 obj.GetComponent<OriginalEffects>().SetUpFadeIn();
             }
-            SetupStageProperties(StageDefines.yarikomi_rank3);
+            SetupStageProperties(new Stage(yarikomiStage_rank3));
             currentRank = 3;
         }
     }

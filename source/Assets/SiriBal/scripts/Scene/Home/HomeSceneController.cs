@@ -11,6 +11,14 @@ public class HomeSceneController : MonoBehaviour
     private GameSceneManager _gameSceneMng;
     //----------
 
+    //　STAGE DATA (Ref for scriptable objects)
+    public StageData easyStage;
+    public StageData normalStage;
+    public StageData hardStage;
+    public StageData yarikomiStage_rank1;
+
+    //---------
+
     // RANK UI
     private ScoreManager _scoreManager;
     private List<Record> _records;
@@ -87,15 +95,15 @@ public class HomeSceneController : MonoBehaviour
         switch (GetActiveStageIndex())
         {
             case StageIndices.easy:
-                DataManager.currentStage = StageDefines.easyStage;
+                DataManager.currentStage = new Stage(easyStage);
                 nextScene = GameScenes.SeriousBalloon;
                 break;
             case StageIndices.normal:
-                DataManager.currentStage = StageDefines.normalStage;
+                DataManager.currentStage = new Stage(normalStage);
                 nextScene = GameScenes.SeriousBalloon;
                 break;
             case StageIndices.hard:
-                DataManager.currentStage = StageDefines.hardStage;
+                DataManager.currentStage = new Stage(hardStage);
                 nextScene = GameScenes.SeriousBalloon;
                 break;
             default:
@@ -143,7 +151,7 @@ public class HomeSceneController : MonoBehaviour
 
     public void PairModeButtonClicked()
     {
-        var stage = StageDefines.normalStage;
+        var stage = new Stage(normalStage);
         stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
         DataManager.currentStage = stage;
         // 他の画面は回転してもOK
@@ -155,7 +163,7 @@ public class HomeSceneController : MonoBehaviour
 
     public void YarikomiModeButtonClicked()
     {
-        var stage = StageDefines.yarikomiStage;
+        var stage = new Stage(yarikomiStage_rank1);
         DataManager.currentStage = stage;
         // 他の画面は回転してもOK
         Screen.autorotateToLandscapeLeft = true;

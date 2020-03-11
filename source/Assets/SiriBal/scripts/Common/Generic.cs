@@ -96,7 +96,7 @@ namespace Generic
         }
 
         // Game Clear Conditions
-        public enum ClearConditions
+        public enum ClearCondition
         {
             None = 0,
             DestroyAll, 
@@ -113,7 +113,7 @@ namespace Generic
         public int TimeLimit{get; internal set;}
         public int ShootingLimit{get; internal set;}
         public string StageDescription{get; internal set;} = "Play Serious Balloon";
-        public ClearConditions GameClearCondition{get; internal set;} = ClearConditions.None;
+        public ClearCondition GameClearCondition{get; internal set;} = ClearCondition.None;
         public bool isAvailable{
             get{
                 // PresetとRandomは事前登録が必須
@@ -130,8 +130,7 @@ namespace Generic
         // Constructor ------
         public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.Missile, 
                     bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100,
-                    ClearConditions condition = ClearConditions.None
-                    )
+                    ClearCondition condition = ClearCondition.None) // 互換性のために一旦おいておくけど本当は消したい！！また今度やる
         {
             BalloonLimit = bLim;
             BalloonHP = bHP;
@@ -143,6 +142,17 @@ namespace Generic
             GameClearCondition = condition;
         }
 
+        public Stage(StageData stage) // Scriptable Data (本当はメモリコピーせず参照だけ持っておきたい！！また今度やる。。。)
+        {
+            BalloonLimit = stage.BalloonLimit;
+            BalloonHP = stage.BalloonHP;
+            BalloonWeaponKey = stage.BalloonWeaponKey;
+            IsBalloonAction = stage.IsBalloonAction;
+            BalloonArrangementMode = stage.BalloonArrangementMode;
+            TimeLimit = stage.TimeLimit;
+            ShootingLimit = stage.ShootingLimit;
+            GameClearCondition = stage.GameClearCondition;
+        }
         // Members ------
         public List<Vector3> BalloonPositions{get; internal set;}
         public List<Weapons> ShootingWeapons{get; internal set;}
