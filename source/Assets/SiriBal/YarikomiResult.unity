@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 203877729}
   - component: {fileID: 203877728}
   m_Layer: 5
-  m_Name: BestScore
+  m_Name: BestScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 954374024}
   - component: {fileID: 954374026}
   m_Layer: 5
-  m_Name: ResultScore
+  m_Name: ResultScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
