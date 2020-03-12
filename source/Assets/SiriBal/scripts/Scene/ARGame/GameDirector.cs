@@ -448,7 +448,11 @@ public class GameDirector : MonoBehaviour
         // RED: 230, 90, 50, 255
         if (life < 20)
         {
-            LifeBar.GetComponent<Image>().color = Color.red;
+            LifeBar.GetComponent<Image>().color = new Color(230, 90, 50, 255);
+        }
+        else
+        {
+            LifeBar.GetComponent<Image>().color = new Color(50, 210, 90, 255);
         }
     }
 

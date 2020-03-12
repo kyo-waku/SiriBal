@@ -108,7 +108,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 timeElapsed += Time.deltaTime;
                 if(timeElapsed >= ActionSpan) {
                     timeElapsed = 0.0f;//reset Timer
-                    ActionSpan = Random.Range(3,5);//reset Action Span
+                    ActionSpan = Random.Range(5,10);//reset Action Span
                     //this.rigidbody.velocity=0.0f;
                     ActionMode = Random.Range(0,5);
                     GetAction(ActionMode);
