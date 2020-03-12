@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Generic;
+using Generic.Manager;
 
 public class EnemyAttack_missileController : MonoBehaviour
 {
+    GameObject director;
     GameModeController controlGameMode;
     [SerializeField]
     GameObject particle;
@@ -12,12 +14,13 @@ public class EnemyAttack_missileController : MonoBehaviour
     Rigidbody rigidbody;
     GameObject PlayerCamera;
     float MovingForce = 25.0f;
-    float timeOut = 8.0f;
+    float timeOut = 15.0f;
     float timeElapsed;
     // Start is called before the first frame update
     void Start()
     {
         controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+        director = GameObject.Find("GameDirector");
 
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
         rigidbody = GetComponent<Rigidbody>();//rigidbodyの導入
@@ -34,7 +37,7 @@ public class EnemyAttack_missileController : MonoBehaviour
         //時間で消える
         timeElapsed += Time.deltaTime;
         if(timeElapsed >= timeOut) {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -46,14 +49,27 @@ public class EnemyAttack_missileController : MonoBehaviour
         {
             if (other.gameObject.tag == "player_sphere")
             {
-                // Explosion
+                if (director != null)
+                {
+                    director.GetComponent<GameDirector>().Damaged();
+                    director.GetComponent<GameDirector>().EnemyAttackHitCount += 1;
+                }
+                Destroy(gameObject);
+            }
+            else if (other.gameObject.tag == "enemy_attack")
+            {
+                // ミサイル同士の衝突は爆発するパーティクル
                 if (particle != null)
                 {
+                    particle.transform.localScale = new Vector3(0.01f ,0.01f ,0.01f); // ちょと小さくしておく
                     Instantiate (particle, gameObject.transform.position, gameObject.transform.rotation);
                 }
                 Destroy(gameObject);
             }
-            
+            else
+            {
+                Destroy(gameObject); // しれっと消す
+            }
         }
     }
 }

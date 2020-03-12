@@ -6,6 +6,7 @@ TagManager:
   tags:
   - player_shoot
   - player_sphere
+  - enemy_attack
   layers:
   - Default
   - TransparentFX

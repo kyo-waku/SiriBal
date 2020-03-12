@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3091891660262913127}
   m_Layer: 0
   m_Name: EnemyAttack_MissilePrefab
-  m_TagString: Untagged
+  m_TagString: enemy_attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c053f9714bd34869b3018f454264adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particle: {fileID: 7691797426215294610, guid: 873f11d22e5074c28b85f2c5629c8640,
+    type: 3}

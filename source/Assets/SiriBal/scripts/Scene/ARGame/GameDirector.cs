@@ -41,9 +41,10 @@ public class GameDirector : MonoBehaviour
 
     // properties
     #region properties
-    public int BalloonCounter{get; internal set;} = 0;
-    public int DestroyedBalloonCount{get; internal set;} = 0;
-    public int ThrowCounter{get; internal set;}
+    public int BalloonCounter{get; set;} = 0;
+    public int DestroyedBalloonCount{get; set;} = 0;
+    public int EnemyAttackHitCount{get;  set;} = 0;
+    public int ThrowCounter{get; set;}
     public int Score{get; internal set;}
     public float TimeValue{get; internal set;}
     public bool bJudgeGenerateLoadingBalloon{get; internal set;} = false;
@@ -54,14 +55,20 @@ public class GameDirector : MonoBehaviour
 
     #endregion
 
-    #region methods
-
     //CountScore
     public void HitCount()
     {
         Score += 1;
     }
 
+    public void Damaged()
+    {
+        var obj = GameObject.Find("DamagedEffect");
+        if (obj != null)
+        {
+            obj.GetComponent<DamagedEffect>().IsDamaged = true;
+        }
+    }
     void SetupStageProperties(Stage currentStage)
     {
         if (currentStage == null)
@@ -291,8 +298,12 @@ public class GameDirector : MonoBehaviour
         // ランクアップ処理
         RankUpYarikomi(score);
 
-        // ライフポイント計算 (本当は蓄積系の計算のほうが良い。後で変える)
-        var life = (100 + DestroyedBalloonCount * currentRank) - (int)TimeValue * currentRank - (int)(ThrowCounter / (stage.BalloonHP * 2));
+        // ライフポイント計算
+        var life = (100 + DestroyedBalloonCount * currentRank)
+                    - (int)TimeValue
+                    - (int)(ThrowCounter / (stage.BalloonHP * 2))
+                    - (int)(EnemyAttackHitCount * 3);
+
         life = life < 0 ? 0 : life;
 
         UpdateYarikomiHeaderContents(score, life);
@@ -508,6 +519,4 @@ public class GameDirector : MonoBehaviour
         }
         return new Record(UserName, timeScore, balloonScore, HitProbability, DateTime.Now);
     }
-
-    #endregion
 }
