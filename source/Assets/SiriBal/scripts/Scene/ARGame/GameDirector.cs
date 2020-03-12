@@ -445,14 +445,19 @@ public class GameDirector : MonoBehaviour
         LifeBar.GetComponent<Image>().fillAmount = (float)life/100;
 
         // GREEN: 50, 210, 90, 255
+        // YELLOW: 255, 190, 0, 255
         // RED: 230, 90, 50, 255
         if (life < 20)
         {
-            LifeBar.GetComponent<Image>().color = new Color(230, 90, 50, 255);
+            LifeBar.GetComponent<Image>().color = new Color(230/255f, 90/255f, 50/255f, 255/255f);
+        }
+        else if (life < 50 && life >= 20)
+        {
+            LifeBar.GetComponent<Image>().color = new Color(255/255f, 190/255f, 0/255f, 255/255f);
         }
         else
         {
-            LifeBar.GetComponent<Image>().color = new Color(50, 210, 90, 255);
+            LifeBar.GetComponent<Image>().color = new Color(50/255f, 210/255f, 90/255f, 255/255f);
         }
     }
 
