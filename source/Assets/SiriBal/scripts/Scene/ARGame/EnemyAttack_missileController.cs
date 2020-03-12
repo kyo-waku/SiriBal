@@ -61,7 +61,6 @@ public class EnemyAttack_missileController : MonoBehaviour
                 // ミサイル同士の衝突は爆発するパーティクル
                 if (particle != null)
                 {
-                    particle.transform.localScale = new Vector3(0.01f ,0.01f ,0.01f); // ちょと小さくしておく
                     Instantiate (particle, gameObject.transform.position, gameObject.transform.rotation);
                 }
                 Destroy(gameObject);
