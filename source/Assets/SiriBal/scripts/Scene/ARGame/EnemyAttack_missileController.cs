@@ -1,17 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Generic;
 
 public class EnemyAttack_missileController : MonoBehaviour
 {
+    GameModeController controlGameMode;
+    [SerializeField]
+    GameObject particle;
+
     Rigidbody rigidbody;
     GameObject PlayerCamera;
     float MovingForce = 25.0f;
-    float timeOut=8.0f;
+    float timeOut = 8.0f;
     float timeElapsed;
     // Start is called before the first frame update
     void Start()
     {
+        controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
+
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
         rigidbody = GetComponent<Rigidbody>();//rigidbodyの導入
         Vector3 vctr1 = transform.position;//このオブジェクトの座標を取得
@@ -27,7 +34,26 @@ public class EnemyAttack_missileController : MonoBehaviour
         //時間で消える
         timeElapsed += Time.deltaTime;
         if(timeElapsed >= timeOut) {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+        }
+    }
+
+       //Detect Collision
+    void OnCollisionEnter(Collision other)
+    {
+        if (controlGameMode == null) return;
+        if (controlGameMode.GameMode == GameModeController.eGameMode.Shooting)//get point! if gameMode is shooting
+        {
+            if (other.gameObject.tag == "player_sphere")
+            {
+                // Explosion
+                if (particle != null)
+                {
+                    Instantiate (particle, gameObject.transform.position, gameObject.transform.rotation);
+                }
+                Destroy(gameObject);
+            }
+            
         }
     }
 }
