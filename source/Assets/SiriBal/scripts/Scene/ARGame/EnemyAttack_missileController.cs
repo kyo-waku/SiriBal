@@ -53,8 +53,11 @@ public class EnemyAttack_missileController : MonoBehaviour
                 {
                     director.GetComponent<GameDirector>().Damaged();
                     director.GetComponent<GameDirector>().EnemyAttackHitCount += 1;
-                    if (SystemInfo.supportsVibration) {
-                        Handheld.Vibrate ();
+
+                    if (DataManager.options == null){return;}
+
+                    if (SystemInfo.supportsVibration && DataManager.options.IsVibration) {
+                        Handheld.Vibrate (); // ブルッとふるえる
                     } else {
                         // 振動に対応して無い
                     }

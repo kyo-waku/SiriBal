@@ -36,6 +36,13 @@ public class HomeSceneController : MonoBehaviour
     Sprite hammer_off;
     //--------
 
+
+    // OPTIONS UI
+    [SerializeField]
+    GameObject VibrationToggleObject;
+
+    //--------
+
     // GAME UI
     private enum StageIndices
     {
@@ -66,6 +73,7 @@ public class HomeSceneController : MonoBehaviour
 
         // 情報更新フラグ
         updateFlag = true;
+        InitializeOptionsUI();
     }
     public void Update()
     {
@@ -81,8 +89,6 @@ public class HomeSceneController : MonoBehaviour
         // UIの更新(SWIPE)
         if(IsSwipeOutPlayMode) SwipeOutPlayModeUI();
         if(IsSwipeInStages) SwipeInStageUI();
-
-
     }
     //-----------
 #endregion
@@ -113,7 +119,6 @@ public class HomeSceneController : MonoBehaviour
         // 他の画面は回転してもOK
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToLandscapeRight = true;
-
         _gameSceneMng.ChangeScene(nextScene);
     }
 
@@ -155,21 +160,14 @@ public class HomeSceneController : MonoBehaviour
         stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
         DataManager.currentStage = stage;
         // 他の画面は回転してもOK
-        Screen.autorotateToLandscapeLeft = true;
-        Screen.autorotateToLandscapeRight = true;
-
-        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
+        GameStart(GameScenes.SeriousBalloon);
     }
 
     public void YarikomiModeButtonClicked()
     {
         var stage = new Stage(yarikomiStage_rank1);
         DataManager.currentStage = stage;
-        // 他の画面は回転してもOK
-        Screen.autorotateToLandscapeLeft = true;
-        Screen.autorotateToLandscapeRight = true;
-
-        _gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
+        GameStart(GameScenes.SeriousBalloon);
     }
 
     private void SwipeOutPlayModeUI()
@@ -309,12 +307,57 @@ public class HomeSceneController : MonoBehaviour
             default:
                 break;
         }
+        GameStart(nextScene);
+    }
+
+    private void GameStart(GameScenes next)
+    {
+        UpdateCurrentVibrationOption();
         // 他の画面は回転してもOK
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToLandscapeRight = true;
-
-        _gameSceneMng.ChangeScene(nextScene);
+        _gameSceneMng.ChangeScene(next);
     }
+#endregion
+
+#region OPTION-UI
+    private void InitializeOptionsUI()
+    {
+        var VibrationOnToggle = VibrationToggleObject.GetComponent<Toggle>();
+        var VibrationCache = PlayerPrefs.GetInt("Vibration", 1); // 0:OFF , 1:ON
+        if (VibrationCache == 0) // OFF
+        {
+            VibrationOnToggle.isOn = false;
+        }
+        else
+        {
+            VibrationOnToggle.isOn = true;
+        }
+    }
+
+    public void UpdateCurrentVibrationOption()
+    {
+        var VibrationOnToggle = VibrationToggleObject.GetComponent<Toggle>();
+        if (VibrationOnToggle != null)
+        {
+            if (DataManager.options == null)
+            {
+                DataManager.options = new GameOptions();
+            }
+            DataManager.options.IsVibration = VibrationOnToggle.isOn;
+
+            if (DataManager.options.IsVibration)
+            {
+                PlayerPrefs.SetInt("Vibration",1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("Vibration",0);
+            }
+            PlayerPrefs.Save();
+        }
+    }
+
 
 #endregion
 

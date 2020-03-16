@@ -247,4 +247,14 @@ namespace Generic
         public bool ClearFlag {get; set;} = false;
         public Weapons Weapon{get; set;} = Weapons.None;
     }
+
+    //--------------
+    // オプション情報管理クラス
+    //--------------
+    public class GameOptions
+    {
+        // プロパティ
+        public bool IsVibration{get; internal set;} = true; // Default is ON
+    }
+
 }
