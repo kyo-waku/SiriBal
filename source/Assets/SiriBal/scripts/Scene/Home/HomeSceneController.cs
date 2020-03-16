@@ -9,6 +9,9 @@ public class HomeSceneController : MonoBehaviour
 {
     // COMMON
     private GameSceneManager _gameSceneMng;
+
+    [SerializeField]
+    Fade FadeObject;
     //----------
 
     //　STAGE DATA (Ref for scriptable objects)
@@ -96,30 +99,29 @@ public class HomeSceneController : MonoBehaviour
 #region GAME-UI
     public void GameStartButtonClicked()
     {
-        var nextScene = GameScenes.Home;
-
+        var sceneChangeFlag = false;
         switch (GetActiveStageIndex())
         {
             case StageIndices.easy:
                 DataManager.currentStage = new Stage(easyStage);
-                nextScene = GameScenes.SeriousBalloon;
+                sceneChangeFlag = true;
                 break;
             case StageIndices.normal:
                 DataManager.currentStage = new Stage(normalStage);
-                nextScene = GameScenes.SeriousBalloon;
+                sceneChangeFlag = true;
                 break;
             case StageIndices.hard:
                 DataManager.currentStage = new Stage(hardStage);
-                nextScene = GameScenes.SeriousBalloon;
+                sceneChangeFlag = true;
                 break;
             default:
                 break;
         }
         
-        // 他の画面は回転してもOK
-        Screen.autorotateToLandscapeLeft = true;
-        Screen.autorotateToLandscapeRight = true;
-        _gameSceneMng.ChangeScene(nextScene);
+        if(sceneChangeFlag)
+        {
+            GameStart();
+        }
     }
 
     private StageIndices GetActiveStageIndex()
@@ -160,14 +162,14 @@ public class HomeSceneController : MonoBehaviour
         stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
         DataManager.currentStage = stage;
         // 他の画面は回転してもOK
-        GameStart(GameScenes.SeriousBalloon);
+        GameStart();
     }
 
     public void YarikomiModeButtonClicked()
     {
         var stage = new Stage(yarikomiStage_rank1);
         DataManager.currentStage = stage;
-        GameStart(GameScenes.SeriousBalloon);
+        GameStart();
     }
 
     private void SwipeOutPlayModeUI()
@@ -288,7 +290,7 @@ public class HomeSceneController : MonoBehaviour
     // 番号は基本的にWeaponsのEnum定義どおりに使うこと
     public void WeaponGameStartButtonClicked(int weapon)
     {
-        var nextScene = GameScenes.Home;
+        var sceneChangeFlag = false;
         switch((Weapons)weapon)
         {
             case Weapons.Stone:
@@ -300,23 +302,39 @@ public class HomeSceneController : MonoBehaviour
                 stage.RegisterShootingWeaponKeys(new List<Weapons>(){Weapons.Stone});
                 stage.SetStageDescription("すべてのバルーンを撃ち落としてみよう");
                 DataManager.currentStage = stage;
-                nextScene = GameScenes.SeriousBalloon;
+                sceneChangeFlag = true;
                 break;
             case Weapons.Hammer:
                 break;
             default:
                 break;
         }
-        GameStart(nextScene);
+
+        // 変更フラグあり
+        if(sceneChangeFlag)
+        {
+            GameStart();
+        }
     }
 
-    private void GameStart(GameScenes next)
+    private void GameStart()
     {
         UpdateCurrentVibrationOption();
         // 他の画面は回転してもOK
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToLandscapeRight = true;
-        _gameSceneMng.ChangeScene(next);
+        FadeWithChangeScene();
+    }
+
+    private void FadeWithChangeScene()
+    {
+		FadeObject.FadeIn (1, () => {
+			Invoke("GameSceneStart",0.1f);
+		});
+	}
+	public void GameSceneStart()
+    {
+		_gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 #endregion
 
