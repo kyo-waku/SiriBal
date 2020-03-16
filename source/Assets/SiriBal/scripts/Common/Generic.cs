@@ -35,6 +35,7 @@ namespace Generic
     public enum Weapons{
         None = 0,
         Stone,
+        ColaCan,
         Hammer,
         Missile,
     }
@@ -220,6 +221,7 @@ namespace Generic
                 // 登録がなければ全部使えるものとする
                 // Weapon追加時は忘れずここにも追加してね
                 weapons.Add(Weapons.Stone);
+                weapons.Add(Weapons.ColaCan);
                 weapons.Add(Weapons.Hammer);
             }
             else

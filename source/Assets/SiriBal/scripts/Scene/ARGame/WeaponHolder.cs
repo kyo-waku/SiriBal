@@ -10,6 +10,8 @@ public class WeaponHolder : MonoBehaviour
     [SerializeField]
     GameObject Stone;
     [SerializeField]
+    GameObject ColaCan;
+    [SerializeField]
     GameObject Hammer;
 
     public GameObject GetWeaponObjectByKey(Weapons key)
@@ -25,6 +27,9 @@ public class WeaponHolder : MonoBehaviour
                 break;
             case Weapons.Stone:
                 weapon = Stone;
+                break;
+            case Weapons.ColaCan:
+                weapon = ColaCan;
                 break;
             case Weapons.Hammer:
                 weapon = Hammer;
