@@ -4347,6 +4347,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1623967908}
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 339088b0573c44a1a93db88a52b0e1e8,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1189062085
@@ -6945,7 +6957,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1683799787
@@ -7980,6 +7992,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+      - m_Target: {fileID: 1623967908}
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 339088b0573c44a1a93db88a52b0e1e8,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1914554469
@@ -8847,7 +8871,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2126350445
@@ -9085,6 +9109,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: VibrationToggle
       objectReference: {fileID: 0}
+    - target: {fileID: 1143607406255947437, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
+        type: 3}
+      propertyPath: m_Name
+      value: VibrationOn
+      objectReference: {fileID: 0}
     - target: {fileID: 1143607404727433758, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9190,15 +9219,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1143607406255947437, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
-        type: 3}
-      propertyPath: m_Name
-      value: VibrationOn
-      objectReference: {fileID: 0}
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
@@ -9208,7 +9232,7 @@ PrefabInstance:
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
@@ -9219,22 +9243,27 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1640527259}
+      objectReference: {fileID: 1623967908}
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateCurrentVibrationOption
+      value: PlayOneShot
       objectReference: {fileID: 0}
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.AudioClip, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1143607406255947435, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8300000, guid: a09a47a581fe5492cbf3f6f53cd3514e, type: 3}
     - target: {fileID: 1143607404231220053, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: m_Name
@@ -9243,7 +9272,7 @@ PrefabInstance:
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
@@ -9253,27 +9282,32 @@ PrefabInstance:
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1640527259}
+      objectReference: {fileID: 1623967908}
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCurrentVibrationOption
+      value: PlayOneShot
       objectReference: {fileID: 0}
     - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.AudioClip, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1143607404231220051, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8300000, guid: a09a47a581fe5492cbf3f6f53cd3514e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dfc5ff20eee8484cb3a2c5084c7f690, type: 3}
