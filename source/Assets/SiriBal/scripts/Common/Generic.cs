@@ -36,6 +36,7 @@ namespace Generic
         None = 0,
         Stone,
         ColaCan,
+        Shoes,
         Hammer,
         Missile,
     }
@@ -222,6 +223,7 @@ namespace Generic
                 // Weapon追加時は忘れずここにも追加してね
                 weapons.Add(Weapons.Stone);
                 weapons.Add(Weapons.ColaCan);
+                weapons.Add(Weapons.Shoes);
                 weapons.Add(Weapons.Hammer);
             }
             else
