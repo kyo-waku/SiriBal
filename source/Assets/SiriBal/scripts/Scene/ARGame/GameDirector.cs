@@ -31,7 +31,7 @@ public class GameDirector : MonoBehaviour
     private GameObject YarikomiHeader;
     private int currentRank = 1;
     private GameObject LoadBalGen;
-    private int WeaponNumber = 4;//使用できる武器の数
+    private int WeaponNumber = 4;//使用できる武器の数、WeaponIconの切替に使うよ
     public Sprite _MasterBall;
     public Sprite _Hammer;
     public Sprite _ColaCan;
