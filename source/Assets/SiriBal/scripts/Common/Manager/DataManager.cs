@@ -33,5 +33,9 @@ namespace Generic.Manager{
         #region WeaponGame
         public static WeaponResult WResult;
         #endregion
+
+        #region Options
+        public static GameOptions options;
+        #endregion
     }
 }

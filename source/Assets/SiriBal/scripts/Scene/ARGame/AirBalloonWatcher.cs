@@ -30,6 +30,9 @@ public class AirBalloonWatcher : MonoBehaviour
     [SerializeField]
     GameObject particle;
 
+    private const int MAXDISTANCE = 30;
+
+
     //LevelDesign
     public void SetParameter(int BalloonHP, int BreakCount){
         this.BalloonHP = BalloonHP;
@@ -131,6 +134,9 @@ public class AirBalloonWatcher : MonoBehaviour
             mutekiTime += Time.deltaTime;
             if(mutekiTime > 0.1f) mutekiFlag=false;
         }
+
+        // バルーンが離れすぎたら消す処理
+        ByeByeBalloon();
     }
 
     //攻撃する
@@ -142,6 +148,20 @@ public class AirBalloonWatcher : MonoBehaviour
         go.transform.position = vctr1 + Clearance * (vctr3/vctr3.magnitude);
     }
     
+    // バルーンが遠くに行ってしまったよ、の処理（名前ふざけすぎた）
+    private void ByeByeBalloon()
+    {
+        if (PlayerCamera != null)
+        {
+            var distance = Vector3.Distance(gameObject.transform.position, PlayerCamera.transform.position);
+            if (distance > MAXDISTANCE)
+            {
+                this.director.GetComponent<GameDirector>().MissingBalloonCount += 1;
+                Destroy(gameObject);
+            }
+        }
+    }
+
     //Detect Collision
     void OnCollisionEnter(Collision other)
     {

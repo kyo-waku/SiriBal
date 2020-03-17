@@ -41,8 +41,11 @@ public class GameDirector : MonoBehaviour
 
     // properties
     #region properties
+    private int ScorePoint{get; set;} = 0; 
+    private int LifePoint{get; set;} = 100;
     public int BalloonCounter{get; set;} = 0;
     public int DestroyedBalloonCount{get; set;} = 0;
+    public int MissingBalloonCount{get; set;} = 0;
     public int EnemyAttackHitCount{get;  set;} = 0;
     public int ThrowCounter{get; set;}
     public int Score{get; internal set;}
@@ -137,7 +140,8 @@ public class GameDirector : MonoBehaviour
         SetupStageProperties(DataManager.currentStage); // ゲームシーンに来る前に登録しておくこと
         // UI コンポーネントのセットアップ
         SetupUIComponents();
-
+        // ライフ関係の初期化
+        InitializeCounts(true);
         switch(stage.BalloonArrangementMode)
         {
             // 自動セットアップから開始するパターン
@@ -285,29 +289,22 @@ public class GameDirector : MonoBehaviour
     {
         // 時間計測
         TimeValue += Time.deltaTime;
-
-        // 定期的に増えるバルーン
-        var makeBalloon = stage.BalloonLimit - (BalloonCounter - DestroyedBalloonCount);
-        if (makeBalloon > 0)
-        {
-            balloonController.RandomBalloonButtonClicked(makeBalloon);
-        }
-
+        // Missing処理
+        ShowMissing();
         // スコア計算
-        var score = DestroyedBalloonCount * 33;
-        // ランクアップ処理
-        RankUpYarikomi(score);
-
+        ScorePoint = ScorePoint + DestroyedBalloonCount * currentRank * ((100 - LifePoint)/10 + 20); // 死にかけはポイント高め
         // ライフポイント計算
-        var life = (100 + DestroyedBalloonCount * currentRank)
-                    - (int)TimeValue
-                    - (int)(ThrowCounter / (stage.BalloonHP * 2))
-                    - (int)(EnemyAttackHitCount * 3);
-
-        life = life < 0 ? 0 : life;
-
-        UpdateYarikomiHeaderContents(score, life);
-        if (life <= 0) // ゲーム終了
+        UpdateLifePoint();
+        // ランクアップ処理
+        RankUpYarikomi(ScorePoint);
+        // 定期的に増えるバルーン(DestroyedBalloonCountの初期化タイミングに注意)
+        if (DestroyedBalloonCount > 0)
+        {
+            balloonController.RandomBalloonButtonClicked(DestroyedBalloonCount);
+        }
+        // ヘッダーの更新
+        UpdateYarikomiHeaderContents(ScorePoint, LifePoint);
+        if (LifePoint <= 0) // ゲーム終了
         {
             gameMode.GameMode = GameModeController.eGameMode.BeforeResult;
             var obj = GameObject.Find("YarikomiDescription");
@@ -318,10 +315,50 @@ public class GameDirector : MonoBehaviour
                 obj.GetComponent<Text>().fontSize = 120;
             }
             Invoke("ResultSubproc", 4f);
-            scoreMng.SaveYarikomiScoreToLocal(score);
+            scoreMng.SaveYarikomiScoreToLocal(ScorePoint);
         }
+
+        // 初期化処理は最後
+        InitializeCounts();
     }
 
+    private void UpdateLifePoint()
+    {
+        LifePoint = LifePoint
+                    + DestroyedBalloonCount * currentRank
+                    - (int)MissingBalloonCount * 5          // Missingの重みはでかい・・・
+                    - (int)TimeValue
+                    - (int)(ThrowCounter / (stage.BalloonHP * 2))
+                    - (int)(EnemyAttackHitCount * 3);
+        LifePoint = LifePoint < 0 ? 0 : LifePoint;
+    }
+
+    private void InitializeCounts(bool IsLifeInitialize = false)
+    {
+        if (IsLifeInitialize)
+        {
+            LifePoint = 100;
+        }
+        if(TimeValue > 1){TimeValue = 0;}
+        ThrowCounter = 0;
+        EnemyAttackHitCount = 0;
+        DestroyedBalloonCount = 0;
+        MissingBalloonCount = 0;
+    }
+
+    private void ShowMissing()
+    {
+        if(MissingBalloonCount > 0)
+        {
+            var obj = GameObject.Find("YarikomiDescription");
+            if (obj != null)
+            {
+                obj.GetComponent<Text>().color = Color.red;
+                obj.GetComponent<Text>().text = "Missing";
+                obj.GetComponent<OriginalEffects>().SetUpFadeIn(0.5f);
+            }
+        }
+    }
     private void ResultSubproc()
     {
         gameSceneMng.ChangeScene(GameScenes.YarikomiResult);
