@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BalloonLimit: 20
   BalloonHP: 5
-  BalloonWeaponKey: 3
+  BalloonWeaponKey: 5
   IsBalloonAction: 1
   BalloonArrangementMode: 1
   TimeLimit: -1
