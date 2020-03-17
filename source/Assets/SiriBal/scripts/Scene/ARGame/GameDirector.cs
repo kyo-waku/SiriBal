@@ -31,9 +31,13 @@ public class GameDirector : MonoBehaviour
     private GameObject YarikomiHeader;
     private int currentRank = 1;
     private GameObject LoadBalGen;
+    private int WeaponNumber = 4;//使用できる武器の数
     public Sprite _MasterBall;
     public Sprite _Hammer;
-    private bool spriteFlg = true;
+    public Sprite _ColaCan;
+    public Sprite _Rock;
+    public Sprite _Shoes;
+    private int spriteFlg = 0;
 
     // Stages
     public StageData yarikomiStage_rank2;
@@ -515,8 +519,32 @@ public class GameDirector : MonoBehaviour
     public void ShootingModeButtonClicked()
     {
         var img = WeaponToggleButton.GetComponent<Image>();
-        spriteFlg = !spriteFlg;
-        img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
+        spriteFlg = (spriteFlg == WeaponNumber-1 ) ? spriteFlg = 0 : spriteFlg += 1;
+        //img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
+        switch (spriteFlg)
+        {
+            // ゲームの状態がバルーンを配置するモードの場合
+            case 0:
+                img.sprite = _Rock;
+                break;
+            // ゲームの状態が次のゲーム開始までの待機状態の場合
+            case 1:
+                img.sprite = _ColaCan;
+                break;
+            // ゲームの状態がバルーンを撃ち落とすモードの場合
+            case 2:
+                img.sprite = _Shoes;
+                break;
+            // ゲームの状態が結果表示前野待機状態の場合
+            case 3:
+                img.sprite = _Hammer;
+                break;
+            // ゲームの状態がいずれでもない場合
+            case 4:
+            default:
+                img.sprite = _Rock;
+                break;
+        }
     }
 #endregion
 
