@@ -87,7 +87,8 @@ public class AirBalloonWatcher : MonoBehaviour
         //Find GameDirector for Scoring
         director = GameObject.Find("GameDirector");
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
-        AttackSpan = 4.0f;//デバッグ用の攻撃間隔
+        //AttackSpan = 4.0f;//デバッグ用の攻撃間隔
+        AttackSpan = Random.Range(5,15);
         //ActionSpan = Random.Range(5,15);
         
         //Decision 1st ActionSpan
