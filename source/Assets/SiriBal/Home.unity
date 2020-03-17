@@ -3062,12 +3062,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 739243888}
   m_CullTransparentMesh: 0
---- !u!1 &803355201 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1143607406255947437, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
-    type: 3}
-  m_PrefabInstance: {fileID: 1143607405749692431}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &803530007
 GameObject:
   m_ObjectHideFlags: 0
@@ -5410,6 +5404,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398791824}
   m_CullTransparentMesh: 0
+--- !u!1 &1424024693 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1143607406255947437, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
+    type: 3}
+  m_PrefabInstance: {fileID: 1143607405749692431}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1468358845
 GameObject:
   m_ObjectHideFlags: 0
@@ -6195,7 +6195,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2014218903}
-  - {fileID: 2139066897}
+  - {fileID: 1951520563}
   m_Father: {fileID: 803530009}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6682,7 +6682,7 @@ MonoBehaviour:
   stone_off: {fileID: 21300000, guid: a22fd0dc97a0c477e95f2ea0efae9be0, type: 3}
   hammer_on: {fileID: 21300000, guid: d2edba50f5bae4d229585effc7a758ff, type: 3}
   hammer_off: {fileID: 21300000, guid: aa114636835fc4b4b9d97cade5527d44, type: 3}
-  VibrationToggleObject: {fileID: 803355201}
+  VibrationToggleObject: {fileID: 1424024693}
   DescriptionUI: {fileID: 1390780526}
 --- !u!4 &1640527260
 Transform:
@@ -8123,6 +8123,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 75}
   m_SizeDelta: {x: -180, y: -230}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &1951520563 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1143607404727433758, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
+    type: 3}
+  m_PrefabInstance: {fileID: 1143607405749692431}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1963763992
 GameObject:
   m_ObjectHideFlags: 0
@@ -9039,12 +9045,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &2139066897 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1143607404727433758, guid: 8dfc5ff20eee8484cb3a2c5084c7f690,
-    type: 3}
-  m_PrefabInstance: {fileID: 1143607405749692431}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2143001108
 GameObject:
   m_ObjectHideFlags: 0

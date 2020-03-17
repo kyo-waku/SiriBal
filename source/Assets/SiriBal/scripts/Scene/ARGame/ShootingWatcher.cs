@@ -12,8 +12,8 @@ public class ShootingWatcher : MonoBehaviour
     public void Shoot(Vector3 dir)
     {
         GetComponent<Rigidbody>().AddForce(dir);
-        Xlotate=Random.Range(-5,5);
-        Ylotate=Random.Range(-5,5);
+        Xlotate　=　Random.Range(-5,5);
+        Ylotate　=　Random.Range(-5,5);
     }
 
     // Start is called before the first frame update

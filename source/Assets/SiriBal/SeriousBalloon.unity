@@ -581,8 +581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Missile: {fileID: 2000341097746316527, guid: 370cabc4defe741cea9d757a7c1d80fb, type: 3}
   Stone: {fileID: 7196459049477730099, guid: 84c57544d1dd046f491210351e96fba6, type: 3}
-  ColaCan: {fileID: 923262929662674077, guid: 4a5bd63bc6dc244468d195d03ecf05d5, type: 3}
-  Shoes: {fileID: 4904991661840451022, guid: f96895168a2be4cc9bcf2dc8fe981f06, type: 3}
+  ColaCan: {fileID: 434581694524963874, guid: f5517a4c6e8214168b4e7f02c16b7a78, type: 3}
+  Shoes: {fileID: 6110862512591532426, guid: 00d1329d285414637ad1f87f65b44486, type: 3}
   Hammer: {fileID: 8672767528289221475, guid: b63262e9d5877f645abde1c23fbae65c, type: 3}
 --- !u!4 &154070075
 Transform:
@@ -3371,9 +3371,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShootingBallPrefab: {fileID: 7196459049477730099, guid: 84c57544d1dd046f491210351e96fba6,
     type: 3}
-  ShootingColaCanPrefab: {fileID: 923262929662674077, guid: 4a5bd63bc6dc244468d195d03ecf05d5,
+  ShootingColaCanPrefab: {fileID: 434581694524963874, guid: f5517a4c6e8214168b4e7f02c16b7a78,
     type: 3}
-  ShootingShoesPrefab: {fileID: 4904991661840451022, guid: f96895168a2be4cc9bcf2dc8fe981f06,
+  ShootingShoesPrefab: {fileID: 6110862512591532426, guid: 00d1329d285414637ad1f87f65b44486,
     type: 3}
   ShootingMacePrefab: {fileID: 8672767528289221475, guid: b63262e9d5877f645abde1c23fbae65c,
     type: 3}
