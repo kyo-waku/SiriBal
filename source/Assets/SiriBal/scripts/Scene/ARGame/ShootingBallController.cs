@@ -69,7 +69,7 @@ public class ShootingBallController : MonoBehaviour
 
         GameObject ShootingObj = Instantiate(shootingPrefab) as GameObject;
         Ray ray = Camera.main.ScreenPointToRay(position);
-        ShootingObj.transform.position = ray.origin;
+        ShootingObj.transform.position = ray.origin + ray.direction.normalized ;
         ShootingObj.GetComponent<ShootingWatcher>().Shoot(ray.direction.normalized * ShootingForce);
     
         //投げ回数のカウント
