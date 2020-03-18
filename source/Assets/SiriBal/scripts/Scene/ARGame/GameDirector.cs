@@ -164,7 +164,7 @@ public class GameDirector : MonoBehaviour
                 }
                 if (randomCreate > 0) // ランダムに作る数が登録されている場合
                 {
-                    balloonController.RandomBalloonButtonClicked(randomCreate);
+                    balloonController.CreateRandomBalloon(randomCreate);
                     ShowDescription("ランダムにセットされたバルーンをうちおとそう");
                 }
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
@@ -173,12 +173,12 @@ public class GameDirector : MonoBehaviour
                 if (stage.GameClearCondition == Stage.ClearCondition.Yarikomi) // やりこみモード
                 {
                     // とりあえず 10個 おいておく。あとから徐々に増える
-                    balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
+                    balloonController.CreateRandomBalloon(stage.BalloonLimit);
                     ShowDescription("ひたすらバルーンをうちおとそう");
                 }
                 else
                 {
-                    balloonController.RandomBalloonButtonClicked(stage.BalloonLimit);
+                    balloonController.CreateRandomBalloon(stage.BalloonLimit);
                     ShowDescription("ランダムにセットされたバルーンをうちおとそう");
                 }
                 gameMode.GameMode = GameModeController.eGameMode.WaitTime;
@@ -304,7 +304,7 @@ public class GameDirector : MonoBehaviour
         // 定期的に増えるバルーン(DestroyedBalloonCountの初期化タイミングに注意)
         if (DestroyedBalloonCount > 0)
         {
-            balloonController.RandomBalloonButtonClicked(DestroyedBalloonCount);
+            balloonController.CreateRandomBalloon(DestroyedBalloonCount);
         }
         // ヘッダーの更新
         UpdateYarikomiHeaderContents(ScorePoint, LifePoint);
@@ -549,8 +549,8 @@ public class GameDirector : MonoBehaviour
 #endregion
 
 #region ControlGameMode
-    // ShadeUIクリック時
-    public void ShadeClicked() 
+    // DescriptionUIクリック時
+    public void DescriptionClicked() 
     {
         ControlDispWaitingScreen(false);
         if(gameMode.GameMode == GameModeController.eGameMode.None)

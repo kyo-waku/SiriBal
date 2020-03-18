@@ -6,10 +6,6 @@ using Generic.Manager;
 
 public class ShootingBallController : MonoBehaviour
 {
-    public GameObject ShootingBallPrefab;
-    public GameObject ShootingColaCanPrefab;
-    public GameObject ShootingShoesPrefab;
-    public GameObject ShootingMacePrefab;
     private GameObject GameDirector;
     public float ShootingForce = 200.0f;
 	GameModeController gameMode;

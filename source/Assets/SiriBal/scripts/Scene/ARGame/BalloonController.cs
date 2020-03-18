@@ -122,7 +122,7 @@ public class BalloonController : MonoBehaviour {
 		return new Vector3();
 	}
 
-	public void RandomBalloonButtonClicked(int balloonCount = 10)
+	public void CreateRandomBalloon(int balloonCount = 10)
 	{	
 		cameraTransform = mainCamera.transform;
 		//バルーンをランダムに生成
@@ -136,7 +136,7 @@ public class BalloonController : MonoBehaviour {
 				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
 				CreateBalloon (new Vector3 (cameraTransform.position.x + 0.0f, cameraTransform.position.y, cameraTransform.position.z + 9.0f) + RandomPosition);
 			}
-			GameDirector.GetComponent<GameDirector>().ShadeClicked();
+			GameDirector.GetComponent<GameDirector>().DescriptionClicked();
 		# else
 			//ランダム範囲(暫定。実機見ながら調整する)
 			for (int i = 0; i < balloonCount; i++) {
@@ -147,7 +147,7 @@ public class BalloonController : MonoBehaviour {
 				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
 				CreateBalloon(cameraTransform.position + RandomPosition);
 			}
-			GameDirector.GetComponent<GameDirector>().ShadeClicked();
+			GameDirector.GetComponent<GameDirector>().DescriptionClicked();
 		#endif
 	}
 
