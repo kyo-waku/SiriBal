@@ -22,7 +22,10 @@ public class YarikomiResultSceneController : MonoBehaviour
     private GameObject NewResultObject;
     [SerializeField]
     private GameObject ParticleEffect;
-
+    [SerializeField]
+    private GameObject NameInput;
+    [SerializeField]
+    private GameObject NameInputTextFiled;
     // --- Processes ---
     void Start()
     {
@@ -123,5 +126,26 @@ public class YarikomiResultSceneController : MonoBehaviour
         Screen.autorotateToLandscapeRight = false;
         // シーン遷移
         gameSceneMng.ChangeScene(GameScenes.Home);
+    }
+
+    public void RegisterButtonClicked()
+    {
+        NameInput.SetActive(true);
+    }
+    public void OkayButtonClicked()
+    {
+        var scoreMng = new ScoreManager(DataManager.service);
+        var userName = NameInputTextFiled.GetComponent<Text>().text;
+        var score = DataManager.MyLatestRecord;
+        if (score != null)
+        {
+            score.UserName = userName;
+            scoreMng.RegisterRecord(score); //最新の結果を名前付きで送る
+        }
+        NameInput.SetActive(false);
+    }
+    public void CancelButtonClicked()
+    {
+        NameInput.SetActive(false);
     }
 }
