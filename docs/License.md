@@ -12,8 +12,18 @@
 
 ## 3Dモデル
 
-1. []()
-1. []()
+1. [Cola Can](https://assetstore.unity.com/packages/3d/cola-can-96659) - Unity Assetのフリー素材
+Asset Licenses
+Extension Asset
+One license required for each individual user.
+For more information, check the EULA and FAQ.
+
+1. [Female Ankle Boots - Photoscanned](https://assetstore.unity.com/packages/3d/props/clothing/female-ankle-boots-photoscanned-159578) - Unity Assetのフリー素材
+Asset Licenses
+Extension Asset
+One license required for each individual user.
+For more information, check the EULA (https://unity3d.com/legal/as_terms) and FAQ (https://assetstore.unity.com/browse/eula-faq).
+
 1. []()
 1. []()
 1. []()
