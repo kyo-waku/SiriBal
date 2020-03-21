@@ -18,10 +18,7 @@ public class TopSceneController : MonoBehaviour
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;
     }
-    public void Update()
-    {
 
-    }
     public void PlayButtonClicked()
     {
         // 他の画面は回転してもOK
