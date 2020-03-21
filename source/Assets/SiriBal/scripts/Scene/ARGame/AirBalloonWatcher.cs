@@ -119,7 +119,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 }
                 //攻撃する
                 AttackTime += Time.deltaTime;
-                if (AttackTime >= ActionSpan){
+                if (AttackTime >= AttackSpan){
                     AttackTime = 0.0f;
                     if (AttackWeapon != null)
                     {

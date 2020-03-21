@@ -178,7 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BreakCount: 3
   isAction: 1
-  AttackWeapon: {fileID: 0}
+  AttackWeapon: {fileID: 2000341097746316527, guid: 370cabc4defe741cea9d757a7c1d80fb,
+    type: 3}
   particle: {fileID: 7691797426215294610, guid: 873f11d22e5074c28b85f2c5629c8640,
     type: 3}
 --- !u!23 &-578271968255581640
