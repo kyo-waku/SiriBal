@@ -257,30 +257,33 @@ public class GameDirector : MonoBehaviour
         }
         else
         {
-            TimeValue -= Time.deltaTime;
-            UpdateHeaderContents(TimeValue, (BalloonCounter - DestroyedBalloonCount), ThrowCounter);
-            if (TimeValue < 0 || BalloonCounter <= DestroyedBalloonCount || ThrowCounter > stage.ShootingLimit) //ThrowConterを ==  で判定すると最後の1つを投げた瞬間に終わってしまう
-            {
-                if (stage.GameClearCondition == Stage.ClearCondition.None) // クリア条件なし = 通常の点数制
-                {
-                    gameSceneMng.ChangeScene(GameScenes.Result);
-                }
-                else if (stage.GameClearCondition == Stage.ClearCondition.DestroyAll) // ウェポン獲得ゲームの場合
-                {
-                    var wr = new WeaponResult();
-                    wr.ClearFlag = (BalloonCounter <= DestroyedBalloonCount)? true : false;
-                    stage.GetRegisteredShootingWeapons(out var weapons);
-                    if(weapons != null)
-                    {
-                        if(weapons.Count > 0)
-                        {
-                            wr.Weapon = weapons[0]; // ウェポン獲得ゲームの場合、ウェポン数は基本的に1個
-                            DataManager.WResult = wr;
-                            gameSceneMng.ChangeScene(GameScenes.WeaponResult);
-                        }
-                    }
-                }
-            }
+            // --------
+            // やりこみモード以外は一旦コメントアウトしておく
+            // --------
+            // TimeValue -= Time.deltaTime;
+            // UpdateHeaderContents(TimeValue, (BalloonCounter - DestroyedBalloonCount), ThrowCounter);
+            // if (TimeValue < 0 || BalloonCounter <= DestroyedBalloonCount || ThrowCounter > stage.ShootingLimit) //ThrowConterを ==  で判定すると最後の1つを投げた瞬間に終わってしまう
+            // {
+            //     if (stage.GameClearCondition == Stage.ClearCondition.None) // クリア条件なし = 通常の点数制
+            //     {
+            //         gameSceneMng.ChangeScene(GameScenes.Result);
+            //     }
+            //     else if (stage.GameClearCondition == Stage.ClearCondition.DestroyAll) // ウェポン獲得ゲームの場合
+            //     {
+            //         var wr = new WeaponResult();
+            //         wr.ClearFlag = (BalloonCounter <= DestroyedBalloonCount)? true : false;
+            //         stage.GetRegisteredShootingWeapons(out var weapons);
+            //         if(weapons != null)
+            //         {
+            //             if(weapons.Count > 0)
+            //             {
+            //                 wr.Weapon = weapons[0]; // ウェポン獲得ゲームの場合、ウェポン数は基本的に1個
+            //                 DataManager.WResult = wr;
+            //                 gameSceneMng.ChangeScene(GameScenes.WeaponResult);
+            //             }
+            //         }
+            //     }
+            // }
         }
     }
 

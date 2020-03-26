@@ -11,21 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/SiriBal/Top.unity
     guid: 9b5e75f2c7c0945ae83c2e6e46e4b191
-  - enabled: 0
-    path: Assets/SiriBal/Login.unity
-    guid: b505196843966479299a6be6a20b04fc
-  - enabled: 0
-    path: Assets/SiriBal/UserRegistered.unity
-    guid: 157ce0a1097fb4fc995384e84736217a
   - enabled: 1
     path: Assets/SiriBal/Home.unity
     guid: 7c286c43830484d71be17426773cebb7
   - enabled: 1
     path: Assets/SiriBal/SeriousBalloon.unity
     guid: 3092d739bd1c6486d9863988d81e3b65
-  - enabled: 1
-    path: Assets/SiriBal/Result.unity
-    guid: 889f6d70f3e4b40feadfcb726c48f90e
   - enabled: 1
     path: Assets/SiriBal/WeaponResult.unity
     guid: aa1edc7dc94354d0c8a5e6bc8d80163a
