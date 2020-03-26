@@ -140,7 +140,7 @@ public class YarikomiResultSceneController : MonoBehaviour
         if (score != null)
         {
             score.UserName = userName;
-            scoreMng.RegisterRecord(score); //最新の結果を名前付きで送る
+            //scoreMng.RegisterRecord(score); //最新の結果を名前付きで送る
         }
         NameInput.SetActive(false);
     }

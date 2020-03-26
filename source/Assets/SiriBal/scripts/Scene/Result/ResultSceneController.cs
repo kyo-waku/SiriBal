@@ -24,17 +24,6 @@ public class ResultSceneController : MonoBehaviour
         gameSceneMng = new GameSceneManager();
         
         _myRecord = DataManager.MyLatestRecord;
-        if (_myRecord != null)
-        {
-            resultScoreText = GameObject.Find("ResultScore");
-            resultScoreText.GetComponent<Text>().text = _myRecord.GameScore().ToString("F0")+" !!";
-            Result_DestroyRateText = GameObject.Find("Result_DestroyRate");
-            Result_DestroyRateText.GetComponent<Text>().text = ((_myRecord.BalloonScore)/10).ToString("F0")+" %";
-            Result_TimeScoreText = GameObject.Find("Result_TimeScore");
-            Result_TimeScoreText.GetComponent<Text>().text = ((_myRecord.TimeScore)/10).ToString("F0")+" %";
-            Result_HitPropabilityText = GameObject.Find("Result_HitPropability");
-            Result_HitPropabilityText.GetComponent<Text>().text = ((_myRecord.HitScore)/10).ToString("F0")+" %";
-        }
         NameInput.SetActive(false);
     }
 
@@ -66,7 +55,7 @@ public class ResultSceneController : MonoBehaviour
         if (score != null)
         {
             score.UserName = userName;
-            scoreMng.RegisterRecord(score); //最新の結果を名前付きで送る
+            //scoreMng.RegisterRecord(score); //最新の結果を名前付きで送る
         }
         NameInput.SetActive(false);
     }

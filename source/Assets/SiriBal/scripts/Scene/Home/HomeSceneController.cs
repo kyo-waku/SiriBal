@@ -77,12 +77,13 @@ public class HomeSceneController : MonoBehaviour
         // 情報更新フラグ
         updateFlag = true;
         InitializeOptionsUI();
+        _scoreManager.GetAllRecordsFromDatabase();
     }
     public void Update()
     {
         if(GameObject.Find("RankToggle").GetComponent<Toggle>().isOn)
         {
-            UpdateRanks(GetRecords());
+            UpdateRanks(_scoreManager.GetRecords());
         }
         else if(GameObject.Find("WeaponToggle").GetComponent<Toggle>().isOn)
         {
@@ -224,17 +225,6 @@ public class HomeSceneController : MonoBehaviour
 #endregion 
 
 #region RANK-UI
-    private List<Record> GetRecords()
-    {
-        var result = _scoreManager.GetAllRecords(out var records);
-        if (result == DefinedErrors.Pass){
-            if (records != null){
-                return records;
-            }
-        }
-        return null; // empty
-    }
-
     private void UpdateRanks(List<Record> records)
     {
         if (records == null)
@@ -250,7 +240,7 @@ public class HomeSceneController : MonoBehaviour
                 objName = "Score"+ (count+1);
                 // 0個目:Label, 1個目:Score, 2個目:Name　の順にScoreにぶら下がっている。（これ崩さないでね・・・）
                 GameObject.Find(objName).transform.GetChild(0).gameObject.GetComponent<Text>().text = (count+1).ToString();
-                GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].GameScore().ToString();
+                GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].TotalScore.ToString();
                 GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
             }
             

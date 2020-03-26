@@ -44,42 +44,15 @@ namespace Generic
     //--------------
     // スコアの管理用クラス
     //--------------
-    public class Record: IComparable
+    public class Record
     {
         // Members
         public string UserName{get;set;}
-        
-        //-- Time result
-        public int TimeScore{get;set;}
-
-        //-- Balloon result
-        public int BalloonScore{get;set;}
-
-        public int HitScore{get;set;}
-
-        // Date and Time
-        public DateTime PlayDateTime{get;set;}
-
-        // Methods
-        //-- Get/Set
-        public int GameScore(int alpha = 20, int beta = 10, int ganma = 5 ){
-            return TimeScore * alpha + BalloonScore * beta + HitScore* ganma ;
-        }
-
-        public Record(string name, int time, int balloon, int hit, DateTime date)
+        public int TotalScore{get;set;}
+        public Record(string name, int score)
         {
             UserName = name;
-            TimeScore = time;
-            BalloonScore = balloon;
-            HitScore = hit;
-            PlayDateTime = date;
-        }
-
-            
-        public int CompareTo(object obj) 
-        {
-            Record i = obj as Record;
-            return this.GameScore().CompareTo(i.GameScore());
+            TotalScore = score;
         }
     }
 

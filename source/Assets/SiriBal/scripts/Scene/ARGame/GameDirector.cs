@@ -263,8 +263,6 @@ public class GameDirector : MonoBehaviour
             {
                 if (stage.GameClearCondition == Stage.ClearCondition.None) // クリア条件なし = 通常の点数制
                 {
-                    var record = ConvertScoreToRecord();
-                    DataManager.MyLatestRecord = record;
                     gameSceneMng.ChangeScene(GameScenes.Result);
                 }
                 else if (stage.GameClearCondition == Stage.ClearCondition.DestroyAll) // ウェポン獲得ゲームの場合
@@ -575,22 +573,4 @@ public class GameDirector : MonoBehaviour
 
 #endregion
 
-
-    // スコアの定義はここで決まる。
-    public Record ConvertScoreToRecord()
-    {
-        var UserName = "Guest"; // consider later
-        var timeScore = (int)(1000 * TimeValue / stage.TimeLimit);
-        var balloonScore = (int)( 1000 * (BalloonCounter - DestroyedBalloonCount) / BalloonCounter );
-        int HitProbability;
-        if (ThrowCounter != 0)
-        {
-            HitProbability = (int)((Score * 1000) / ThrowCounter);
-        }
-        else
-        {
-            HitProbability = 0;
-        }
-        return new Record(UserName, timeScore, balloonScore, HitProbability, DateTime.Now);
-    }
 }
