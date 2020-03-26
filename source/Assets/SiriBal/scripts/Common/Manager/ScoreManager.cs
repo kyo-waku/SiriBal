@@ -75,14 +75,7 @@ namespace Generic.Manager{
         {
             var result = DefinedErrors.Pass;
             Ranks = new List<Record>();
-            // 1. ローカルにある１個以下のレコードを確認する // 一旦ローカルは無視（サーバーに入ればあとでとれる）
-            // var record = LoadRecordFromLocal();
-            // if (record != null)
-            // {
-            //     DataManager.MyBestRecord = record;
-            // }
-
-            // 2. サーバーにある０個以上のレコードを取得する
+            // サーバーにある０個以上のレコードを取得する
             if (!fetchComplete)
             {
                 LoadRecordFromRemote();
@@ -128,64 +121,22 @@ namespace Generic.Manager{
 
         internal void SaveRecordToRemote(Record record)
         {
-            AddEntry(
-            entry: record,
-            onComplete: () =>
-            {
-                //  成功時
-                Debug.Log("registered");
-            },
-            onError: (exception) =>
-            {
-                //  失敗時
-                Debug.LogException(exception);
-            }
-            );
+            
         }
         public void AddEntry(Record entry, Action onComplete, Action<AggregateException> onError)
         {
-            service.AddEntryAsync(entry).ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    onError?.Invoke(task.Exception);
-                }
-                else
-                {
-                    onComplete?.Invoke();
-                }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            
         }
 
         internal void LoadRecordFromRemote()
         {
-            UpdateEntries(
-            onComplete: () =>
-            {
-            },
-            onError: (exception) =>
-            {
-                Debug.LogException(exception);
-            }
-            );
+            
         }
 
 
         public void UpdateEntries(Action onComplete, Action<AggregateException> onError)
         {
-            service.GetTopEntriesAsync(fetchCount).ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    onError?.Invoke(task.Exception);
-                }
-                else
-                {
-                    entries.Clear();
-                    entries.AddRange(task.Result);
-                    onComplete?.Invoke();
-                }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            
         }
 
         // やりこみモード用
