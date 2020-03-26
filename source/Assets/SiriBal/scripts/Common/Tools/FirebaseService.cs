@@ -32,14 +32,13 @@ namespace Generic.Firebase
             _database = FirebaseDatabase.DefaultInstance.GetReference(DATABASE_KEY);
         }
 
+        // Firebase Realtime Database から 登録されているレコードを取得する
         public async Task<List<Record>> GetRankingData(int fetchCount = 8) {
             
             return await _database.OrderByChild(ENTRY_SCORE).LimitToLast(fetchCount).GetValueAsync().ContinueWith(task => {
                 var records = new List<Record>();
                 if (task.IsFaulted) {
-                    Debug.Log("[ERROR] failed to get ranking");
                 } else if (task.IsCompleted) {
-                    Debug.Log("[INFO] get ranking success");
                     DataSnapshot snapshot = task.Result;
                     IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
                     while (result.MoveNext()) {
@@ -48,11 +47,24 @@ namespace Generic.Firebase
                         // Firebaseの数値データはLong型となっているので、一度longで受け取った後にintにキャスト
                         int score   = (int)(long)data.Child(ENTRY_SCORE).Value;
                         records.Add(new Record(name, score));
-                        Debug.Log(name);
                     }
                 }
                 return records;
             });
+        }
+
+        // Firebase Realtime Database に書き込む
+        public void WriteNewScore(Record record) {
+            string key = FirebaseDatabase.DefaultInstance.GetReference(DATABASE_KEY).Push().Key;
+            Guid guid = Guid.NewGuid();
+            Dictionary<string, object> itemMap = new Dictionary<string, object>();
+            itemMap.Add("name", record.UserName);
+            itemMap.Add("id", guid.ToString());
+            itemMap.Add("score", record.TotalScore);
+            itemMap.Add("updatedate", System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            Dictionary<string, object> map = new Dictionary<string, object>();
+            map.Add(guid.ToString(), itemMap);
+            _database.UpdateChildrenAsync(map);
         }
     }
 }

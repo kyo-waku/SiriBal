@@ -26,6 +26,8 @@ public class YarikomiResultSceneController : MonoBehaviour
     private GameObject NameInput;
     [SerializeField]
     private GameObject NameInputTextFiled;
+    [SerializeField]
+    private GameObject RegisterButton;
     // --- Processes ---
     void Start()
     {
@@ -105,8 +107,6 @@ public class YarikomiResultSceneController : MonoBehaviour
             bestObj.GetComponent<Text>().text = best.ToString();
         }
     }
-
-
     public void RestartButtonClicked()
     {
         var stage = new Stage(yarikomiStage_rank1);
@@ -115,6 +115,8 @@ public class YarikomiResultSceneController : MonoBehaviour
         // 回転の制御を戻す
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;
+        // 一応戻す
+        RegisterButton.SetActive(true);
         // シーン遷移
         gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
@@ -123,7 +125,9 @@ public class YarikomiResultSceneController : MonoBehaviour
     {
         // 回転の制御を戻す
         Screen.autorotateToLandscapeLeft = false;
-        Screen.autorotateToLandscapeRight = false;
+        Screen.autorotateToLandscapeRight = false; 
+        // 一応戻す
+        RegisterButton.SetActive(true);
         // シーン遷移
         gameSceneMng.ChangeScene(GameScenes.Home);
     }
@@ -136,13 +140,11 @@ public class YarikomiResultSceneController : MonoBehaviour
     {
         var scoreMng = new ScoreManager(DataManager.service);
         var userName = NameInputTextFiled.GetComponent<Text>().text;
-        var score = DataManager.MyLatestRecord;
-        if (score != null)
-        {
-            score.UserName = userName;
-            //scoreMng.RegisterRecord(score); //最新の結果を名前付きで送る
-        }
+        var score = scoreMng.LoadYarikomiLatestFromLocal();
+        scoreMng.RegisterRecordToDatabase(new Record(userName, score));
+        
         NameInput.SetActive(false);
+        RegisterButton.SetActive(false);
     }
     public void CancelButtonClicked()
     {

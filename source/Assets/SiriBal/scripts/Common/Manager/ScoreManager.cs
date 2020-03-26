@@ -31,6 +31,11 @@ namespace Generic.Manager{
             return records;
         }
 
+        public void RegisterRecordToDatabase(Record record)
+        {
+            service.WriteNewScore(record);
+        }
+
         // やりこみモード用
         // ローカルキャッシュに登録
         public void SaveYarikomiScoreToLocal(int score){

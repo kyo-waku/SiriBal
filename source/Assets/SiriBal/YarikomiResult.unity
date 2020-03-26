@@ -1861,6 +1861,7 @@ MonoBehaviour:
     type: 3}
   NameInput: {fileID: 2144266916}
   NameInputTextFiled: {fileID: 29077613}
+  RegisterButton: {fileID: 1671184354}
 --- !u!4 &1452939113
 Transform:
   m_ObjectHideFlags: 0
