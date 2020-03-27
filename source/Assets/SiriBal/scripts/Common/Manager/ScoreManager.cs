@@ -7,7 +7,7 @@ using Generic.Firebase;
 using System.Threading.Tasks;
 
 namespace Generic.Manager{
-    public class ScoreManager : MonoBehaviour
+    public class ScoreManager
     {
         FirebaseService service;
         private List<Record> records;
