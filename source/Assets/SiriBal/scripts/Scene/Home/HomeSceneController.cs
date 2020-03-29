@@ -25,7 +25,7 @@ public class HomeSceneController : MonoBehaviour
     // RANK UI
     private ScoreManager _scoreManager;
     private List<Record> _records;
-    private bool updateFlag;
+    private bool rankUpdateFlag;
     //---------
 
     // WEAPON UI
@@ -37,6 +37,8 @@ public class HomeSceneController : MonoBehaviour
     Sprite hammer_on;
     [SerializeField]
     Sprite hammer_off;
+    [SerializeField]
+    GameObject WeaponPropertyDialog;
     //--------
 
 
@@ -75,9 +77,10 @@ public class HomeSceneController : MonoBehaviour
         Screen.autorotateToLandscapeRight = false;
 
         // 情報更新フラグ
-        updateFlag = true;
+        rankUpdateFlag = true;
         InitializeOptionsUI();
         _scoreManager.GetAllRecordsFromDatabase();
+        LoadWeaponResultFromCache();
     }
     public void Update()
     {
@@ -85,11 +88,6 @@ public class HomeSceneController : MonoBehaviour
         {
             UpdateRanks(_scoreManager.GetRecords());
         }
-        else if(GameObject.Find("WeaponToggle").GetComponent<Toggle>().isOn)
-        {
-            LoadWeaponResultFromCache();
-        }
-
         // UIの更新(SWIPE)
         if(IsSwipeOutPlayMode) SwipeOutPlayModeUI();
         if(IsSwipeInStages) SwipeInStageUI();
@@ -222,6 +220,27 @@ public class HomeSceneController : MonoBehaviour
 
         DescriptionUI.SetActive(false);
     }
+
+    private void GameStart()
+    {
+        UpdateCurrentVibrationOption();
+        // 他の画面は回転してもOK
+        Screen.autorotateToLandscapeLeft = true;
+        Screen.autorotateToLandscapeRight = true;
+        FadeWithChangeScene();
+    }
+
+    private void FadeWithChangeScene()
+    {
+		FadeObject.FadeIn (1, () => {
+			Invoke("GameSceneStart",0.1f);
+		});
+	}
+	public void GameSceneStart()
+    {
+		_gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
+    }
+
 #endregion 
 
 #region RANK-UI
@@ -231,7 +250,7 @@ public class HomeSceneController : MonoBehaviour
         {
             return ;
         }
-        if (records.Count > 0 && updateFlag == true)
+        if (records.Count > 0 && rankUpdateFlag == true)
         {
             // 基本、固定で8個なのでベタ書きする
             var objName = "";
@@ -253,7 +272,7 @@ public class HomeSceneController : MonoBehaviour
                     GameObject.Find(objName).SetActive(false);
                 }
             }
-            updateFlag = false; // 更新完了
+            rankUpdateFlag = false; // 更新完了
         }
     }
 
@@ -276,55 +295,20 @@ public class HomeSceneController : MonoBehaviour
         }
     }
 
-    // Weapon番号でゲームスタートする
-    // 番号は基本的にWeaponsのEnum定義どおりに使うこと
-    public void WeaponGameStartButtonClicked(int weapon)
+    // Weapon の詳細を表示
+    public void ShowWeaponPropertyDialog()
     {
-        var sceneChangeFlag = false;
-        switch((Weapons)weapon)
-        {
-            case Weapons.Stone:
-                var stage = StageDefines.StoneStage;
-                foreach (var position in StageDefines.StoneStageArrangement)
-                {
-                    stage.RegisterBalloonPosition(position);
-                }
-                stage.RegisterShootingWeaponKeys(new List<Weapons>(){Weapons.Stone});
-                stage.SetStageDescription("すべてのバルーンを撃ち落としてみよう");
-                DataManager.currentStage = stage;
-                sceneChangeFlag = true;
-                break;
-            case Weapons.Hammer:
-                break;
-            default:
-                break;
-        }
+        WeaponPropertyDialog.SetActive(true);
 
-        // 変更フラグあり
-        if(sceneChangeFlag)
-        {
-            GameStart();
-        }
     }
 
-    private void GameStart()
+    public void CloseWeaponPropertyButtonClicked()
     {
-        UpdateCurrentVibrationOption();
-        // 他の画面は回転してもOK
-        Screen.autorotateToLandscapeLeft = true;
-        Screen.autorotateToLandscapeRight = true;
-        FadeWithChangeScene();
+        Invoke("CloseWeaponPropertyDialog",0.1f);
     }
-
-    private void FadeWithChangeScene()
+    private void CloseWeaponPropertyDialog()
     {
-		FadeObject.FadeIn (1, () => {
-			Invoke("GameSceneStart",0.1f);
-		});
-	}
-	public void GameSceneStart()
-    {
-		_gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
+        WeaponPropertyDialog.SetActive(false);
     }
 #endregion
 
