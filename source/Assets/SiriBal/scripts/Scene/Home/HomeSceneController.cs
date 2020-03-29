@@ -329,6 +329,10 @@ public class HomeSceneController : MonoBehaviour
                 var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey((Weapons)weaponValue);
                 if (weaponData != null)
                 {
+                    // TODO #58
+                    // ウェポン獲得の実装をしていないので、とりあえず全部見れるようにしている。
+                    // 本来はcache == 1 で image_on を表示し、 cache == 0 の場合は追加で、
+                    // ボタンを無効にするか、未開放のウェポンとして、ウェポンの説明画面を表示する
                     obj.GetComponent<Image>().sprite = (cache == 0)? weaponData.image_on: weaponData.image_off;
                 }
             }
