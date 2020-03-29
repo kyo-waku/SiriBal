@@ -27,7 +27,10 @@ namespace Generic.Manager{
 
         public List<Record> GetRecords()
         {
-            records.Sort((a,b) => b.TotalScore - a.TotalScore);
+            if (records != null)
+            {
+                records.Sort((a,b) => b.TotalScore - a.TotalScore);
+            }
             return records;
         }
 
