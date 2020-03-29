@@ -299,7 +299,6 @@ public class HomeSceneController : MonoBehaviour
     public void ShowWeaponPropertyDialog()
     {
         WeaponPropertyDialog.SetActive(true);
-
     }
 
     public void CloseWeaponPropertyButtonClicked()

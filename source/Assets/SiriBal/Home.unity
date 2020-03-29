@@ -3535,7 +3535,7 @@ MonoBehaviour:
   delay: 0
   style: 2
   playOnAwake: 1
-  m_progress: 0.02
+  m_progress: 0.95419633
   usePosition: 1
   useRotation: 0
   useScale: 0
@@ -3775,7 +3775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &556359962
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5794,6 +5794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1093888331}
   - component: {fileID: 1093888332}
+  - component: {fileID: 1093888333}
   m_Layer: 5
   m_Name: Radar
   m_TagString: Untagged
@@ -5808,7 +5809,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093888330}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5816,7 +5817,7 @@ RectTransform:
   - {fileID: 110085478}
   m_Father: {fileID: 1432429583}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -400}
@@ -5830,6 +5831,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093888330}
   m_CullTransparentMesh: 0
+--- !u!114 &1093888333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093888330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2c18b809c2048b5bb37e069afdd8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1140150376
 GameObject:
   m_ObjectHideFlags: 0
@@ -7027,7 +7040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1361126634
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9911,7 +9924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1842044592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11359,6 +11372,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1640527259}
         m_MethodName: CloseWeaponPropertyDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1093888333}
+        m_MethodName: InitialzeRadar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
