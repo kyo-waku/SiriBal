@@ -22,10 +22,12 @@ using System;
 		[SerializeField]
 		[Range (0f, 1f)]
 		private float MaxVolume = 1f;
+		public float[] Volumes;
 
-		[SerializeField]
-		private float[] Volumes;
-
+		public int GetVerticesCount()
+		{
+			return VerticesCount;
+		}
 		private void SetVolume (int idx, float value)
 		{
 			if (this.Volumes.Length < idx) {

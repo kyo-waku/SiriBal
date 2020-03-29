@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,6 +40,9 @@ public class HomeSceneController : MonoBehaviour
     Sprite hammer_off;
     [SerializeField]
     GameObject WeaponPropertyDialog;
+    [SerializeField]
+    GameObject WeaponInformationHolder;
+    private bool weaponLoadFlag;
     //--------
 
 
@@ -81,22 +85,25 @@ public class HomeSceneController : MonoBehaviour
 
         // 情報更新フラグ
         rankUpdateFlag = true;
+        weaponLoadFlag = true;
         // ベストスコアを表示
         InitialzeBestScoreUI();
         // オプション画面の設定をキャッシュから取得して初期化する
         InitializeOptionsUI();
         // ランキング情報をサーバーから取得しておく（非同期）
         _scoreManager.GetAllRecordsFromDatabase();
-        // ウェポンの獲得状況をキャッシュから読み込んでおく
-        LoadWeaponResultFromCache();
     }
     public void Update()
     {
-        if(GameObject.Find("RankToggle").GetComponent<Toggle>().isOn)
+        if(GameObject.Find("RankToggle").GetComponent<Toggle>().isOn && rankUpdateFlag == true)
         {
             // ランキング画面の更新はUpdate処理で実施する。更新完了時は内部でフラグを立てて処理はスキップさせる。
             // NOTE: 1回きりのコールにしないのは、サーバーからの再取得処理を実装するとき、フラグの切り替えだけで完結するから。
             UpdateRanks(_scoreManager.GetRecords());
+        }
+        else if (GameObject.Find("WeaponToggle").GetComponent<Toggle>().isOn && weaponLoadFlag == true)
+        {
+            LoadWeaponResultFromCache();
         }
         // UIの更新(SWIPE): やりこみモード以外は一旦隠しているので、スワイプの動作も不要
         // if(IsSwipeOutPlayMode) SwipeOutPlayModeUI();
@@ -279,7 +286,7 @@ public class HomeSceneController : MonoBehaviour
         {
             return ;
         }
-        if (records.Count > 0 && rankUpdateFlag == true)
+        if (records.Count > 0)
         {
             // 基本、固定で8個なのでベタ書きする
             var objName = "";
@@ -310,24 +317,95 @@ public class HomeSceneController : MonoBehaviour
 #region WEAPON-UI
     private void LoadWeaponResultFromCache()
     {
-        var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
-        if (stone == 1)
+        // キャッシュからロード
+        foreach(var weaponValue in Enum.GetValues(typeof(Weapons)))
         {
-            GameObject.Find("Weapon1").GetComponent<Image>().sprite = stone_on;
-            // Stone Button Be Active
+            string weaponName = Enum.GetName(typeof(Weapons), weaponValue);
+            var cache = PlayerPrefs.GetInt(weaponName, 0);
+            var objName = "Weapon" + (int)weaponValue;
+            var obj = GameObject.Find(objName);
+            if (obj != null)
+            {
+                var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey((Weapons)weaponValue);
+                if (weaponData != null)
+                {
+                    obj.GetComponent<Image>().sprite = (cache == 0)? weaponData.image_on: weaponData.image_off;
+                }
+            }
         }
-        var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
-        if (hammer == 1)
-        {
-            GameObject.Find("Weapon2").GetComponent<Image>().sprite = hammer_on;
-            // Hammer Button Be Active
-        }
+        // var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
+        // if (stone == 1)
+        // {
+        //     GameObject.Find("Weapon1").GetComponent<Image>().sprite = stone_on;
+        //     // Stone Button Be Active
+        // }
+        // var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
+        // if (hammer == 1)
+        // {
+        //     GameObject.Find("Weapon2").GetComponent<Image>().sprite = hammer_on;
+        //     // Hammer Button Be Active
+        // }
+
+        // 読み込み完了
+        weaponLoadFlag = false;
     }
 
     // Weapon の詳細を表示
-    public void ShowWeaponPropertyDialog()
+    public void ShowWeaponPropertyDialog(int weaponKey)
     {
         WeaponPropertyDialog.SetActive(true);
+        var weapon = (Weapons)Enum.ToObject(typeof(Weapons), weaponKey);
+        ShowCurrentWeaponInformation(weapon);
+    }
+
+    private void ShowCurrentWeaponInformation(Weapons weapon)
+    {
+        // ウェポン名
+        var weaponName = GameObject.Find("WeaponName");
+        if (weaponName != null)
+        {
+            weaponName.GetComponent<Text>().text = weapon.ToString();
+        }
+        // ウェポン画像
+        var weaponImage = GameObject.Find("WeaponImage");
+        if (weaponImage != null)
+        {
+            var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
+            if (weaponData != null)
+            {
+                weaponImage.GetComponent<Image>().sprite = weaponData.image_on;
+            }
+        }
+        // ウェポンの説明
+        var weaponExplanation = GameObject.Find("WeaponExplanation");
+        if (weaponExplanation != null)
+        {
+            var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
+            if (weaponData != null)
+            {
+                weaponExplanation.GetComponent<Text>().text = weaponData.explanation;
+            }
+        }
+        // レーダーチャート
+        var radarPoly = GameObject.Find("RadarPoly");
+        if (radarPoly != null)
+        {
+            var radar = radarPoly.GetComponent<RadarChartController>();
+            if (radar != null)
+            {
+                var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
+                if (weaponData != null)
+                {
+                    radar.Volumes = new float[]{
+                                                (float)weaponData.attack/5,
+                                                (float)weaponData.size/5,
+                                                (float)weaponData.distance/5,
+                                                (float)weaponData.penetrate/5,
+                                                (float)weaponData.rapidfire/5
+                                                };
+                }
+            }
+        }
     }
 
     public void CloseWeaponPropertyButtonClicked()

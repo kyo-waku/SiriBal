@@ -33,12 +33,12 @@ namespace Generic
     // GetRegisteredShootingWeaponsで全ウェポンを返すところがあるのでWeaponを増やしたらそこも増やすこと
     // バルーンが使うWeaponはちょっと挙動が違うのであとで別の定義に分けるかも・・・
     public enum Weapons{
+        Missile = -1, // (プレイヤーの武器じゃないので別にしておきたい)
         None = 0,
         Stone,
         ColaCan,
         Shoes,
         Hammer,
-        Missile,
     }
 
     //--------------
