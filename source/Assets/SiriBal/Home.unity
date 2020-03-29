@@ -3535,7 +3535,7 @@ MonoBehaviour:
   delay: 0
   style: 2
   playOnAwake: 1
-  m_progress: 0.4238319
+  m_progress: 0.584925
   usePosition: 1
   useRotation: 0
   useScale: 0
@@ -4249,11 +4249,11 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: be4afa2a3ff804c95abff81f989ceca8, type: 3}
-    m_FontSize: 120
+    m_Font: {fileID: 12800000, guid: 6456392a0b3004bcea46b4fea175209d, type: 3}
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 150
     m_Alignment: 7
     m_AlignByGeometry: 0
@@ -4261,7 +4261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BEST SCORE
+  m_Text: "\u3053\u308C\u307E\u3067\u306E\u30D9\u30B9\u30C8\u30B9\u30B3\u30A2"
 --- !u!222 &678674296
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8748,9 +8748,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeObject: {fileID: 175778721}
-  easyStage: {fileID: 11400000, guid: 6c0e6ba7ab4da451d948a05a07773c9f, type: 2}
-  normalStage: {fileID: 11400000, guid: 663c1ed35bcc04525a5b28a34ccd4e79, type: 2}
-  hardStage: {fileID: 11400000, guid: d7b3295b3857c40bcbede3fa3665d905, type: 2}
   yarikomiStage_rank1: {fileID: 11400000, guid: 9606d462f24ce4d2dae29a7c1be009b0,
     type: 2}
   stone_on: {fileID: 21300000, guid: 883e2ec99f14e4ccdb3a4c931a1484da, type: 3}
@@ -8759,7 +8756,7 @@ MonoBehaviour:
   hammer_off: {fileID: 21300000, guid: aa114636835fc4b4b9d97cade5527d44, type: 3}
   WeaponPropertyDialog: {fileID: 1842044591}
   VibrationToggleObject: {fileID: 1424024693}
-  DescriptionUI: {fileID: 1390780526}
+  bestScoreValueText: {fileID: 1684307654}
 --- !u!4 &1640527260
 Transform:
   m_ObjectHideFlags: 0
@@ -9154,13 +9151,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 150
-    m_Alignment: 2
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1234
+  m_Text: 
 --- !u!222 &1684307658
 CanvasRenderer:
   m_ObjectHideFlags: 0

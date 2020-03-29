@@ -12,19 +12,19 @@ public class HomeSceneController : MonoBehaviour
 
     [SerializeField]
     Fade FadeObject;
-    //----------
 
-    //　STAGE DATA (Ref for scriptable objects)
-    public StageData easyStage;
-    public StageData normalStage;
-    public StageData hardStage;
+    // STAGE DATA (Ref for scriptable objects)
+    // NOTE: easy,normal,hard は現在使用していません
+    // 
+    // public StageData easyStage;
+    // public StageData normalStage;
+    // public StageData hardStage;
     public StageData yarikomiStage_rank1;
 
     //---------
 
     // RANK UI
     private ScoreManager _scoreManager;
-    private List<Record> _records;
     private bool rankUpdateFlag;
     //---------
 
@@ -49,26 +49,29 @@ public class HomeSceneController : MonoBehaviour
     //--------
 
     // GAME UI
-    private enum StageIndices
-    {
-        easy = 1,
-        normal,
-        hard,
-    }
 
+    // NOTE: 現在使用していません
+    // private enum StageIndices
+    // {
+    //     easy = 1,
+    //     normal,
+    //     hard,
+    // }
+    // NOTE: DescriptiopnUIはeasy, normal, hardの説明用だったため、一旦不要
+    // [SerializeField]
+    // GameObject DescriptionUI;
     [SerializeField]
-    GameObject DescriptionUI;
-
-    // 画面動作制御用フラグ
-    bool IsSwipeOutPlayMode = false;
-    bool IsSwipeInStages = false;
+    GameObject bestScoreValueText;
+    // NOTE: 画面動作制御用フラグ ( 現在使用していません )
+    // bool IsSwipeOutPlayMode = false;
+    // bool IsSwipeInStages = false;
     //------------
 
 #region Start-Update
     // MAIN
     public void Start()
     {
-        // 委譲
+        // マネージャー系の委譲
         _gameSceneMng = new GameSceneManager();
         _scoreManager = new ScoreManager(DataManager.service);
 
@@ -78,91 +81,103 @@ public class HomeSceneController : MonoBehaviour
 
         // 情報更新フラグ
         rankUpdateFlag = true;
+        // ベストスコアを表示
+        InitialzeBestScoreUI();
+        // オプション画面の設定をキャッシュから取得して初期化する
         InitializeOptionsUI();
+        // ランキング情報をサーバーから取得しておく（非同期）
         _scoreManager.GetAllRecordsFromDatabase();
+        // ウェポンの獲得状況をキャッシュから読み込んでおく
         LoadWeaponResultFromCache();
     }
     public void Update()
     {
         if(GameObject.Find("RankToggle").GetComponent<Toggle>().isOn)
         {
+            // ランキング画面の更新はUpdate処理で実施する。更新完了時は内部でフラグを立てて処理はスキップさせる。
+            // NOTE: 1回きりのコールにしないのは、サーバーからの再取得処理を実装するとき、フラグの切り替えだけで完結するから。
             UpdateRanks(_scoreManager.GetRecords());
         }
-        // UIの更新(SWIPE)
-        if(IsSwipeOutPlayMode) SwipeOutPlayModeUI();
-        if(IsSwipeInStages) SwipeInStageUI();
+        // UIの更新(SWIPE): やりこみモード以外は一旦隠しているので、スワイプの動作も不要
+        // if(IsSwipeOutPlayMode) SwipeOutPlayModeUI();
+        // if(IsSwipeInStages) SwipeInStageUI();
     }
     //-----------
 #endregion
 
 #region GAME-UI
-    public void GameStartButtonClicked()
-    {
-        var sceneChangeFlag = false;
-        switch (GetActiveStageIndex())
-        {
-            case StageIndices.easy:
-                DataManager.currentStage = new Stage(easyStage);
-                sceneChangeFlag = true;
-                break;
-            case StageIndices.normal:
-                DataManager.currentStage = new Stage(normalStage);
-                sceneChangeFlag = true;
-                break;
-            case StageIndices.hard:
-                DataManager.currentStage = new Stage(hardStage);
-                sceneChangeFlag = true;
-                break;
-            default:
-                break;
-        }
+
+    // NOTE: お一人様モード用の処理なので、一旦コメントアウト
+    // public void GameStartButtonClicked()
+    // {
+    //     var sceneChangeFlag = false;
+    //     switch (GetActiveStageIndex())
+    //     {
+    //         case StageIndices.easy:
+    //             DataManager.currentStage = new Stage(easyStage);
+    //             sceneChangeFlag = true;
+    //             break;
+    //         case StageIndices.normal:
+    //             DataManager.currentStage = new Stage(normalStage);
+    //             sceneChangeFlag = true;
+    //             break;
+    //         case StageIndices.hard:
+    //             DataManager.currentStage = new Stage(hardStage);
+    //             sceneChangeFlag = true;
+    //             break;
+    //         default:
+    //             break;
+    //     }
         
-        if(sceneChangeFlag)
-        {
-            GameStart();
-        }
-    }
+    //     if(sceneChangeFlag)
+    //     {
+    //         GameStart();
+    //     }
+    // }
 
-    private StageIndices GetActiveStageIndex()
-    {
-        // Stages の toggle の状態を取得する
-        var stg_easy = GameObject.Find("Easy").GetComponent<Toggle>();
-        var stg_normal = GameObject.Find("Normal").GetComponent<Toggle>();
-        var stg_hard = GameObject.Find("Hard").GetComponent<Toggle>();
+    // NOTE: お一人様モードの難易度チェックですが、現在使用していません
+    // private StageIndices GetActiveStageIndex()
+    // {
+    //     // Stages の toggle の状態を取得する
+    //     var stg_easy = GameObject.Find("Easy").GetComponent<Toggle>();
+    //     var stg_normal = GameObject.Find("Normal").GetComponent<Toggle>();
+    //     var stg_hard = GameObject.Find("Hard").GetComponent<Toggle>();
         
-        // なんもとれないとき
-        var value = StageIndices.easy;
+    //     // なんもとれないとき
+    //     var value = StageIndices.easy;
 
-        if (stg_easy.isOn)
-        {
-            value = StageIndices.easy;
-        }
-        else if (stg_normal.isOn)
-        {
-            value = StageIndices.normal;
-        }
-        else if (stg_hard.isOn)
-        {
-            value = StageIndices.hard;
-        }
-        return value;
-    }
+    //     if (stg_easy.isOn)
+    //     {
+    //         value = StageIndices.easy;
+    //     }
+    //     else if (stg_normal.isOn)
+    //     {
+    //         value = StageIndices.normal;
+    //     }
+    //     else if (stg_hard.isOn)
+    //     {
+    //         value = StageIndices.hard;
+    //     }
+    //     return value;
+    // }
 
-    public void SingleModeButtonClicked()
-    {
-        // PlayModeのUIを消し、StageのUIを出す
-        IsSwipeOutPlayMode = true;
-        IsSwipeInStages = true;
-    }
+    // NOTE: おひとり様モード（かんたん・ふつう・むずかしい）は現在使用していません
+    // public void SingleModeButtonClicked()
+    // {
+    //     // PlayModeのUIを消し、StageのUIを出す
+    //     IsSwipeOutPlayMode = true;
+    //     IsSwipeInStages = true;
+    // }
 
-    public void PairModeButtonClicked()
-    {
-        var stage = new Stage(normalStage);
-        stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
-        DataManager.currentStage = stage;
-        // 他の画面は回転してもOK
-        GameStart();
-    }
+    // NOTE: おふたりさまモードも現在使用していません
+    // public void PairModeButtonClicked()
+    // {
+    //     var stage = new Stage(normalStage);
+    //     stage.BalloonArrangementMode = Stage.ArrangementMode.Manual;
+    //     DataManager.currentStage = stage;
+    //     // 他の画面は回転してもOK
+    //     GameStart();
+    // }
 
     public void YarikomiModeButtonClicked()
     {
@@ -171,55 +186,59 @@ public class HomeSceneController : MonoBehaviour
         GameStart();
     }
 
-    private void SwipeOutPlayModeUI()
-    {
-        var playModeUI = GameObject.Find("PlayModes").GetComponent<RectTransform>();
-        var left = playModeUI.offsetMin.x - 100;
-        var right = playModeUI.offsetMax.x - 100;
-        playModeUI.offsetMin = new Vector2(left, playModeUI.offsetMin.y);
-        playModeUI.offsetMax = new Vector2(right, playModeUI.offsetMax.y);
+    // NOTE: スワイプアウトはおひとりさまモード用で、現在は使用していません
+    // private void SwipeOutPlayModeUI()
+    // {
+    //     var playModeUI = GameObject.Find("PlayModes").GetComponent<RectTransform>();
+    //     var left = playModeUI.offsetMin.x - 100;
+    //     var right = playModeUI.offsetMax.x - 100;
+    //     playModeUI.offsetMin = new Vector2(left, playModeUI.offsetMin.y);
+    //     playModeUI.offsetMax = new Vector2(right, playModeUI.offsetMax.y);
 
-        if (playModeUI.offsetMin.x < -1500 )
-        {
-            IsSwipeOutPlayMode = false;
-        }
-    }
+    //     if (playModeUI.offsetMin.x < -1500 )
+    //     {
+    //         IsSwipeOutPlayMode = false;
+    //     }
+    // }
 
-    private void SwipeInStageUI()
-    {
-        var stageUI = GameObject.Find("Stages").GetComponent<RectTransform>();
-        var left = stageUI.offsetMin.x - 100 < 0? 0 : stageUI.offsetMin.x - 100;
-        var right = stageUI.offsetMax.x - 100;
+    // NOTE: スワイプインはおひとりさまモード用で、現在は使用していません
+    // private void SwipeInStageUI()
+    // {
+    //     var stageUI = GameObject.Find("Stages").GetComponent<RectTransform>();
+    //     var left = stageUI.offsetMin.x - 100 < 0? 0 : stageUI.offsetMin.x - 100;
+    //     var right = stageUI.offsetMax.x - 100;
 
-        stageUI.offsetMin = new Vector2(left, stageUI.offsetMin.y);
-        stageUI.offsetMax = new Vector2(right, stageUI.offsetMax.y);
+    //     stageUI.offsetMin = new Vector2(left, stageUI.offsetMin.y);
+    //     stageUI.offsetMax = new Vector2(right, stageUI.offsetMax.y);
 
-        if (stageUI.offsetMin.x == 0 )
-        {
-            IsSwipeInStages = false;
-            DescriptionUI.SetActive(true);
-        }
-    }
+    //     if (stageUI.offsetMin.x == 0 )
+    //     {
+    //         IsSwipeInStages = false;
+    //         DescriptionUI.SetActive(true);
+    //     }
+    // }
 
+
+    // NOTE: スワイプ動作は現在使用していません
     // Swipe動作で移動した画面をもとに戻す
-    public void InitializeSwipedUIs()
-    {
-        var playModeObj = GameObject.Find("PlayModes");
-        if(playModeObj == null) return;
-        var playModeUI = playModeObj.GetComponent<RectTransform>();
-        playModeUI.offsetMin = new Vector2(0, playModeUI.offsetMin.y);
-        playModeUI.offsetMax = new Vector2(0, playModeUI.offsetMax.y);
-        IsSwipeOutPlayMode = false;
+    // public void InitializeSwipedUIs()
+    // {
+    //     var playModeObj = GameObject.Find("PlayModes");
+    //     if(playModeObj == null) return;
+    //     var playModeUI = playModeObj.GetComponent<RectTransform>();
+    //     playModeUI.offsetMin = new Vector2(0, playModeUI.offsetMin.y);
+    //     playModeUI.offsetMax = new Vector2(0, playModeUI.offsetMax.y);
+    //     IsSwipeOutPlayMode = false;
 
-        var stageObj = GameObject.Find("Stages").GetComponent<RectTransform>();
-        if (stageObj == null) return;
-        var stageUI = stageObj.GetComponent<RectTransform>();
-        stageUI.offsetMin = new Vector2(1500, stageUI.offsetMin.y);
-        stageUI.offsetMax = new Vector2(1500, stageUI.offsetMax.y);
-        IsSwipeInStages = false;
+    //     var stageObj = GameObject.Find("Stages").GetComponent<RectTransform>();
+    //     if (stageObj == null) return;
+    //     var stageUI = stageObj.GetComponent<RectTransform>();
+    //     stageUI.offsetMin = new Vector2(1500, stageUI.offsetMin.y);
+    //     stageUI.offsetMax = new Vector2(1500, stageUI.offsetMax.y);
+    //     IsSwipeInStages = false;
 
-        DescriptionUI.SetActive(false);
-    }
+    //     DescriptionUI.SetActive(false);
+    // }
 
     private void GameStart()
     {
@@ -236,11 +255,21 @@ public class HomeSceneController : MonoBehaviour
 			Invoke("GameSceneStart",0.1f);
 		});
 	}
+
+    // NOTE: 参照先が無い関数に見えますが、FadeWIthChangeSceneから時差呼び出しされています。
 	public void GameSceneStart()
     {
 		_gameSceneMng.ChangeScene(GameScenes.SeriousBalloon);
     }
 
+    private void InitialzeBestScoreUI()
+    {
+        if(bestScoreValueText != null)
+        {
+            var bestScore = _scoreManager.LoadYarikomiBestFromLocal();
+            bestScoreValueText.GetComponent<Text>().text = bestScore.ToString();
+        }
+    }
 #endregion 
 
 #region RANK-UI
