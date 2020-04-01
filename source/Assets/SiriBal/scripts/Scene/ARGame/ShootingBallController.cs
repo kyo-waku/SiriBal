@@ -48,12 +48,15 @@ public class ShootingBallController : MonoBehaviour
         // TouchPhase Began
         if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
         {
-            //ボールを飛ばすよ
-            #if UNITY_EDITOR
-            Shooting(Input.mousePosition);
-            #else
-            Shooting(touch.touchStartPosition);
-            #endif
+            if (GameDirector.GetComponent<GameDirector>().NyusanPoint > 0)
+            {
+                //ボールを飛ばすよ
+                #if UNITY_EDITOR
+                Shooting(Input.mousePosition);
+                #else
+                Shooting(touch.touchStartPosition);
+                #endif
+            }
         }
         
     }

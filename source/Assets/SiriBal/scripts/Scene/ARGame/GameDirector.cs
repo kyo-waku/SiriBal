@@ -47,6 +47,7 @@ public class GameDirector : MonoBehaviour
     #region properties
     private int ScorePoint{get; set;} = 0; 
     private int LifePoint{get; set;} = 100;
+    public int NyusanPoint{get; set;} = 100;
     public int BalloonCounter{get; set;} = 0;
     public int DestroyedBalloonCount{get; set;} = 0;
     public int MissingBalloonCount{get; set;} = 0;
@@ -300,6 +301,8 @@ public class GameDirector : MonoBehaviour
         ScorePoint = ScorePoint + DestroyedBalloonCount * currentRank * ((100 - LifePoint)/10 + 20); // 死にかけはポイント高め
         // ライフポイント計算
         UpdateLifePoint();
+        // 乳酸ポイント計算
+        UpdateNyusanPoint();
         // ランクアップ処理
         RankUpYarikomi(ScorePoint);
         // 定期的に増えるバルーン(DestroyedBalloonCountの初期化タイミングに注意)
@@ -308,7 +311,7 @@ public class GameDirector : MonoBehaviour
             balloonController.CreateRandomBalloon(DestroyedBalloonCount);
         }
         // ヘッダーの更新
-        UpdateYarikomiHeaderContents(ScorePoint, LifePoint);
+        UpdateYarikomiHeaderContents(ScorePoint, LifePoint, NyusanPoint);
         if (LifePoint <= 0) // ゲーム終了
         {
             gameMode.GameMode = GameModeController.eGameMode.BeforeResult;
@@ -327,6 +330,10 @@ public class GameDirector : MonoBehaviour
         InitializeCounts();
     }
 
+    private void UpdateNyusanPoint()
+    {
+        NyusanPoint -= ThrowCounter; // ここでウエポンのステータスに応じた重みをかければOK
+    }
     private void UpdateLifePoint()
     {
         LifePoint = LifePoint
@@ -344,7 +351,12 @@ public class GameDirector : MonoBehaviour
         {
             LifePoint = 100;
         }
-        if(TimeValue > 1){TimeValue = 0;}
+        if(TimeValue > 1)
+        {
+            NyusanPoint += (int)TimeValue;
+            NyusanPoint = NyusanPoint > 100? 100: NyusanPoint;
+            TimeValue = 0;
+        }
         ThrowCounter = 0;
         EnemyAttackHitCount = 0;
         DestroyedBalloonCount = 0;
@@ -479,13 +491,14 @@ public class GameDirector : MonoBehaviour
     // やりこみモード用ヘッダー更新
     // score : int
     // life : int(%)
-    private void UpdateYarikomiHeaderContents(int score, int life)
+    private void UpdateYarikomiHeaderContents(int score, int life, int nyusan)
     {
         var ScoreText = GameObject.Find("CurrentScore");
         ScoreText.GetComponent<Text>().text = score.ToString();
         var LifeBar = GameObject.Find("LIFEBar");
         LifeBar.GetComponent<Image>().fillAmount = (float)life/100;
-
+        var NyusanBar = GameObject.Find("NyusanBar");
+        NyusanBar.GetComponent<Image>().fillAmount = (float)nyusan/100;
         // GREEN: 50, 210, 90, 255
         // YELLOW: 255, 190, 0, 255
         // RED: 230, 90, 50, 255
