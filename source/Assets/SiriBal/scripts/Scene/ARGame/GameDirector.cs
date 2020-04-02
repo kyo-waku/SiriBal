@@ -24,6 +24,8 @@ public class GameDirector : MonoBehaviour
 
     [SerializeField]
     private GameObject WeaponToggleButton;
+    [SerializeField]
+    private GameObject WeaponToggleButtonBase;
 
     [SerializeField]
     private GameObject DescriptionUI;
@@ -497,8 +499,8 @@ public class GameDirector : MonoBehaviour
         ScoreText.GetComponent<Text>().text = score.ToString();
         var LifeBar = GameObject.Find("LIFEBar");
         LifeBar.GetComponent<Image>().fillAmount = (float)life/100;
-        var NyusanBar = GameObject.Find("NyusanBar");
-        NyusanBar.GetComponent<Image>().fillAmount = (float)nyusan/100;
+        WeaponToggleButtonBase.GetComponent<Image>().fillAmount = (float)nyusan/100;
+        
         // GREEN: 50, 210, 90, 255
         // YELLOW: 255, 190, 0, 255
         // RED: 230, 90, 50, 255
@@ -513,6 +515,19 @@ public class GameDirector : MonoBehaviour
         else
         {
             LifeBar.GetComponent<Image>().color = new Color(50/255f, 210/255f, 90/255f, 255/255f);
+        }
+
+        if (nyusan < 20)
+        {
+            WeaponToggleButtonBase.GetComponent<Image>().color = new Color(230/255f, 90/255f, 50/255f, 255/255f);
+        }
+        else if (nyusan < 50 && nyusan >= 20)
+        {
+            WeaponToggleButtonBase.GetComponent<Image>().color = new Color(255/255f, 190/255f, 0/255f, 255/255f);
+        }
+        else
+        {
+            WeaponToggleButtonBase.GetComponent<Image>().color = new Color(50/255f, 210/255f, 90/255f, 255/255f);
         }
     }
 
@@ -533,6 +548,7 @@ public class GameDirector : MonoBehaviour
     public void ShootingModeButtonClicked()
     {
         var img = WeaponToggleButton.GetComponent<Image>();
+        var img_base = WeaponToggleButtonBase.GetComponent<Image>();
         spriteFlg = (spriteFlg == WeaponNumber-1 ) ? spriteFlg = 0 : spriteFlg += 1;
         //img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
         switch (spriteFlg)
@@ -540,26 +556,32 @@ public class GameDirector : MonoBehaviour
             // ゲームの状態がバルーンを配置するモードの場合
             case 0:
                 img.sprite = _Rock;
+                img_base.sprite = _Rock;
                 break;
             // ゲームの状態が次のゲーム開始までの待機状態の場合
             case 1:
                 img.sprite = _ColaCan;
+                img_base.sprite = _ColaCan;
                 break;
             // ゲームの状態がバルーンを撃ち落とすモードの場合
             case 2:
                 img.sprite = _Shoes;
+                img_base.sprite = _Shoes;
                 break;
             // ゲームの状態が結果表示前野待機状態の場合
             case 3:
                 img.sprite = _Hammer;
+                img_base.sprite = _Hammer;
                 break;
             // ゲームの状態がいずれでもない場合
             case 4:
             default:
                 img.sprite = _Rock;
+                img_base.sprite = _Rock;
                 break;
         }
     }
+
 #endregion
 
 #region ControlGameMode
