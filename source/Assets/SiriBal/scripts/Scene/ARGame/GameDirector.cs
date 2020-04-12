@@ -310,9 +310,9 @@ public class GameDirector : MonoBehaviour
         // ランクアップ処理
         RankUpYarikomi(ScorePoint);
         // 定期的に増えるバルーン(DestroyedBalloonCountの初期化タイミングに注意)
-        if (DestroyedBalloonCount > 0)
+        if (DestroyedBalloonCount > 0 || MissingBalloonCount > 0)
         {
-            balloonController.CreateRandomBalloon(DestroyedBalloonCount);
+            balloonController.CreateRandomBalloon(DestroyedBalloonCount + MissingBalloonCount);
         }
         // ヘッダーの更新
         UpdateYarikomiHeaderContents(ScorePoint, LifePoint, NyusanPoint);
