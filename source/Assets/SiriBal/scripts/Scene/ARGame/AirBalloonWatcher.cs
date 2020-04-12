@@ -8,7 +8,7 @@ public class AirBalloonWatcher : MonoBehaviour
     Rigidbody rb;
     int ActionMode;
     int BalloonHP = 0;
-    public int BreakCount = 3;
+    int BreakCount = 0;
     float ActionSpan;
     public bool isAction = true;
 
@@ -34,9 +34,8 @@ public class AirBalloonWatcher : MonoBehaviour
 
 
     //LevelDesign
-    public void SetParameter(int BalloonHP, int BreakCount){
-        this.BalloonHP = BalloonHP;
-        this.BreakCount = BreakCount;
+    public void SetParameter(int hp){
+        this.BalloonHP = hp;
     }
 
     //Decision Balloon's Action
@@ -172,9 +171,9 @@ public class AirBalloonWatcher : MonoBehaviour
         {
             if (other.gameObject.tag == "player_shoot")
             {
-                BalloonHP += 1;
+                BreakCount += 1; // ここにウェポンごとのダメージ量をセットしたい
                 this.director.GetComponent<GameDirector>().HitCount();
-                if(BalloonHP == BreakCount)
+                if(BalloonHP <= BreakCount)
                 {
                     // Explosion
                     if (particle != null)
