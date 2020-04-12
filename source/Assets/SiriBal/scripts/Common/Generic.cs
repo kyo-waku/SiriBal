@@ -32,6 +32,7 @@ namespace Generic
     // ウェポンのゲームオブジェクト自体はゲームシーンで保持して管理すること
     // GetRegisteredShootingWeaponsで全ウェポンを返すところがあるのでWeaponを増やしたらそこも増やすこと
     // バルーンが使うWeaponはちょっと挙動が違うのであとで別の定義に分けるかも・・・
+    // 武器管理の参照先変更により削除してもよい？
     public enum Weapons{
         Missile = -1, // (プレイヤーの武器じゃないので別にしておきたい)
         None = 0,
@@ -194,6 +195,7 @@ namespace Generic
             {
                 // 登録がなければ全部使えるものとする
                 // Weapon追加時は忘れずここにも追加してね
+                // 武器管理の参照先変更により削除してもよい？
                 weapons.Add(Weapons.Stone);
                 weapons.Add(Weapons.ColaCan);
                 weapons.Add(Weapons.Shoes);

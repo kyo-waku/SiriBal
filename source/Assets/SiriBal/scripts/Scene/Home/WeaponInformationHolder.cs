@@ -7,6 +7,7 @@ public class WeaponInformationHolder : MonoBehaviour
     public WeaponData ColaCanScriptableObject;
     public WeaponData ShoesScriptableObject;
     public WeaponData HammerScriptableObject;
+    // 武器管理の参照先変更により削除してもよい？
     public WeaponData GetWeaponDataFromKey(Weapons weaponKey)
     {
         WeaponData data = null;

@@ -12,7 +12,7 @@ public class ShootingBallController : MonoBehaviour
     TouchTools touch;
     WeaponHolder weaponHolder;
     public int ShootingMode;
-    List<Weapons> availableWeapons;
+    List<Weapons> availableWeapons; //武器管理の参照先変更により削除してもよい？
     int currentWeaponIndex;
 
     // Start is called before the first frame update
@@ -31,7 +31,7 @@ public class ShootingBallController : MonoBehaviour
                 stage = new Stage();
             }
         }
-        stage.GetRegisteredShootingWeapons(out availableWeapons);
+        stage.GetRegisteredShootingWeapons(out availableWeapons);   //武器管理の参照先変更により削除してもよい？
         currentWeaponIndex = 0;
         weaponHolder = GameObject.Find("WeaponHolder").GetComponent<WeaponHolder>();
     }
@@ -63,7 +63,9 @@ public class ShootingBallController : MonoBehaviour
 
     void Shooting(Vector3 position)
     {
-        var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
+        //var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
+        HeroWeaponStatus currentweapon = WeaponData2.Entity.HeroWeaponList[currentWeaponIndex];
+        var shootingPrefab = currentweapon.WeaponPrefab;
         if (shootingPrefab == null){return;}
 
         GameObject ShootingObj = Instantiate(shootingPrefab) as GameObject;
@@ -77,8 +79,10 @@ public class ShootingBallController : MonoBehaviour
 
     public void ShootingModeButtonClicked()
     {
+        int weaponcount = WeaponData2.Entity.HeroWeaponList.Count;
         ++currentWeaponIndex;
-        if (currentWeaponIndex > availableWeapons.Count - 1)
+        //if (currentWeaponIndex > availableWeapons.Count - 1)
+        if (currentWeaponIndex > weaponcount - 1)
         {
             currentWeaponIndex = 0;
         }

@@ -37,6 +37,7 @@ public class BalloonController : MonoBehaviour {
 		// バルーンのステータスをStage情報から取得する
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().BreakCount = GameDirector.GetComponent<GameDirector>().stage.BalloonHP;
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().isAction = GameDirector.GetComponent<GameDirector>().stage.IsBalloonAction;
+		//ミサイルの管理を無くしたらこの関数は不要？後で検討
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = weaponHolder.GetWeaponObjectByKey(GameDirector.GetComponent<GameDirector>().stage.BalloonWeaponKey);
 
 		return Instantiate (balloonPrefab, atPosition, Quaternion.identity);

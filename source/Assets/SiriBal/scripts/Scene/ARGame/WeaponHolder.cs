@@ -5,6 +5,7 @@ using Generic;
 
 public class WeaponHolder : MonoBehaviour
 {
+    //ミサイルの管理も無くしたらこの関数は不要？後で検討
     [SerializeField]
     GameObject Missile;
     [SerializeField]
@@ -16,6 +17,7 @@ public class WeaponHolder : MonoBehaviour
     [SerializeField]
     GameObject Hammer;
 
+    //ミサイルの管理も無くしたらこの関数は不要？後で検討
     public GameObject GetWeaponObjectByKey(Weapons key)
     {
         GameObject weapon = new GameObject();

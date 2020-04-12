@@ -318,22 +318,33 @@ public class HomeSceneController : MonoBehaviour
     private void LoadWeaponResultFromCache()
     {
         // キャッシュからロード
-        foreach(var weaponValue in Enum.GetValues(typeof(Weapons)))
+        //foreach(var weaponValue in Enum.GetValues(typeof(Weapons)))
+        foreach(var weaponlist in WeaponData2.Entity.HeroWeaponList)
         {
-            string weaponName = Enum.GetName(typeof(Weapons), weaponValue);
-            var cache = PlayerPrefs.GetInt(weaponName, 0);
-            var objName = "Weapon" + (int)weaponValue;
+            //このキャッシュの仕組みは必要。あとで改良方法を検討。
+            //string weaponName = Enum.GetName(typeof(Weapons), weaponValue);
+            //var cache = PlayerPrefs.GetInt(weaponName, 0);
+
+            var cache = 0; //暫定。キャッシュの仕組みを復元したら削除。
+
+            int weaponValue = WeaponData2.Entity.HeroWeaponList.IndexOf(weaponlist);
+            //var objName = "Weapon" + (int)weaponValue;
+            var objName = "Weapon" + (weaponValue+1);
             var obj = GameObject.Find(objName);
             if (obj != null)
             {
-                var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey((Weapons)weaponValue);
-                if (weaponData != null)
+                //対応変更必要？後で検討する
+            //    var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey((Weapons)weaponValue);
+            //    if (weaponData != null)
+                if (weaponlist != null)
                 {
                     // TODO #58
                     // ウェポン獲得の実装をしていないので、とりあえず全部見れるようにしている。
                     // 本来はcache == 1 で image_on を表示し、 cache == 0 の場合は追加で、
                     // ボタンを無効にするか、未開放のウェポンとして、ウェポンの説明画面を表示する
-                    obj.GetComponent<Image>().sprite = (cache == 0)? weaponData.image_on: weaponData.image_off;
+                    //このキャッシュの仕組みは必要。あとで復元する。
+                    //obj.GetComponent<Image>().sprite = (cache == 0)? weaponData.image_on: weaponData.image_off;
+                    obj.GetComponent<Image>().sprite = (cache == 0)? weaponlist.ImageOn: weaponlist.ImageOFF;
                 }
             }
         }
@@ -358,37 +369,45 @@ public class HomeSceneController : MonoBehaviour
     public void ShowWeaponPropertyDialog(int weaponKey)
     {
         WeaponPropertyDialog.SetActive(true);
-        var weapon = (Weapons)Enum.ToObject(typeof(Weapons), weaponKey);
-        ShowCurrentWeaponInformation(weapon);
+        //var weapon = (Weapons)Enum.ToObject(typeof(Weapons), weaponKey);
+        //ShowCurrentWeaponInformation(weapon);
+        //weaponKeyは使用しなくなったので、名称を変えた方がわかりやすいかも？
+        ShowCurrentWeaponInformation(weaponKey-1);
     }
 
-    private void ShowCurrentWeaponInformation(Weapons weapon)
+    //private void ShowCurrentWeaponInformation(Weapons weapon)
+    private void ShowCurrentWeaponInformation(int weaponKey)
     {
         // ウェポン名
         var weaponName = GameObject.Find("WeaponName");
         if (weaponName != null)
         {
-            weaponName.GetComponent<Text>().text = weapon.ToString();
+            weaponName.GetComponent<Text>().text = WeaponData2.Entity.HeroWeaponList[weaponKey].Name;
+            //weaponName.GetComponent<Text>().text = weapon.ToString();
         }
         // ウェポン画像
         var weaponImage = GameObject.Find("WeaponImage");
         if (weaponImage != null)
         {
-            var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
+            weaponImage.GetComponent<Image>().sprite = WeaponData2.Entity.HeroWeaponList[weaponKey].ImageOn;
+            //var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
+            /*
             if (weaponData != null)
             {
                 weaponImage.GetComponent<Image>().sprite = weaponData.image_on;
             }
+            */
         }
         // ウェポンの説明
         var weaponExplanation = GameObject.Find("WeaponExplanation");
         if (weaponExplanation != null)
         {
-            var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
-            if (weaponData != null)
-            {
-                weaponExplanation.GetComponent<Text>().text = weaponData.explanation;
-            }
+            weaponExplanation.GetComponent<Text>().text = WeaponData2.Entity.HeroWeaponList[weaponKey].Explanation;
+            //var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
+            //if (weaponData != null)
+            //{
+            //    weaponExplanation.GetComponent<Text>().text = weaponData.explanation;
+            //}
         }
         // レーダーチャート
         var radarPoly = GameObject.Find("RadarPoly");
@@ -397,6 +416,14 @@ public class HomeSceneController : MonoBehaviour
             var radar = radarPoly.GetComponent<RadarChartController>();
             if (radar != null)
             {
+                radar.Volumes = new float[]{
+                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Attack/5,
+                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Scale/5,
+                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Distance/5,
+                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Penetrate/5,
+                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Rapidfire/5,
+                                            };
+                /*
                 var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
                 if (weaponData != null)
                 {
@@ -408,6 +435,7 @@ public class HomeSceneController : MonoBehaviour
                                                 (float)weaponData.rapidfire/5
                                                 };
                 }
+                */
             }
         }
     }

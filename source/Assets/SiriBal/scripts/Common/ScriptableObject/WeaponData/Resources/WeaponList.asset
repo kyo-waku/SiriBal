@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20faf134116e4ab1ab47fa624b5eaf9, type: 3}
+  m_Name: WeaponList
+  m_EditorClassIdentifier: 
+  HeroWeaponList:
+  - _name: Stone
+    _explanation: "\u305F\u3060\u306E\u3044\u3057\u3053\u308D\u3060\u3088  \u3055\u3044\u3057\u3087\u304B\u3089\u3064\u304B\u3048\u308B\u3088"
+    _attack: 1
+    _scale: 1
+    _distance: 4
+    _penetrate: 0
+    _rapidfire: 3
+    _weaponPrefab: {fileID: 7196459049477730099, guid: 84c57544d1dd046f491210351e96fba6,
+      type: 3}
+    _selectedIcon: {fileID: 21300000, guid: 4f426a790d9604a1cb1e85abb7781e03, type: 3}
+    _image_on: {fileID: 21300000, guid: 883e2ec99f14e4ccdb3a4c931a1484da, type: 3}
+    _image_off: {fileID: 21300000, guid: a22fd0dc97a0c477e95f2ea0efae9be0, type: 3}
+  - _name: ColaCan
+    _explanation: "\u308F\u304B\u3082\u306E\u304B\u3089\u304A\u3068\u306A\u307E\u3067\u3072\u308D\u304F\u306B\u3093\u304D\u306E\u3042\u308B\u305B\u3044\u308A\u3087\u3046\u3044\u3093\u308A\u3087\u3046\u3059\u3044
+      \ \u3042\u305F\u3063\u305F\u3068\u304D\u306E\u304A\u3068\u304C\u3044\u3044"
+    _attack: 1
+    _scale: 2
+    _distance: 4
+    _penetrate: 0
+    _rapidfire: 4
+    _weaponPrefab: {fileID: 434581694524963874, guid: f5517a4c6e8214168b4e7f02c16b7a78,
+      type: 3}
+    _selectedIcon: {fileID: 21300000, guid: e3a88e2a55d994f7c99051d644841bdb, type: 3}
+    _image_on: {fileID: 21300000, guid: 8e231001d9cc9441b9c9195dee716609, type: 3}
+    _image_off: {fileID: 21300000, guid: 737f4ff620cec40b5ba2c7b6bac26fd1, type: 3}
+  - _name: Shoes
+    _explanation: "\u30D0\u30A4\u30AF\u306E\u308A\u304C\u3046\u307F\u306B\u3059\u3066\u305F\u305B\u3044\u3057\u3085\u3093\u306E\u304A\u3082\u3044\u3067\u3000\u30D0\u30E9\u30F3\u30B9\u304C\u3044\u3044\u30A2\u30A4\u30C6\u30E0"
+    _attack: 3
+    _scale: 2
+    _distance: 3
+    _penetrate: 0
+    _rapidfire: 3
+    _weaponPrefab: {fileID: 6110862512591532426, guid: 00d1329d285414637ad1f87f65b44486,
+      type: 3}
+    _selectedIcon: {fileID: 21300000, guid: 486d47f4539e94f95bed4f96b15338f5, type: 3}
+    _image_on: {fileID: 21300000, guid: ab1e15ea3ff964f24b7e0fd6b0b10599, type: 3}
+    _image_off: {fileID: 21300000, guid: 5b399060fea7843f2abfab38e31523db, type: 3}
+  - _name: Hammer
+    _explanation: "\u304D\u3087\u3046\u308A\u3087\u304F\u3067\u304B\u3063\u3053\u3044\u3044\u30CF\u30F3\u30DE\u30FC
+      \   \u305B\u3063\u304D\u3093\u3057\u3066\u3064\u304B\u304A\u3046"
+    _attack: 3
+    _scale: 3
+    _distance: 1
+    _penetrate: 0
+    _rapidfire: 2
+    _weaponPrefab: {fileID: 8672767528289221475, guid: b63262e9d5877f645abde1c23fbae65c,
+      type: 3}
+    _selectedIcon: {fileID: 21300000, guid: dd1fc7879e4f44d96b2c94e76db6e28d, type: 3}
+    _image_on: {fileID: 21300000, guid: d2edba50f5bae4d229585effc7a758ff, type: 3}
+    _image_off: {fileID: 21300000, guid: aa114636835fc4b4b9d97cade5527d44, type: 3}
+  EnemyWeaponList:
+  - _name: Missile
+    _weaponPrefab: {fileID: 2000341097746316527, guid: 370cabc4defe741cea9d757a7c1d80fb,
+      type: 3}

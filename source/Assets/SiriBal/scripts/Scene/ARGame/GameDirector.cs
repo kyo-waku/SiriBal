@@ -33,12 +33,14 @@ public class GameDirector : MonoBehaviour
     private GameObject YarikomiHeader;
     private int currentRank = 1;
     private GameObject LoadBalGen;
+    //下記は武器管理変更により削除してよい？
     private int WeaponNumber = 4;//使用できる武器の数、WeaponIconの切替に使うよ
     public Sprite _MasterBall;
     public Sprite _Hammer;
     public Sprite _ColaCan;
     public Sprite _Rock;
     public Sprite _Shoes;
+
     private int spriteFlg = 0;
 
     // Stages
@@ -549,8 +551,14 @@ public class GameDirector : MonoBehaviour
     {
         var img = WeaponToggleButton.GetComponent<Image>();
         var img_base = WeaponToggleButtonBase.GetComponent<Image>();
-        spriteFlg = (spriteFlg == WeaponNumber-1 ) ? spriteFlg = 0 : spriteFlg += 1;
+        int weaponcount = WeaponData2.Entity.HeroWeaponList.Count;
+        spriteFlg = (spriteFlg == weaponcount-1 ) ? spriteFlg = 0 : spriteFlg += 1;
+        //spriteFlg = (spriteFlg == WeaponNumber-1 ) ? spriteFlg = 0 : spriteFlg += 1;
         //img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
+
+        img.sprite = WeaponData2.Entity.HeroWeaponList[spriteFlg].SelectedIcon;
+        img_base.sprite = WeaponData2.Entity.HeroWeaponList[spriteFlg].SelectedIcon;
+/*
         switch (spriteFlg)
         {
             // ゲームの状態がバルーンを配置するモードの場合
@@ -580,6 +588,7 @@ public class GameDirector : MonoBehaviour
                 img_base.sprite = _Rock;
                 break;
         }
+        */
     }
 
 #endregion

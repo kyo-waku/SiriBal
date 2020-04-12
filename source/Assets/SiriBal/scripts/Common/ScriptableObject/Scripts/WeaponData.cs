@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Generic;
 
+// 武器管理の参照先変更により削除してもよい？
 [CreateAssetMenu(menuName = "ScriptableObject/WeaponData")]
 public class WeaponData : ScriptableObject {
     public Weapons weaponKey;
