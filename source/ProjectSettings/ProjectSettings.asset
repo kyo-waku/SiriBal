@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: kyowaku
+  companyName: kyo-waku
   productName: SeriousBalloon
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -165,7 +165,7 @@ PlayerSettings:
     Android: com.Company.ProductName
     Standalone: unity.Unity Technologies.Native Rendering Plugin Example
     Tizen: com.Company.ProductName
-    iPhone: com.kyowaku.seriousballoon
+    iPhone: com.kyo-waku.seriousballoon
     tvOS: com.Company.ProductName
   buildNumber:
     iPhone: 0
