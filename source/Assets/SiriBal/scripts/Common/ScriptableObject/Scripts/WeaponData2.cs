@@ -48,96 +48,40 @@ public class WeaponData2 : ScriptableObject
 public class HeroWeaponStatus
 {
     //パラメーター定義
-    [SerializeField]
-    private string _name; // 武器名称
-    [SerializeField]
-    private string _explanation; // 武器説明
-    [SerializeField]
+    public string Name; // 武器名称
+    public string Explanation; // 武器説明
+    public GameObject WeaponPrefab; //武器のPrefab
+    public Sprite SelectedIcon; //武器選択時のアイコン
+    public Sprite ImageOn; // 武器の画像
+    public Sprite ImageOff; // 武器のシルエット画像
+    
+    // Weapon Properties
     [Range(0, 5)]
-    private int _attack; // 攻撃力
-    [SerializeField]
-    [Range(0, 5)]
-    private int _scale; // 大きさ
-    [SerializeField]
-    [Range(0, 5)]
-    private int _distance; // 飛距離
-    [SerializeField]
-    [Range(0, 5)]
-    private int _penetrate; // 貫通力
-    [SerializeField]
-    [Range(0, 5)]
-    private int _rapidfire; // 連射性能
-    [SerializeField]
-    private GameObject _weaponPrefab; //武器のPrefab
-    [SerializeField]
-    private Sprite _selectedIcon; //武器選択時のアイコン
+    public int Attack;// 攻撃力
 
-    [SerializeField]
-    private Sprite _image_on; // 武器の画像
-    [SerializeField]
-    private Sprite _image_off; // 武器のシルエット画像
+    [Range(0, 5)]
+    public int Scale; // 大きさ
 
+    [Range(0, 5)]
+    public int Distance; // 飛距離
 
+    [Range(0, 5)]
+    public int Penetrate; // 貫通力
 
-    //getter, setter
-    public string Name
-    {
-        get { return _name; }
-        set { _name = value; }
-    }
-    public string Explanation
-    {
-        get { return _explanation; }
-        set { _explanation = value; }
-    }
-    public int Attack
-    {
-        get { return _attack; }
-        set { _attack = value; }
-    }
-    public int Scale
-    {
-        get { return _scale; }
-        set { _scale = value; }
-    }
-    public int Distance
-    {
-        get { return _distance; }
-        set { _distance = value; }
-    }
-    public int Penetrate
-    {
-        get { return _penetrate; }
-        set { _penetrate = value; }
-    }
-    public int Rapidfire
-    {
-        get { return _rapidfire; }
-        set { _rapidfire = value; }
-    }
-    public GameObject WeaponPrefab
-    {
-        get { return _weaponPrefab; }
-        set { _weaponPrefab = value; }
-    }
-    public Sprite SelectedIcon
-    {
-        get { return _selectedIcon; }
-        set { _selectedIcon = value; }
-    }
-    public Sprite ImageOn
-    {
-        get { return _image_on; }
-        set { _image_on = value; }
-    }
-    public Sprite ImageOFF
-    {
-        get { return _image_off; }
-        set { _image_off = value; }
-    }
+    [Range(0, 5)]
+    public int Rapidfire; // 連射性能
 }
 
+public class WeaponProperties : MonoBehaviour // ウェポンのPrefab側に提供したい情報だけはこっちにも実装する。
+{
+    public int Attack{get; private set;}
 
+    // 初期化メソッド
+    public void Initialize(HeroWeaponStatus src)
+    {
+        Attack = src.Attack;
+    }
+}
 
 //敵の武器リスト
 [System.Serializable]

@@ -69,6 +69,10 @@ public class ShootingBallController : MonoBehaviour
         if (shootingPrefab == null){return;}
 
         GameObject ShootingObj = Instantiate(shootingPrefab) as GameObject;
+        // ウェポンのステータスをGameObjectに挿入する
+        ShootingObj.AddComponent<WeaponProperties>();
+        ShootingObj.GetComponent<WeaponProperties>().Initialize(currentweapon);
+        // 投げるためのForce計算
         Ray ray = Camera.main.ScreenPointToRay(position);
         ShootingObj.transform.position = ray.origin + ray.direction.normalized ;
         ShootingObj.GetComponent<ShootingWatcher>().Shoot(ray.direction.normalized * ShootingForce);

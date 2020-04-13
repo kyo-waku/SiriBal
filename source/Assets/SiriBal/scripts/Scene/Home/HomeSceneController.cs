@@ -344,7 +344,7 @@ public class HomeSceneController : MonoBehaviour
                     // ボタンを無効にするか、未開放のウェポンとして、ウェポンの説明画面を表示する
                     //このキャッシュの仕組みは必要。あとで復元する。
                     //obj.GetComponent<Image>().sprite = (cache == 0)? weaponData.image_on: weaponData.image_off;
-                    obj.GetComponent<Image>().sprite = (cache == 0)? weaponlist.ImageOn: weaponlist.ImageOFF;
+                    obj.GetComponent<Image>().sprite = (cache == 0)? weaponlist.ImageOn: weaponlist.ImageOff;
                 }
             }
         }
@@ -416,12 +416,13 @@ public class HomeSceneController : MonoBehaviour
             var radar = radarPoly.GetComponent<RadarChartController>();
             if (radar != null)
             {
+                var props = WeaponData2.Entity.HeroWeaponList[weaponKey];
                 radar.Volumes = new float[]{
-                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Attack/5,
-                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Scale/5,
-                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Distance/5,
-                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Penetrate/5,
-                                            (float)WeaponData2.Entity.HeroWeaponList[weaponKey].Rapidfire/5,
+                                            (float)props.Attack/5,
+                                            (float)props.Scale/5,
+                                            (float)props.Distance/5,
+                                            (float)props.Penetrate/5,
+                                            (float)props.Rapidfire/5,
                                             };
                 /*
                 var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);

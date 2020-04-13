@@ -35,7 +35,7 @@ public class BalloonController : MonoBehaviour {
 		GameDirector.GetComponent<GameDirector>().BalloonCounter += 1;
 		
 		// バルーンのステータスをStage情報から取得する
-		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().SetParameter(GameDirector.GetComponent<GameDirector>().stage.BalloonHP);
+		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().BalloonHP = GameDirector.GetComponent<GameDirector>().stage.BalloonHP;
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().isAction = GameDirector.GetComponent<GameDirector>().stage.IsBalloonAction;
 		//ミサイルの管理を無くしたらこの関数は不要？後で検討
 		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = weaponHolder.GetWeaponObjectByKey(GameDirector.GetComponent<GameDirector>().stage.BalloonWeaponKey);

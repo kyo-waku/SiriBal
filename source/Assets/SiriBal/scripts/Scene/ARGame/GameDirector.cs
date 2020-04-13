@@ -44,6 +44,7 @@ public class GameDirector : MonoBehaviour
     private int spriteFlg = 0;
 
     // Stages
+    public StageData yarikomiStage_rank1;
     public StageData yarikomiStage_rank2;
     public StageData yarikomiStage_rank3;
 
@@ -313,6 +314,8 @@ public class GameDirector : MonoBehaviour
         if (DestroyedBalloonCount > 0 || MissingBalloonCount > 0)
         {
             balloonController.CreateRandomBalloon(DestroyedBalloonCount + MissingBalloonCount);
+            DestroyedBalloonCount = 0;
+            MissingBalloonCount = 0;
         }
         // ヘッダーの更新
         UpdateYarikomiHeaderContents(ScorePoint, LifePoint, NyusanPoint);
@@ -363,8 +366,6 @@ public class GameDirector : MonoBehaviour
         }
         ThrowCounter = 0;
         EnemyAttackHitCount = 0;
-        DestroyedBalloonCount = 0;
-        MissingBalloonCount = 0;
     }
 
     private void ShowMissing()
@@ -398,6 +399,7 @@ public class GameDirector : MonoBehaviour
             }
             SetupStageProperties(new Stage(yarikomiStage_rank2));
             currentRank = 2;
+            balloonController.CreateRandomBalloon(yarikomiStage_rank2.BalloonLimit - yarikomiStage_rank1.BalloonLimit);
         }
         else if (score > 3000 && currentRank == 2)
         {            
@@ -409,6 +411,7 @@ public class GameDirector : MonoBehaviour
             }
             SetupStageProperties(new Stage(yarikomiStage_rank3));
             currentRank = 3;
+            balloonController.CreateRandomBalloon(yarikomiStage_rank3.BalloonLimit - yarikomiStage_rank2.BalloonLimit);
         }
     }
 #endregion 

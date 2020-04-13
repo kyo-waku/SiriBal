@@ -3080,6 +3080,8 @@ MonoBehaviour:
   _ColaCan: {fileID: 21300000, guid: e3a88e2a55d994f7c99051d644841bdb, type: 3}
   _Rock: {fileID: 21300000, guid: 4f426a790d9604a1cb1e85abb7781e03, type: 3}
   _Shoes: {fileID: 21300000, guid: 486d47f4539e94f95bed4f96b15338f5, type: 3}
+  yarikomiStage_rank1: {fileID: 11400000, guid: 9606d462f24ce4d2dae29a7c1be009b0,
+    type: 2}
   yarikomiStage_rank2: {fileID: 11400000, guid: de835e7d0e5e949478545b942bbc8523,
     type: 2}
   yarikomiStage_rank3: {fileID: 11400000, guid: bc59b471f26084ddcb7f8cd3768b5e46,

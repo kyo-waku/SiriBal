@@ -7,8 +7,8 @@ public class AirBalloonWatcher : MonoBehaviour
     // define balloon paramater
     Rigidbody rb;
     int ActionMode;
-    int BalloonHP = 0;
-    int BreakCount = 0;
+    public int BalloonHP;
+    int BreakCount;
     float ActionSpan;
     public bool isAction = true;
 
@@ -31,12 +31,6 @@ public class AirBalloonWatcher : MonoBehaviour
     GameObject particle;
 
     private const int MAXDISTANCE = 30;
-
-
-    //LevelDesign
-    public void SetParameter(int hp){
-        this.BalloonHP = hp;
-    }
 
     //Decision Balloon's Action
     void GetAction(int ActionNo){
@@ -93,6 +87,9 @@ public class AirBalloonWatcher : MonoBehaviour
         //Decision 1st ActionSpan
         ActionSpan = Random.Range(3,5);
 
+        // Initialize
+        // BalloonHP = 1;
+        BreakCount = 0;
     }
 
     // Update is called once per frame
@@ -171,7 +168,15 @@ public class AirBalloonWatcher : MonoBehaviour
         {
             if (other.gameObject.tag == "player_shoot")
             {
-                BreakCount += 1; // ここにウェポンごとのダメージ量をセットしたい
+                var weaponprops = other.gameObject.GetComponent<WeaponProperties>();
+                if (weaponprops != null)
+                {
+                    BreakCount += weaponprops.Attack; // weapon から Attack を取得する
+                }
+                else
+                {
+                    BreakCount += 1; // weaponなしは困るけどとりあえず 1 にしておく
+                }
                 this.director.GetComponent<GameDirector>().HitCount();
                 if(BalloonHP <= BreakCount)
                 {
@@ -180,8 +185,7 @@ public class AirBalloonWatcher : MonoBehaviour
                     {
                         Instantiate (particle, transform.position,transform.rotation);
                     }
-
-                    this.director.GetComponent<GameDirector>().DestroyedBalloonCount += 1;
+                    this.director.GetComponent<GameDirector>().DestroyedBalloonCount = 1;
                     Destroy(gameObject);
                 }
             }
