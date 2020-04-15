@@ -10,7 +10,6 @@ public class YarikomiResultSceneController : MonoBehaviour
     private GameObject mainCamera;
     private Transform cameraTransform;
     private ScoreManager scoreMng;
-    public StageData yarikomiStage_rank1;
 
     // Status
     private bool IsNewRecord = false;
@@ -109,7 +108,7 @@ public class YarikomiResultSceneController : MonoBehaviour
     }
     public void RestartButtonClicked()
     {
-        var stage = new Stage(yarikomiStage_rank1);
+        var stage = new Stage(StageData2.Entity.StageList[0]);
         DataManager.currentStage = stage;
 
         // 回転の制御を戻す

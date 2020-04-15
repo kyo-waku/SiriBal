@@ -119,7 +119,7 @@ namespace Generic
             GameClearCondition = condition;
         }
 
-        public Stage(StageData stage) // Scriptable Data (本当はメモリコピーせず参照だけ持っておきたい！！また今度やる。。。)
+        public Stage(StageProperties stage) // Scriptable Data (本当はメモリコピーせず参照だけ持っておきたい！！また今度やる。。。)
         {
             BalloonLimit = stage.BalloonLimit;
             BalloonHP = stage.BalloonHP;

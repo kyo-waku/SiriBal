@@ -43,11 +43,6 @@ public class GameDirector : MonoBehaviour
 
     private int spriteFlg = 0;
 
-    // Stages
-    public StageData yarikomiStage_rank1;
-    public StageData yarikomiStage_rank2;
-    public StageData yarikomiStage_rank3;
-
     // properties
     #region properties
     private int ScorePoint{get; set;} = 0; 
@@ -397,9 +392,9 @@ public class GameDirector : MonoBehaviour
                 obj.GetComponent<Text>().text = "ランクアップ!! \n 1 -> 2";
                 obj.GetComponent<OriginalEffects>().SetUpFadeIn();
             }
-            SetupStageProperties(new Stage(yarikomiStage_rank2));
+            SetupStageProperties(new Stage(StageData2.Entity.StageList[currentRank]));
             currentRank = 2;
-            balloonController.CreateRandomBalloon(yarikomiStage_rank2.BalloonLimit - yarikomiStage_rank1.BalloonLimit);
+            balloonController.CreateRandomBalloon(StageData2.Entity.StageList[currentRank].BalloonLimit - StageData2.Entity.StageList[currentRank-1].BalloonLimit);
         }
         else if (score > 3000 && currentRank == 2)
         {            
@@ -409,9 +404,9 @@ public class GameDirector : MonoBehaviour
                 obj.GetComponent<Text>().text = "ランクアップ!! \n 2 -> 3";
                 obj.GetComponent<OriginalEffects>().SetUpFadeIn();
             }
-            SetupStageProperties(new Stage(yarikomiStage_rank3));
+            SetupStageProperties(new Stage(StageData2.Entity.StageList[currentRank]));
             currentRank = 3;
-            balloonController.CreateRandomBalloon(yarikomiStage_rank3.BalloonLimit - yarikomiStage_rank2.BalloonLimit);
+            balloonController.CreateRandomBalloon(StageData2.Entity.StageList[currentRank].BalloonLimit - StageData2.Entity.StageList[currentRank-1].BalloonLimit);
         }
     }
 #endregion 

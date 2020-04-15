@@ -20,7 +20,6 @@ public class HomeSceneController : MonoBehaviour
     // public StageData easyStage;
     // public StageData normalStage;
     // public StageData hardStage;
-    public StageData yarikomiStage_rank1;
 
     //---------
 
@@ -188,7 +187,7 @@ public class HomeSceneController : MonoBehaviour
 
     public void YarikomiModeButtonClicked()
     {
-        var stage = new Stage(yarikomiStage_rank1);
+        var stage = new Stage(StageData2.Entity.StageList[0]);
         DataManager.currentStage = stage;
         GameStart();
     }
