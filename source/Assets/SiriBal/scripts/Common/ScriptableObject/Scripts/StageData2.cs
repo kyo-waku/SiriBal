@@ -39,4 +39,5 @@ public class StageProperties
     public int TimeLimit;
     public int ShootingLimit;
     public Stage.ClearCondition GameClearCondition;
+    public int RankUpThreshold;
 }

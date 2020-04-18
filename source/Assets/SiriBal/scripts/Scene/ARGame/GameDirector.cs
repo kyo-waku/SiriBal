@@ -384,32 +384,20 @@ public class GameDirector : MonoBehaviour
     private void RankUpYarikomi(int score)
     {
         // ステージの切り替え ランクアップ！
-        if (score > 1000 && currentRank == 1)
+        if (score > stage.RankUpThreshold && currentRank < StageData2.Entity.StageList.Count)
         {
             var obj = GameObject.Find("YarikomiDescription");
             if (obj != null)
             {
-                obj.GetComponent<Text>().text = "ランクアップ!! \n 1 -> 2";
+                obj.GetComponent<Text>().text = String.Format("ランクアップ!! \n {0} -> {1}", currentRank, currentRank + 1);
                 obj.GetComponent<OriginalEffects>().SetUpFadeIn();
             }
             SetupStageProperties(new Stage(StageData2.Entity.StageList[currentRank]));
-            currentRank = 2;
-            balloonController.CreateRandomBalloon(StageData2.Entity.StageList[currentRank].BalloonLimit - StageData2.Entity.StageList[currentRank-1].BalloonLimit);
-        }
-        else if (score > 3000 && currentRank == 2)
-        {            
-            var obj = GameObject.Find("YarikomiDescription");
-            if (obj != null)
-            {
-                obj.GetComponent<Text>().text = "ランクアップ!! \n 2 -> 3";
-                obj.GetComponent<OriginalEffects>().SetUpFadeIn();
-            }
-            SetupStageProperties(new Stage(StageData2.Entity.StageList[currentRank]));
-            currentRank = 3;
-            balloonController.CreateRandomBalloon(StageData2.Entity.StageList[currentRank].BalloonLimit - StageData2.Entity.StageList[currentRank-1].BalloonLimit);
+            balloonController.CreateRandomBalloon(StageData2.Entity.StageList[currentRank].BalloonLimit - StageData2.Entity.StageList[currentRank - 1].BalloonLimit);
+            currentRank += 1;
         }
     }
-#endregion 
+#endregion
 
 #region LoadingUI
     // ローディング画面の制御
@@ -500,7 +488,7 @@ public class GameDirector : MonoBehaviour
         var LifeBar = GameObject.Find("LIFEBar");
         LifeBar.GetComponent<Image>().fillAmount = (float)life/100;
         WeaponToggleButtonBase.GetComponent<Image>().fillAmount = (float)nyusan/100;
-        
+
         // GREEN: 50, 210, 90, 255
         // YELLOW: 255, 190, 0, 255
         // RED: 230, 90, 50, 255
@@ -593,7 +581,7 @@ public class GameDirector : MonoBehaviour
 
 #region ControlGameMode
     // DescriptionUIクリック時
-    public void DescriptionClicked() 
+    public void DescriptionClicked()
     {
         ControlDispWaitingScreen(false);
         if(gameMode.GameMode == GameModeController.eGameMode.None)

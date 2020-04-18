@@ -21,6 +21,7 @@ MonoBehaviour:
     TimeLimit: -1
     ShootingLimit: -1
     GameClearCondition: 2
+    RankUpThreshold: 500
   - BalloonLimit: 15
     BalloonHP: 3
     BalloonWeaponKey: -1
@@ -29,6 +30,7 @@ MonoBehaviour:
     TimeLimit: -1
     ShootingLimit: -1
     GameClearCondition: 2
+    RankUpThreshold: 1000
   - BalloonLimit: 20
     BalloonHP: 5
     BalloonWeaponKey: -1
@@ -37,3 +39,4 @@ MonoBehaviour:
     TimeLimit: -1
     ShootingLimit: -1
     GameClearCondition: 2
+    RankUpThreshold: 2000

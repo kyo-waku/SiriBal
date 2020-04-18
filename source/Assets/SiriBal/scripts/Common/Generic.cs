@@ -69,28 +69,29 @@ namespace Generic
         {
             Preset = 0, // Preset Arrangement
             Random, // Random Arrangement
-            Manual, // User Arrangement 
+            Manual, // User Arrangement
         }
 
         // Game Clear Conditions
         public enum ClearCondition
         {
             None = 0,
-            DestroyAll, 
+            DestroyAll,
             Yarikomi,
             // 他になんかあんのかな・・・
         }
 
         // Properties ------
-        public int BalloonLimit{get; internal set;}
-        public int BalloonHP{get; internal set;}
-        public Weapons BalloonWeaponKey{get; internal set;} // バルーンが攻撃してくるときのウェポンのキー
-        public bool IsBalloonAction{get; internal set;}
-        public ArrangementMode BalloonArrangementMode{get; internal set;}
-        public int TimeLimit{get; internal set;}
-        public int ShootingLimit{get; internal set;}
-        public string StageDescription{get; internal set;} = "Play Serious Balloon";
-        public ClearCondition GameClearCondition{get; internal set;} = ClearCondition.None;
+        public int BalloonLimit{get; private set;}
+        public int BalloonHP{get; private set;}
+        public Weapons BalloonWeaponKey{get; private set;} // バルーンが攻撃してくるときのウェポンのキー
+        public bool IsBalloonAction{get; private set;}
+        public ArrangementMode BalloonArrangementMode{get; private set;}
+        public int TimeLimit{get; private set;}
+        public int ShootingLimit{get; private set;}
+        public string StageDescription{get; private set;} = "Play Serious Balloon";
+        public ClearCondition GameClearCondition{get; private set;} = ClearCondition.None;
+        public int RankUpThreshold{get; private set;}
         public bool isAvailable{
             get{
                 // PresetとRandomは事前登録が必須
@@ -105,7 +106,7 @@ namespace Generic
             }
         }
         // Constructor ------
-        public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.Missile, 
+        public Stage(int bLim = 10, int bHP = 3, Weapons bWp = Weapons.Missile,
                     bool isAct = true, ArrangementMode bArr = ArrangementMode.Manual, int tLim = 30, int sLim = 100,
                     ClearCondition condition = ClearCondition.None) // 互換性のために一旦おいておくけど本当は消したい！！また今度やる
         {
@@ -129,6 +130,7 @@ namespace Generic
             TimeLimit = stage.TimeLimit;
             ShootingLimit = stage.ShootingLimit;
             GameClearCondition = stage.GameClearCondition;
+            RankUpThreshold = stage.RankUpThreshold;
         }
         // Members ------
         public List<Vector3> BalloonPositions{get; internal set;}
@@ -136,7 +138,7 @@ namespace Generic
         public DefinedErrors RegisterBalloonPosition(Vector3 position)
         {
             // Manual Mode : Position not required (User will arrange balloons by their hand)
-            if (BalloonArrangementMode == ArrangementMode.Manual) 
+            if (BalloonArrangementMode == ArrangementMode.Manual)
             {
                 return DefinedErrors.W_NotRequired;
             }
@@ -148,8 +150,8 @@ namespace Generic
             {
                 return DefinedErrors.W_NotRequired;
             }
-            // Random Mode : Position will be decided randamly.
-            if (BalloonArrangementMode == ArrangementMode.Random) 
+            // Random Mode : Position will be decided randonly.
+            if (BalloonArrangementMode == ArrangementMode.Random)
             {
                 // Make Random Position
             }
