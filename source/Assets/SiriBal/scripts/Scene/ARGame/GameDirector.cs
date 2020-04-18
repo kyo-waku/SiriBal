@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using Generic;
 using Generic.Manager;
 
@@ -41,7 +41,7 @@ public class GameDirector : MonoBehaviour
     public Sprite _Rock;
     public Sprite _Shoes;
 
-    private int spriteFlg = 0;
+    private WeaponIds spriteId = WeaponIds.Stone;
 
     // properties
     #region properties
@@ -537,44 +537,38 @@ public class GameDirector : MonoBehaviour
     {
         var img = WeaponToggleButton.GetComponent<Image>();
         var img_base = WeaponToggleButtonBase.GetComponent<Image>();
-        int weaponcount = WeaponData2.Entity.HeroWeaponList.Count;
-        spriteFlg = (spriteFlg == weaponcount-1 ) ? spriteFlg = 0 : spriteFlg += 1;
-        //spriteFlg = (spriteFlg == WeaponNumber-1 ) ? spriteFlg = 0 : spriteFlg += 1;
-        //img.sprite = (spriteFlg) ? _MasterBall : _Hammer;
 
-        img.sprite = WeaponData2.Entity.HeroWeaponList[spriteFlg].SelectedIcon;
-        img_base.sprite = WeaponData2.Entity.HeroWeaponList[spriteFlg].SelectedIcon;
-/*
-        switch (spriteFlg)
+        spriteId = NextAvailableWeaponId(spriteId);
+        var weapon = WeaponData2.Entity.HeroWeaponList.Where(x => x.WeaponID == spriteId).First();
+        img.sprite = weapon.SelectedIcon;
+        img_base.sprite = weapon.SelectedIcon;
+    }
+
+    public WeaponIds NextAvailableWeaponId(WeaponIds currentId)
+    {
+        var availableWeaponIds = new List<WeaponIds>();
+        foreach(var weapon in WeaponData2.Entity.HeroWeaponList)
         {
-            // ゲームの状態がバルーンを配置するモードの場合
-            case 0:
-                img.sprite = _Rock;
-                img_base.sprite = _Rock;
-                break;
-            // ゲームの状態が次のゲーム開始までの待機状態の場合
-            case 1:
-                img.sprite = _ColaCan;
-                img_base.sprite = _ColaCan;
-                break;
-            // ゲームの状態がバルーンを撃ち落とすモードの場合
-            case 2:
-                img.sprite = _Shoes;
-                img_base.sprite = _Shoes;
-                break;
-            // ゲームの状態が結果表示前野待機状態の場合
-            case 3:
-                img.sprite = _Hammer;
-                img_base.sprite = _Hammer;
-                break;
-            // ゲームの状態がいずれでもない場合
-            case 4:
-            default:
-                img.sprite = _Rock;
-                img_base.sprite = _Rock;
-                break;
+            if(weapon.IsWeaponAcquired)
+            {
+                availableWeaponIds.Add(weapon.WeaponID);
+            }
         }
-        */
+
+        var nextId = currentId;
+        // 複数個見つかった
+        if(availableWeaponIds.Count > 1)
+        {
+            availableWeaponIds.Sort();
+            for(var index = 0; index < availableWeaponIds.Count; index++)
+            {
+                if(availableWeaponIds[index] == currentId)
+                {
+                    nextId = (index + 1 == availableWeaponIds.Count)? availableWeaponIds[0]: availableWeaponIds[index + 1];
+                }
+            }
+        }
+        return nextId;
     }
 
 #endregion

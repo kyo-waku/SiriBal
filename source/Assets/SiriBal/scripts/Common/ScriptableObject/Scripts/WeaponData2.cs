@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Generic;
 
@@ -32,12 +33,49 @@ public class WeaponData2 : ScriptableObject
             return _entity;
         }
     }
-
-
-
     public List<HeroWeaponStatus> HeroWeaponList = new List<HeroWeaponStatus>();
     //todo:敵の武器の参照はまだ未実装。あとで実装する。
     public List<EnemyWeaponStatus> EnemyWeaponList = new List<EnemyWeaponStatus>();
+
+    // ウェポン獲得状況の更新
+    // スコアで決まるなら、スコアをもらうだけでいい。
+    // 特別な条件をフォローするために、id指定でも対応できるようにしている
+    public static void UpdateWeaponAcquiredStatus(int score, WeaponIds id = WeaponIds.None)
+    {
+        // Stone
+        if (score > 0 || id == WeaponIds.Stone)
+        {
+            UpdateCache(WeaponIds.Stone);
+        }
+        // ColaCan
+        if (id == WeaponIds.ColaCan)
+        {
+            UpdateCache(WeaponIds.ColaCan);
+        }
+        // Shoes
+        if (score > 10000 || id == WeaponIds.Shoes)
+        {
+            UpdateCache(WeaponIds.Shoes);
+        }
+        // Hammer
+        if (score > 30000 || id == WeaponIds.Hammer)
+        {
+            UpdateCache(WeaponIds.Hammer);
+        }
+    }
+
+    private static void UpdateCache(WeaponIds id)
+    {
+        var weapon = WeaponData2.Entity.HeroWeaponList.Where(x=>x.WeaponID == id).First();
+        if (weapon == null)
+        {
+            return;
+        }
+        if(!weapon.IsWeaponAcquired)
+        {
+            PlayerPrefs.SetInt(weapon.Name, 1);
+        }
+    }
 }
 
 
@@ -48,13 +86,15 @@ public class WeaponData2 : ScriptableObject
 public class HeroWeaponStatus
 {
     //パラメーター定義
+    public WeaponIds WeaponID; // ウェポン管理用のID
     public string Name; // 武器名称
     public string Explanation; // 武器説明
+    public string WeaponGetCondition; // 武器獲得の条件説明文
     public GameObject WeaponPrefab; //武器のPrefab
     public Sprite SelectedIcon; //武器選択時のアイコン
     public Sprite ImageOn; // 武器の画像
     public Sprite ImageOff; // 武器のシルエット画像
-    
+
     // Weapon Properties
     [Range(0, 5)]
     public int Attack;// 攻撃力
@@ -70,6 +110,29 @@ public class HeroWeaponStatus
 
     [Range(0, 5)]
     public int Rapidfire; // 連射性能
+
+    // -----ウェポン獲得関連--------
+    // ウェポン獲得状態の確認(自分自身)
+    // true(1): acquired, false(0): secret
+    public bool IsWeaponAcquired
+    {
+        get{
+            var cache = PlayerPrefs.GetInt(Name, 0);
+            return (cache == 1);
+        }
+        set{
+            ;
+        }
+    }
+}
+
+public enum WeaponIds
+{
+    None = 0,
+    Stone = 1,
+    ColaCan,
+    Shoes,
+    Hammer,
 }
 
 public class WeaponProperties : MonoBehaviour // ウェポンのPrefab側に提供したい情報だけはこっちにも実装する。
@@ -107,7 +170,6 @@ public class EnemyWeaponStatus
         get { return _weaponPrefab; }
         set { _weaponPrefab = value; }
     }
-
 }
 
 

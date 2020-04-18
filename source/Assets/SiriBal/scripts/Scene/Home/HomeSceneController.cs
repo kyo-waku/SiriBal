@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -314,97 +315,62 @@ public class HomeSceneController : MonoBehaviour
 #region WEAPON-UI
     private void LoadWeaponResultFromCache()
     {
-        // キャッシュからロード
-        //foreach(var weaponValue in Enum.GetValues(typeof(Weapons)))
-        foreach(var weaponlist in WeaponData2.Entity.HeroWeaponList)
+        foreach(var weapon in WeaponData2.Entity.HeroWeaponList)
         {
-            //このキャッシュの仕組みは必要。あとで改良方法を検討。
-            //string weaponName = Enum.GetName(typeof(Weapons), weaponValue);
-            //var cache = PlayerPrefs.GetInt(weaponName, 0);
-
-            var cache = 0; //暫定。キャッシュの仕組みを復元したら削除。
-
-            int weaponValue = WeaponData2.Entity.HeroWeaponList.IndexOf(weaponlist);
-            //var objName = "Weapon" + (int)weaponValue;
-            var objName = "Weapon" + (weaponValue+1);
+            var isWeaponAcquired = weapon.IsWeaponAcquired;
+            var objName = "Weapon" + (int)weapon.WeaponID;
             var obj = GameObject.Find(objName);
             if (obj != null)
             {
-                //対応変更必要？後で検討する
-            //    var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey((Weapons)weaponValue);
-            //    if (weaponData != null)
-                if (weaponlist != null)
+                if (weapon != null)
                 {
-                    // TODO #58
-                    // ウェポン獲得の実装をしていないので、とりあえず全部見れるようにしている。
-                    // 本来はcache == 1 で image_on を表示し、 cache == 0 の場合は追加で、
-                    // ボタンを無効にするか、未開放のウェポンとして、ウェポンの説明画面を表示する
-                    //このキャッシュの仕組みは必要。あとで復元する。
-                    //obj.GetComponent<Image>().sprite = (cache == 0)? weaponData.image_on: weaponData.image_off;
-                    obj.GetComponent<Image>().sprite = (cache == 0)? weaponlist.ImageOn: weaponlist.ImageOff;
+                    obj.GetComponent<Image>().sprite = (isWeaponAcquired)? weapon.ImageOn: weapon.ImageOff;
                 }
             }
         }
-        // var stone = PlayerPrefs.GetInt(Weapons.Stone.ToString(), 0);
-        // if (stone == 1)
-        // {
-        //     GameObject.Find("Weapon1").GetComponent<Image>().sprite = stone_on;
-        //     // Stone Button Be Active
-        // }
-        // var hammer = PlayerPrefs.GetInt(Weapons.Hammer.ToString(), 0);
-        // if (hammer == 1)
-        // {
-        //     GameObject.Find("Weapon2").GetComponent<Image>().sprite = hammer_on;
-        //     // Hammer Button Be Active
-        // }
-
         // 読み込み完了
         weaponLoadFlag = false;
     }
 
     // Weapon の詳細を表示
-    public void ShowWeaponPropertyDialog(int weaponKey)
+    // WeaponDataで管理されているウェポンIDをセットする
+    public void ShowWeaponPropertyDialog(int weaponId)
     {
         WeaponPropertyDialog.SetActive(true);
-        //var weapon = (Weapons)Enum.ToObject(typeof(Weapons), weaponKey);
-        //ShowCurrentWeaponInformation(weapon);
-        //weaponKeyは使用しなくなったので、名称を変えた方がわかりやすいかも？
-        ShowCurrentWeaponInformation(weaponKey-1);
+        ShowCurrentWeaponInformation(weaponId);
     }
 
-    //private void ShowCurrentWeaponInformation(Weapons weapon)
-    private void ShowCurrentWeaponInformation(int weaponKey)
+    private void ShowCurrentWeaponInformation(int weaponId)
+    {
+        var weapon = WeaponData2.Entity.HeroWeaponList.Where(x=>x.WeaponID == (WeaponIds)weaponId).First();
+        if (weapon == null)
+        {
+            // こんなことはないはずだが、壊れると嫌なので、1つめのweaponをセットしておく
+            weapon = WeaponData2.Entity.HeroWeaponList[0];
+        }
+        // 獲得済みかどうかで、表示は切り替えるべき
+        SetWeaponInformationToObject(weapon, weapon.IsWeaponAcquired);
+    }
+
+    private void SetWeaponInformationToObject(HeroWeaponStatus weapon, bool isWeaponAcquired)
     {
         // ウェポン名
         var weaponName = GameObject.Find("WeaponName");
         if (weaponName != null)
         {
-            weaponName.GetComponent<Text>().text = WeaponData2.Entity.HeroWeaponList[weaponKey].Name;
-            //weaponName.GetComponent<Text>().text = weapon.ToString();
+            weaponName.GetComponent<Text>().text = isWeaponAcquired? weapon.Name: "????";
         }
         // ウェポン画像
         var weaponImage = GameObject.Find("WeaponImage");
         if (weaponImage != null)
         {
-            weaponImage.GetComponent<Image>().sprite = WeaponData2.Entity.HeroWeaponList[weaponKey].ImageOn;
-            //var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
-            /*
-            if (weaponData != null)
-            {
-                weaponImage.GetComponent<Image>().sprite = weaponData.image_on;
-            }
-            */
+            weaponImage.GetComponent<Image>().sprite = isWeaponAcquired? weapon.ImageOn: weapon.ImageOff;
         }
         // ウェポンの説明
         var weaponExplanation = GameObject.Find("WeaponExplanation");
         if (weaponExplanation != null)
         {
-            weaponExplanation.GetComponent<Text>().text = WeaponData2.Entity.HeroWeaponList[weaponKey].Explanation;
-            //var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
-            //if (weaponData != null)
-            //{
-            //    weaponExplanation.GetComponent<Text>().text = weaponData.explanation;
-            //}
+            weaponExplanation.GetComponent<Text>().text = isWeaponAcquired? weapon.Explanation: weapon.WeaponGetCondition;
         }
         // レーダーチャート
         var radarPoly = GameObject.Find("RadarPoly");
@@ -413,28 +379,22 @@ public class HomeSceneController : MonoBehaviour
             var radar = radarPoly.GetComponent<RadarChartController>();
             if (radar != null)
             {
-                var props = WeaponData2.Entity.HeroWeaponList[weaponKey];
-                radar.Volumes = new float[]{
-                                            (float)props.Attack/5,
-                                            (float)props.Scale/5,
-                                            (float)props.Distance/5,
-                                            (float)props.Penetrate/5,
-                                            (float)props.Rapidfire/5,
-                                            };
-                /*
-                var weaponData = WeaponInformationHolder.GetComponent<WeaponInformationHolder>().GetWeaponDataFromKey(weapon);
-                if (weaponData != null)
-                {
-                    radar.Volumes = new float[]{
-                                                (float)weaponData.attack/5,
-                                                (float)weaponData.size/5,
-                                                (float)weaponData.distance/5,
-                                                (float)weaponData.penetrate/5,
-                                                (float)weaponData.rapidfire/5
-                                                };
-                }
-                */
+                radar.Volumes = isWeaponAcquired?
+                                new float[]{
+                                            (float)weapon.Attack/5,
+                                            (float)weapon.Scale/5,
+                                            (float)weapon.Distance/5,
+                                            (float)weapon.Penetrate/5,
+                                            (float)weapon.Rapidfire/5,
+                                            }
+                                :
+                                new float[]{0f,0f,0f,0f,0f};
             }
+        }
+        var notFound = GameObject.Find("NotAcquiredImage");
+        if (notFound != null)
+        {
+            notFound.GetComponent<Text>().text = isWeaponAcquired? "": "?";
         }
     }
 

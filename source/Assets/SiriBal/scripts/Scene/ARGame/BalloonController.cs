@@ -7,7 +7,7 @@ using UnityEngine.XR.iOS;
 public class BalloonController : MonoBehaviour {
 
 	Transform cameraTransform;
-	
+
 	[SerializeField]
 	GameObject balloonPrefab;
 	GameModeController gameMode;
@@ -15,7 +15,6 @@ public class BalloonController : MonoBehaviour {
 	GameObject GameDirector;
 	GameObject mainCamera;
 	GameObject lastCreatedBalloon;
-	WeaponHolder weaponHolder;
 	Vector3 lastCreatedVector;
 	Vector3 lastCreatedBalloonPosition;
 
@@ -26,20 +25,28 @@ public class BalloonController : MonoBehaviour {
 		GameDirector = GameObject.Find("GameDirector");
 		mainCamera = GameObject.Find("MainCamera");
 		cameraTransform = mainCamera.transform;
-		weaponHolder = GameObject.Find("WeaponHolder").GetComponent<WeaponHolder>();
 	}
 
 	// atPosition座標にバルーンを置く
 	GameObject CreateBalloon(Vector3 atPosition)
 	{
-		GameDirector.GetComponent<GameDirector>().BalloonCounter += 1;
-		
-		// バルーンのステータスをStage情報から取得する
-		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().BalloonHP = GameDirector.GetComponent<GameDirector>().stage.BalloonHP;
-		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().isAction = GameDirector.GetComponent<GameDirector>().stage.IsBalloonAction;
-		//ミサイルの管理を無くしたらこの関数は不要？後で検討
-		balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = weaponHolder.GetWeaponObjectByKey(GameDirector.GetComponent<GameDirector>().stage.BalloonWeaponKey);
+		var gameDirectorRef = GameDirector.GetComponent<GameDirector>();
+		if(gameDirectorRef != null)
+		{
+			gameDirectorRef.BalloonCounter += 1;
+			// バルーンのステータスをStage情報から取得する
+			balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().BalloonHP = gameDirectorRef.stage.BalloonHP;
+			balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().isAction = gameDirectorRef.stage.IsBalloonAction;
 
+			if (gameDirectorRef.stage.BalloonWeaponKey == Generic.Weapons.Missile)
+			{
+				balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = WeaponData2.Entity.EnemyWeaponList[0].WeaponPrefab;
+			}
+			else
+			{
+				balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = null;
+			}
+		}
 		return Instantiate (balloonPrefab, atPosition, Quaternion.identity);
 	}
 
@@ -56,7 +63,7 @@ public class BalloonController : MonoBehaviour {
 		// タッチ開始
 		if (touch.touchPhaseEx == TouchTools.TouchPhaseExtended.Began)
 		{
-		#if UNITY_EDITOR 
+		#if UNITY_EDITOR
 			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));
 		#else
 			// (A)特徴点にRayをあてるならこっち
@@ -67,7 +74,7 @@ public class BalloonController : MonoBehaviour {
 			// y方向は0にして、単位量に変換
 			lastCreatedVector = objectPosition - cameraTransform.position;
 			lastCreatedVector.y = 0;
-			lastCreatedVector = lastCreatedVector / lastCreatedVector.magnitude; 
+			lastCreatedVector = lastCreatedVector / lastCreatedVector.magnitude;
 
 			lastCreatedBalloon = CreateBalloon(objectPosition);
 			lastCreatedBalloonPosition = objectPosition;
@@ -82,10 +89,10 @@ public class BalloonController : MonoBehaviour {
 				var weight = 100;
 				if(lastCreatedBalloon != null)
 				{
-					lastCreatedBalloon.transform.position = (touchDiff > 0) ? 
+					lastCreatedBalloon.transform.position = (touchDiff > 0) ?
 															lastCreatedBalloonPosition + lastCreatedVector * touchDiff / weight:
 															lastCreatedBalloonPosition;
-				}	
+				}
 			#endif
 		}
 		// 離した
@@ -109,7 +116,7 @@ public class BalloonController : MonoBehaviour {
 			x = viewPortPosition.x,
 			y = viewPortPosition.y
 		};
-		
+
 		// スクリーンの座標をWorld座標に変換
 		List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface()
 											.HitTest(point, ARHitTestResultType.ARHitTestResultTypeFeaturePoint);
@@ -124,7 +131,7 @@ public class BalloonController : MonoBehaviour {
 	}
 
 	public void CreateRandomBalloon(int balloonCount = 10)
-	{	
+	{
 		cameraTransform = mainCamera.transform;
 		//バルーンをランダムに生成
 		# if UNITY_EDITOR
@@ -144,7 +151,7 @@ public class BalloonController : MonoBehaviour {
 				float RandomPositionX = Random.Range(-30,30)/10.0f;
 				float RandomPositionY = Random.Range(-10,10)/10.0f;
 				float RandomPositionZ = Random.Range(-30,30)/10.0f;
-			
+
 				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
 				CreateBalloon(cameraTransform.position + RandomPosition);
 			}

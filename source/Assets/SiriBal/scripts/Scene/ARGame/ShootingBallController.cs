@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Generic;
 using Generic.Manager;
@@ -10,10 +11,9 @@ public class ShootingBallController : MonoBehaviour
     public float ShootingForce = 200.0f;
 	GameModeController gameMode;
     TouchTools touch;
-    WeaponHolder weaponHolder;
     public int ShootingMode;
     List<Weapons> availableWeapons; //武器管理の参照先変更により削除してもよい？
-    int currentWeaponIndex;
+    WeaponIds currentWeaponId;
     float ShootingIntervalTimer;
 
     // Start is called before the first frame update
@@ -33,8 +33,7 @@ public class ShootingBallController : MonoBehaviour
             }
         }
         stage.GetRegisteredShootingWeapons(out availableWeapons);   //武器管理の参照先変更により削除してもよい？
-        currentWeaponIndex = 0;
-        weaponHolder = GameObject.Find("WeaponHolder").GetComponent<WeaponHolder>();
+        currentWeaponId = WeaponIds.Stone; // 初期値
         ShootingIntervalTimer = 0;
     }
 
@@ -89,7 +88,11 @@ public class ShootingBallController : MonoBehaviour
     void Shooting(Vector3 position)
     {
         //var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
-        HeroWeaponStatus currentWeapon = WeaponData2.Entity.HeroWeaponList[currentWeaponIndex];
+        HeroWeaponStatus currentWeapon = WeaponData2.Entity.HeroWeaponList.Where(x => x.WeaponID == currentWeaponId).First();
+        if (currentWeapon == null)
+        {
+            currentWeapon = WeaponData2.Entity.HeroWeaponList[0];
+        }
         if (ShootingIntervalTimer > ShootingInterval(currentWeapon.Rapidfire))
         {
             var shootingPrefab = currentWeapon.WeaponPrefab;
@@ -112,12 +115,34 @@ public class ShootingBallController : MonoBehaviour
 
     public void ShootingModeButtonClicked()
     {
-        int weaponcount = WeaponData2.Entity.HeroWeaponList.Count;
-        ++currentWeaponIndex;
-        //if (currentWeaponIndex > availableWeapons.Count - 1)
-        if (currentWeaponIndex > weaponcount - 1)
+        var maxCount = WeaponData2.Entity.HeroWeaponList.Count;
+        currentWeaponId = NextAvailableWeaponId(currentWeaponId);
+    }
+
+    public WeaponIds NextAvailableWeaponId(WeaponIds currentId)
+    {
+        var availableWeaponIds = new List<WeaponIds>();
+        foreach(var weapon in WeaponData2.Entity.HeroWeaponList)
         {
-            currentWeaponIndex = 0;
+            if(weapon.IsWeaponAcquired)
+            {
+                availableWeaponIds.Add(weapon.WeaponID);
+            }
         }
+
+        var nextId = currentId;
+        // 複数個見つかった
+        if(availableWeaponIds.Count > 1)
+        {
+            availableWeaponIds.Sort();
+            for(var index = 0; index < availableWeaponIds.Count; index++)
+            {
+                if(availableWeaponIds[index] == currentId)
+                {
+                    nextId = (index + 1 == availableWeaponIds.Count)? availableWeaponIds[0]: availableWeaponIds[index + 1];
+                }
+            }
+        }
+        return nextId;
     }
 }

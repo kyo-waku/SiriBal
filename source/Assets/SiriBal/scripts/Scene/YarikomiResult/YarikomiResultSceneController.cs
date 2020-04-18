@@ -86,6 +86,9 @@ public class YarikomiResultSceneController : MonoBehaviour
         {
             resultObj.GetComponent<Text>().text = newRecord.ToString();
         }
+
+        // Weapon獲得したかどうか確認する
+        WeaponData2.UpdateWeaponAcquiredStatus(newRecord);
     }
 
     private void ShowNotNewRecord(int latest, int best)
@@ -141,9 +144,11 @@ public class YarikomiResultSceneController : MonoBehaviour
         var userName = NameInputTextFiled.GetComponent<Text>().text;
         var score = scoreMng.LoadYarikomiLatestFromLocal();
         scoreMng.RegisterRecordToDatabase(new Record(userName, score));
-
         NameInput.SetActive(false);
         RegisterButton.SetActive(false);
+
+        // 特殊条件によりWeapon獲得 (ColaCan)
+        WeaponData2.UpdateWeaponAcquiredStatus(0, WeaponIds.ColaCan);
     }
     public void CancelButtonClicked()
     {
