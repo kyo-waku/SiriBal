@@ -63,7 +63,7 @@ public class YarikomiResultSceneController : MonoBehaviour
     {
         var latestScore = scoreMng.LoadYarikomiLatestFromLocal();
         var bestScore = scoreMng.LoadYarikomiBestFromLocal();
-        
+
         if (latestScore >= bestScore)
         {
             ShowNewRecord(latestScore);
@@ -124,7 +124,7 @@ public class YarikomiResultSceneController : MonoBehaviour
     {
         // 回転の制御を戻す
         Screen.autorotateToLandscapeLeft = false;
-        Screen.autorotateToLandscapeRight = false; 
+        Screen.autorotateToLandscapeRight = false;
         // 一応戻す
         RegisterButton.SetActive(true);
         // シーン遷移
@@ -141,7 +141,7 @@ public class YarikomiResultSceneController : MonoBehaviour
         var userName = NameInputTextFiled.GetComponent<Text>().text;
         var score = scoreMng.LoadYarikomiLatestFromLocal();
         scoreMng.RegisterRecordToDatabase(new Record(userName, score));
-        
+
         NameInput.SetActive(false);
         RegisterButton.SetActive(false);
     }
