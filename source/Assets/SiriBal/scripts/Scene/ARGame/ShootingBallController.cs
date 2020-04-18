@@ -14,6 +14,7 @@ public class ShootingBallController : MonoBehaviour
     public int ShootingMode;
     List<Weapons> availableWeapons; //武器管理の参照先変更により削除してもよい？
     int currentWeaponIndex;
+    float ShootingIntervalTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -34,11 +35,14 @@ public class ShootingBallController : MonoBehaviour
         stage.GetRegisteredShootingWeapons(out availableWeapons);   //武器管理の参照先変更により削除してもよい？
         currentWeaponIndex = 0;
         weaponHolder = GameObject.Find("WeaponHolder").GetComponent<WeaponHolder>();
+        ShootingIntervalTimer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 投げ間隔の計算用
+        ShootingIntervalTimer += Time.deltaTime;
         // Shooting Mode
 		if(GameModeController.eGameMode.Shooting != gameMode.GameMode)
 		{
@@ -58,27 +62,52 @@ public class ShootingBallController : MonoBehaviour
                 #endif
             }
         }
-        
+    }
+
+    // 連射性能を時間間隔へ変換する。定義はここ次第
+    // rapidFireValue = 5 : 0.3 sec 間隔
+    // ~ rapidFireValue = 1 : 1.1 sec 間隔
+    float ShootingInterval(int rapidFireValue)
+    {
+        // ベタ書き（計算式に基づかない）が、実はこれが一番わかり易いと思う。
+        switch(rapidFireValue)
+        {
+            case 1 : // 超遅い
+                return 1f;
+            case 2 : // まぁまぁ遅い
+                return 0.7f;
+            case 3 : // 普通
+                return 0.5f;
+            case 4 : // まぁまぁ早い
+                return 0.3f;
+            case 5 : // 爆速
+            default :
+                return 0.1f;
+        }
     }
 
     void Shooting(Vector3 position)
     {
         //var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
-        HeroWeaponStatus currentweapon = WeaponData2.Entity.HeroWeaponList[currentWeaponIndex];
-        var shootingPrefab = currentweapon.WeaponPrefab;
-        if (shootingPrefab == null){return;}
+        HeroWeaponStatus currentWeapon = WeaponData2.Entity.HeroWeaponList[currentWeaponIndex];
+        if (ShootingIntervalTimer > ShootingInterval(currentWeapon.Rapidfire))
+        {
+            var shootingPrefab = currentWeapon.WeaponPrefab;
+            if (shootingPrefab == null){return;}
 
-        GameObject ShootingObj = Instantiate(shootingPrefab) as GameObject;
-        // ウェポンのステータスをGameObjectに挿入する
-        ShootingObj.AddComponent<WeaponProperties>();
-        ShootingObj.GetComponent<WeaponProperties>().Initialize(currentweapon);
-        // 投げるためのForce計算
-        Ray ray = Camera.main.ScreenPointToRay(position);
-        ShootingObj.transform.position = ray.origin + ray.direction.normalized ;
-        ShootingObj.GetComponent<ShootingWatcher>().Shoot(ray.direction.normalized * ShootingForce);
-    
-        //投げ回数のカウント
-        GameDirector.GetComponent<GameDirector>().ThrowCounter += 1;
+            GameObject ShootingObj = Instantiate(shootingPrefab) as GameObject;
+            // ウェポンのステータスをGameObjectに挿入する
+            ShootingObj.AddComponent<WeaponProperties>();
+            ShootingObj.GetComponent<WeaponProperties>().Initialize(currentWeapon);
+            // 投げるためのForce計算
+            Ray ray = Camera.main.ScreenPointToRay(position);
+            ShootingObj.transform.position = ray.origin + ray.direction.normalized ;
+            ShootingObj.GetComponent<ShootingWatcher>().Shoot(ray.direction.normalized * ShootingForce);
+            // 投げ回数のカウント
+            GameDirector.GetComponent<GameDirector>().ThrowCounter += 1;
+            // 投げインターバルの初期化
+            ShootingIntervalTimer = 0;
+        }
     }
 
     public void ShootingModeButtonClicked()
