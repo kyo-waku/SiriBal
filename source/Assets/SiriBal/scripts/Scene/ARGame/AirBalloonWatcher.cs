@@ -30,11 +30,10 @@ public class AirBalloonWatcher : MonoBehaviour
     [SerializeField]
     GameObject particle;
 
-    private const int MAXDISTANCE = 30;
+    private const int MAXDISTANCE = 20;
 
     //Decision Balloon's Action
     void GetAction(int ActionNo){
-        
         if (isAction == false) return; // Action なし
 
         float force = Random.Range(100.0f,200.0f);
@@ -45,45 +44,36 @@ public class AirBalloonWatcher : MonoBehaviour
                 //Rise
                 rb.AddForce (UpperForce);
                 break;
-            
             case 1:
                 rb.AddForce (1.2f*UpperForce);
                 break;
             case 2:
                 rb.AddForce (sideForce);
                 break;
-            
             case 3:
                 rb.AddForce (-sideForce);
                 break;
-            
             case 4:
                 rb.AddForce (-UpperForce);
                 break;
-            
             default:
                 Destroy(gameObject);
                 break;
-            
         }
-
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
         controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
-
         //Get Rigid Body
         rb = this.GetComponent<Rigidbody>();
-        
         //Find GameDirector for Scoring
         director = GameObject.Find("GameDirector");
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
         //AttackSpan = 4.0f;//デバッグ用の攻撃間隔
         AttackSpan = Random.Range(5,15);
         //ActionSpan = Random.Range(5,15);
-        
         //Decision 1st ActionSpan
         ActionSpan = Random.Range(3,5);
 
@@ -124,7 +114,6 @@ public class AirBalloonWatcher : MonoBehaviour
                 }
                 break;
         }
-        
         //多重接触防止の暫定措置：要変更
         if(mutekiFlag==true)
         {
@@ -144,7 +133,6 @@ public class AirBalloonWatcher : MonoBehaviour
         GameObject go = Instantiate(Attackprefab) as GameObject;
         go.transform.position = vctr1 + Clearance * (vctr3/vctr3.magnitude);
     }
-    
     // バルーンが遠くに行ってしまったよ、の処理（名前ふざけすぎた）
     private void ByeByeBalloon()
     {
@@ -189,7 +177,6 @@ public class AirBalloonWatcher : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-            
         }
     }
 }
