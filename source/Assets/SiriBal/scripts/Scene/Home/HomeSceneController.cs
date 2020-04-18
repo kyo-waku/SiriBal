@@ -39,8 +39,6 @@ public class HomeSceneController : MonoBehaviour
     Sprite hammer_off;
     [SerializeField]
     GameObject WeaponPropertyDialog;
-    [SerializeField]
-    GameObject WeaponInformationHolder;
     private bool weaponLoadFlag;
     //--------
 
@@ -276,7 +274,7 @@ public class HomeSceneController : MonoBehaviour
             bestScoreValueText.GetComponent<Text>().text = bestScore.ToString();
         }
     }
-#endregion 
+#endregion
 
 #region RANK-UI
     private void UpdateRanks(List<Record> records)
@@ -297,7 +295,7 @@ public class HomeSceneController : MonoBehaviour
                 GameObject.Find(objName).transform.GetChild(1).gameObject.GetComponent<Text>().text = records[count].TotalScore.ToString();
                 GameObject.Find(objName).transform.GetChild(2).gameObject.GetComponent<Text>().text = records[count].UserName;
             }
-            
+
             // 8個に満たない場合、使っていないランクを非表示にする
             if (records.Count < 8)
             {

@@ -2306,62 +2306,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345856106}
   m_CullTransparentMesh: 0
---- !u!1 &345894112
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 345894113}
-  - component: {fileID: 345894114}
-  m_Layer: 5
-  m_Name: WeaponInformationHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &345894113
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345894112}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 556359963}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &345894114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345894112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a58a8a665390a409983f17be6615bf9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StoneScriptableObject: {fileID: 11400000, guid: 537a91c8a6f8346eaa82c8a927a3ec8f,
-    type: 2}
-  ColaCanScriptableObject: {fileID: 11400000, guid: 395bba5e246dc4a0baf26aa081204376,
-    type: 2}
-  ShoesScriptableObject: {fileID: 11400000, guid: d7ca9d9a75de64ee39bda1c53fcd924a,
-    type: 2}
-  HammerScriptableObject: {fileID: 11400000, guid: b2cfebb00b1a8412996fbc129979fa9d,
-    type: 2}
 --- !u!1 &348812878
 GameObject:
   m_ObjectHideFlags: 0
@@ -3991,7 +3935,6 @@ RectTransform:
   m_Children:
   - {fileID: 201874490}
   - {fileID: 1842044592}
-  - {fileID: 345894113}
   m_Father: {fileID: 178617808}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9006,14 +8949,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeObject: {fileID: 175778721}
-  yarikomiStage_rank1: {fileID: 11400000, guid: 9606d462f24ce4d2dae29a7c1be009b0,
-    type: 2}
   stone_on: {fileID: 21300000, guid: 883e2ec99f14e4ccdb3a4c931a1484da, type: 3}
   stone_off: {fileID: 21300000, guid: a22fd0dc97a0c477e95f2ea0efae9be0, type: 3}
   hammer_on: {fileID: 21300000, guid: d2edba50f5bae4d229585effc7a758ff, type: 3}
   hammer_off: {fileID: 21300000, guid: aa114636835fc4b4b9d97cade5527d44, type: 3}
   WeaponPropertyDialog: {fileID: 1842044591}
-  WeaponInformationHolder: {fileID: 345894112}
   VibrationToggleObject: {fileID: 1424024693}
   bestScoreValueText: {fileID: 1684307654}
 --- !u!4 &1640527260
