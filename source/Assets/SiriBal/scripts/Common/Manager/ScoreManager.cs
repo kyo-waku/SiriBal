@@ -22,7 +22,10 @@ namespace Generic.Manager{
         // すべてのレコードをデータベースから取得する
         public async void GetAllRecordsFromDatabase()
         {
-            records = await service.GetRankingData();
+            if (service.IsUserLoginned())
+            {
+                records = await service.GetRankingData();
+            }
         }
 
         public List<Record> GetRecords()
@@ -36,7 +39,10 @@ namespace Generic.Manager{
 
         public void RegisterRecordToDatabase(Record record)
         {
-            service.WriteNewScore(record);
+            if (service.IsUserLoginned())
+            {
+                service.WriteNewScore(record);
+            }
         }
 
         // やりこみモード用

@@ -30,11 +30,35 @@ namespace Generic.Firebase
             _auth = FirebaseAuth.DefaultInstance;
             FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(FIREBASE_REALTIMEDATABASE_URL);
             _database = FirebaseDatabase.DefaultInstance.GetReference(DATABASE_KEY);
+            // 匿名認証
+            AnonymousLogin();
         }
 
+        public bool IsUserLoginned()
+        {
+            return (_auth.CurrentUser != null);
+        }
+
+        private void AnonymousLogin()
+        {
+            _auth.SignInAnonymouslyAsync().ContinueWith(task => {
+            if (task.IsCanceled) {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted) {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+            });
+        }
         // Firebase Realtime Database から 登録されているレコードを取得する
-        public async Task<List<Record>> GetRankingData(int fetchCount = 8) {
-            
+        public async Task<List<Record>> GetRankingData(int fetchCount = 8)
+        {
             return await _database.OrderByChild(ENTRY_SCORE).LimitToLast(fetchCount).GetValueAsync().ContinueWith(task => {
                 var records = new List<Record>();
                 if (task.IsFaulted) {
