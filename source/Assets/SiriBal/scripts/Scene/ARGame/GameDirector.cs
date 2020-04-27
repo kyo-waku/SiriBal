@@ -340,7 +340,7 @@ public class GameDirector : MonoBehaviour
     {
         LifePoint = LifePoint
                     + DestroyedBalloonCount * currentRank
-                    - (int)MissingBalloonCount * 5          // Missingの重みはでかい・・・
+                    - (int)MissingBalloonCount * 4          // Missingの重みはでかい・・・
                     - (int)TimeValue
                     - (int)(ThrowCounter / (stage.BalloonHP * 2))
                     - (int)(EnemyAttackHitCount * 3);
