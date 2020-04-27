@@ -14,8 +14,8 @@ public class AirBalloonWatcher : MonoBehaviour
 
     float timeElapsed;
     float mutekiTime;
-    bool mutekiFlag=false;
-    float AttackSpan;
+    bool mutekiFlag = false;
+    public int AttackSpan;
     float AttackTime;
 
     //find GameDirector for scoring
@@ -72,7 +72,7 @@ public class AirBalloonWatcher : MonoBehaviour
         director = GameObject.Find("GameDirector");
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
         //AttackSpan = 4.0f;//デバッグ用の攻撃間隔
-        AttackSpan = Random.Range(5,15);
+        AttackSpan = Random.Range(AttackSpan,AttackSpan+5);
         //ActionSpan = Random.Range(5,15);
         //Decision 1st ActionSpan
         ActionSpan = Random.Range(3,5);

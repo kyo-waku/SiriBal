@@ -84,6 +84,7 @@ namespace Generic
         // Properties ------
         public int BalloonLimit{get; private set;}
         public int BalloonHP{get; private set;}
+        public int AttackSpan{get; private set;}
         public Weapons BalloonWeaponKey{get; private set;} // バルーンが攻撃してくるときのウェポンのキー
         public bool IsBalloonAction{get; private set;}
         public ArrangementMode BalloonArrangementMode{get; private set;}

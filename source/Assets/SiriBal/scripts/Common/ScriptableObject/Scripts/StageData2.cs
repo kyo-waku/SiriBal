@@ -33,6 +33,7 @@ public class StageProperties
 {
     public int BalloonLimit;
     public int BalloonHP;
+    public int AttackSpan;
     public Weapons BalloonWeaponKey;
     public bool IsBalloonAction;
     public Stage.ArrangementMode BalloonArrangementMode;
