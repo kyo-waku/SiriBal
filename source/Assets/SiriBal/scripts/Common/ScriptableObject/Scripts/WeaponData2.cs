@@ -53,12 +53,12 @@ public class WeaponData2 : ScriptableObject
             UpdateCache(WeaponIds.ColaCan);
         }
         // Shoes
-        if (score > 10000 || id == WeaponIds.Shoes)
+        if (score > 7000 || id == WeaponIds.Shoes)
         {
             UpdateCache(WeaponIds.Shoes);
         }
         // Hammer
-        if (score > 30000 || id == WeaponIds.Hammer)
+        if (score > 15000 || id == WeaponIds.Hammer)
         {
             UpdateCache(WeaponIds.Hammer);
         }
