@@ -22,16 +22,79 @@ MonoBehaviour:
     ShootingLimit: -1
     GameClearCondition: 2
     RankUpThreshold: 500
-  - BalloonLimit: 15
-    BalloonHP: 3
-    BalloonWeaponKey: -1
+  - BalloonLimit: 12
+    BalloonHP: 1
+    BalloonWeaponKey: 0
     IsBalloonAction: 0
     BalloonArrangementMode: 1
     TimeLimit: -1
     ShootingLimit: -1
     GameClearCondition: 2
     RankUpThreshold: 1000
-  - BalloonLimit: 20
+  - BalloonLimit: 10
+    BalloonHP: 2
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 1500
+  - BalloonLimit: 12
+    BalloonHP: 2
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 2000
+  - BalloonLimit: 15
+    BalloonHP: 2
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 2000
+  - BalloonLimit: 10
+    BalloonHP: 3
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 3000
+  - BalloonLimit: 12
+    BalloonHP: 3
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 4000
+  - BalloonLimit: 10
+    BalloonHP: 5
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 5000
+  - BalloonLimit: 12
+    BalloonHP: 5
+    BalloonWeaponKey: -1
+    IsBalloonAction: 1
+    BalloonArrangementMode: 1
+    TimeLimit: -1
+    ShootingLimit: -1
+    GameClearCondition: 2
+    RankUpThreshold: 7000
+  - BalloonLimit: 15
     BalloonHP: 5
     BalloonWeaponKey: -1
     IsBalloonAction: 1

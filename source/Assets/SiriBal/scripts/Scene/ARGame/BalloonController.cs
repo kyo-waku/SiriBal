@@ -138,7 +138,7 @@ public class BalloonController : MonoBehaviour {
 			//ランダム範囲
 			for (int i = 0; i < balloonCount; i++) {
 				float RandomPositionX = Random.Range(-15,15)/10.0f;
-				float RandomPositionY = Random.Range(-30,30)/10.0f;
+				float RandomPositionY = Random.Range(-30,20)/10.0f;
 				float RandomPositionZ = Random.Range(0,5);
 
 				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
