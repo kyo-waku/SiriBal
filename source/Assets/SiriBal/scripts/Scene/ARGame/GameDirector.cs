@@ -344,7 +344,8 @@ public class GameDirector : MonoBehaviour
                     - (int)TimeValue
                     - (int)(ThrowCounter / (stage.BalloonHP * 2))
                     - (int)(EnemyAttackHitCount * 3);
-        LifePoint = LifePoint < 0 ? 0 : LifePoint;
+        LifePoint = LifePoint < 0 ? 0 : LifePoint; // LifePointはマイナスにしない
+        LifePoint = LifePoint > 100?  100 : LifePoint; // LifePointは上限が100
     }
 
     private void InitializeCounts(bool IsLifeInitialize = false)
