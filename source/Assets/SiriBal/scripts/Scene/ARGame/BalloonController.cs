@@ -141,6 +141,8 @@ public class BalloonController : MonoBehaviour {
 				float RandomPositionX = Random.Range(-15,15)/10.0f;
 				float RandomPositionY = Random.Range(-30,20)/10.0f;
 				float RandomPositionZ = Random.Range(0,5);
+
+				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
 				CreateBalloon (new Vector3 (cameraTransform.position.x + 0.0f, cameraTransform.position.y, cameraTransform.position.z + 9.0f) + RandomPosition);
 			}
 			GameDirector.GetComponent<GameDirector>().DescriptionClicked();
