@@ -125,6 +125,7 @@ namespace Generic
         {
             BalloonLimit = stage.BalloonLimit;
             BalloonHP = stage.BalloonHP;
+            AttackSpan = stage.AttackSpan;
             BalloonWeaponKey = stage.BalloonWeaponKey;
             IsBalloonAction = stage.IsBalloonAction;
             BalloonArrangementMode = stage.BalloonArrangementMode;

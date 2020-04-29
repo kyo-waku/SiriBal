@@ -62,7 +62,7 @@ MonoBehaviour:
     TimeLimit: -1
     ShootingLimit: -1
     GameClearCondition: 2
-    RankUpThreshold: 2000
+    RankUpThreshold: 2500
   - BalloonLimit: 10
     BalloonHP: 3
     AttackSpan: 8
@@ -112,4 +112,4 @@ MonoBehaviour:
     TimeLimit: -1
     ShootingLimit: -1
     GameClearCondition: 2
-    RankUpThreshold: 2000
+    RankUpThreshold: 10000

@@ -13,8 +13,6 @@ public class AirBalloonWatcher : MonoBehaviour
     public bool isAction = true;
 
     float timeElapsed;
-    float mutekiTime;
-    bool mutekiFlag = false;
     public int AttackSpan;
     float AttackTime;
 
@@ -72,7 +70,7 @@ public class AirBalloonWatcher : MonoBehaviour
         director = GameObject.Find("GameDirector");
         PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
         //AttackSpan = 4.0f;//デバッグ用の攻撃間隔
-        AttackSpan = Random.Range(AttackSpan,AttackSpan+5);
+        AttackSpan = AttackSpan + Random.Range(0,5);
         //ActionSpan = Random.Range(5,15);
         //Decision 1st ActionSpan
         ActionSpan = Random.Range(3,5);
@@ -114,13 +112,7 @@ public class AirBalloonWatcher : MonoBehaviour
                 }
                 break;
         }
-        //多重接触防止の暫定措置：要変更
-        if(mutekiFlag==true)
-        {
-            mutekiTime += Time.deltaTime;
-            if(mutekiTime > 0.1f) mutekiFlag=false;
-        }
-
+        
         // バルーンが離れすぎたら消す処理
         ByeByeBalloon();
     }
