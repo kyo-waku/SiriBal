@@ -24,8 +24,8 @@ Extension Asset
 One license required for each individual user.
 For more information, check the EULA (https://unity3d.com/legal/as_terms) and FAQ (https://assetstore.unity.com/browse/eula-faq).
 
-1. []()
-1. []()
+1. [Hammer](https://assetstore.unity.com/packages/3d/props/weapons/taf-s-fantasy-mace-16802) - Unity Assetのフリー素材
+1. [Stone](https://assetstore.unity.com/packages/3d/environments/yughues-free-rocks-13568) - Unity Assetのフリー素材：元々使っていたのが所在不明なので、このアセット使うことにする。
 1. []()
 1. []()
 1. []()
