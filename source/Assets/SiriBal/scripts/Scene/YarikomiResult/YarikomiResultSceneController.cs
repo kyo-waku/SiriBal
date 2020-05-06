@@ -88,7 +88,7 @@ public class YarikomiResultSceneController : MonoBehaviour
         }
 
         // Weapon獲得したかどうか確認する
-        WeaponData2.UpdateWeaponAcquiredStatus(newRecord);
+        WeaponData.UpdateWeaponAcquiredStatus(newRecord);
     }
 
     private void ShowNotNewRecord(int latest, int best)
@@ -148,7 +148,7 @@ public class YarikomiResultSceneController : MonoBehaviour
         RegisterButton.SetActive(false);
 
         // 特殊条件によりWeapon獲得 (ColaCan)
-        WeaponData2.UpdateWeaponAcquiredStatus(0, WeaponIds.ColaCan);
+        WeaponData.UpdateWeaponAcquiredStatus(0, WeaponIds.ColaCan);
     }
     public void CancelButtonClicked()
     {
