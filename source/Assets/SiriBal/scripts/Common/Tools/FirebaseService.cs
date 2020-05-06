@@ -17,18 +17,24 @@ namespace Generic.Firebase
 
         // Defines
         private const string FIREBASE_REALTIMEDATABASE_URL= "https://seriousballoon-kyowaku-82546.firebaseio.com/";
+        private const string FIREBASE_REALTIMEDATABASE_URL_DEV = "https://seriousballoon-kyo-waku-dev.firebaseio.com/";
         private const string DATABASE_KEY = "ScoreBoard";
         private const string ENTRY_SCORE = "score";
         private const string ENTRY_NAME = "name";
         private const string ENTRY_ID = "id";
         private const string ENTRY_DATE = "date";
 
+        private string FirebaseUrl{
+            get{
+                return Debug.isDebugBuild? FIREBASE_REALTIMEDATABASE_URL_DEV: FIREBASE_REALTIMEDATABASE_URL;
+            }
+        }
 
         public FirebaseService()
         {
             // Initialize Firebase Instances
             _auth = FirebaseAuth.DefaultInstance;
-            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(FIREBASE_REALTIMEDATABASE_URL);
+            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(FirebaseUrl);
             _database = FirebaseDatabase.DefaultInstance.GetReference(DATABASE_KEY);
             // 匿名認証
             AnonymousLogin();
