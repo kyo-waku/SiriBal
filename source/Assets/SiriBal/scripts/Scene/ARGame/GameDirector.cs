@@ -540,7 +540,7 @@ public class GameDirector : MonoBehaviour
         var img_base = WeaponToggleButtonBase.GetComponent<Image>();
 
         spriteId = NextAvailableWeaponId(spriteId);
-        var weapon = WeaponData2.Entity.HeroWeaponList.Where(x => x.WeaponID == spriteId).First();
+        var weapon = WeaponData.Entity.HeroWeaponList.Where(x => x.WeaponID == spriteId).First();
         img.sprite = weapon.SelectedIcon;
         img_base.sprite = weapon.SelectedIcon;
     }
@@ -548,7 +548,7 @@ public class GameDirector : MonoBehaviour
     public WeaponIds NextAvailableWeaponId(WeaponIds currentId)
     {
         var availableWeaponIds = new List<WeaponIds>();
-        foreach(var weapon in WeaponData2.Entity.HeroWeaponList)
+        foreach(var weapon in WeaponData.Entity.HeroWeaponList)
         {
             if(weapon.IsWeaponAcquired)
             {

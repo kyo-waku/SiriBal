@@ -88,10 +88,10 @@ public class ShootingBallController : MonoBehaviour
     void Shooting(Vector3 position)
     {
         //var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
-        HeroWeaponStatus currentWeapon = WeaponData2.Entity.HeroWeaponList.Where(x => x.WeaponID == currentWeaponId).First();
+        HeroWeaponStatus currentWeapon = WeaponData.Entity.HeroWeaponList.Where(x => x.WeaponID == currentWeaponId).First();
         if (currentWeapon == null)
         {
-            currentWeapon = WeaponData2.Entity.HeroWeaponList[0];
+            currentWeapon = WeaponData.Entity.HeroWeaponList[0];
         }
         if (ShootingIntervalTimer > ShootingInterval(currentWeapon.Rapidfire))
         {
@@ -115,14 +115,14 @@ public class ShootingBallController : MonoBehaviour
 
     public void ShootingModeButtonClicked()
     {
-        var maxCount = WeaponData2.Entity.HeroWeaponList.Count;
+        var maxCount = WeaponData.Entity.HeroWeaponList.Count;
         currentWeaponId = NextAvailableWeaponId(currentWeaponId);
     }
 
     public WeaponIds NextAvailableWeaponId(WeaponIds currentId)
     {
         var availableWeaponIds = new List<WeaponIds>();
-        foreach(var weapon in WeaponData2.Entity.HeroWeaponList)
+        foreach(var weapon in WeaponData.Entity.HeroWeaponList)
         {
             if(weapon.IsWeaponAcquired)
             {

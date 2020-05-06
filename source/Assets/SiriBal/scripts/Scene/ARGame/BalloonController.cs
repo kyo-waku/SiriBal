@@ -41,7 +41,7 @@ public class BalloonController : MonoBehaviour {
 
 			if (gameDirectorRef.stage.BalloonWeaponKey == Generic.Weapons.Missile)
 			{
-				balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = WeaponData2.Entity.EnemyWeaponList[0].WeaponPrefab;
+				balloonPrefab.gameObject.GetComponent<AirBalloonWatcher>().AttackWeapon = WeaponData.Entity.EnemyWeaponList[0].WeaponPrefab;
 			}
 			else
 			{

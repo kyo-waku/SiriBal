@@ -315,7 +315,7 @@ public class HomeSceneController : MonoBehaviour
 #region WEAPON-UI
     private void LoadWeaponResultFromCache()
     {
-        foreach(var weapon in WeaponData2.Entity.HeroWeaponList)
+        foreach(var weapon in WeaponData.Entity.HeroWeaponList)
         {
             var isWeaponAcquired = weapon.IsWeaponAcquired;
             var objName = "Weapon" + (int)weapon.WeaponID;
@@ -342,11 +342,11 @@ public class HomeSceneController : MonoBehaviour
 
     private void ShowCurrentWeaponInformation(int weaponId)
     {
-        var weapon = WeaponData2.Entity.HeroWeaponList.Where(x=>x.WeaponID == (WeaponIds)weaponId).First();
+        var weapon = WeaponData.Entity.HeroWeaponList.Where(x=>x.WeaponID == (WeaponIds)weaponId).First();
         if (weapon == null)
         {
             // こんなことはないはずだが、壊れると嫌なので、1つめのweaponをセットしておく
-            weapon = WeaponData2.Entity.HeroWeaponList[0];
+            weapon = WeaponData.Entity.HeroWeaponList[0];
         }
         // 獲得済みかどうかで、表示は切り替えるべき
         SetWeaponInformationToObject(weapon, weapon.IsWeaponAcquired);
