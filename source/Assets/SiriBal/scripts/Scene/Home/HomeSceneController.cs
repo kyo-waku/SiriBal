@@ -31,14 +31,6 @@ public class HomeSceneController : MonoBehaviour
 
     // WEAPON UI
     [SerializeField]
-    Sprite stone_on;
-    [SerializeField]
-    Sprite stone_off;
-    [SerializeField]
-    Sprite hammer_on;
-    [SerializeField]
-    Sprite hammer_off;
-    [SerializeField]
     GameObject WeaponPropertyDialog;
     private bool weaponLoadFlag;
     //--------

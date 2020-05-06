@@ -87,7 +87,6 @@ public class ShootingBallController : MonoBehaviour
 
     void Shooting(Vector3 position)
     {
-        //var shootingPrefab = weaponHolder.GetWeaponObjectByKey(availableWeapons[currentWeaponIndex]);
         HeroWeaponStatus currentWeapon = WeaponData.Entity.HeroWeaponList.Where(x => x.WeaponID == currentWeaponId).First();
         if (currentWeapon == null)
         {

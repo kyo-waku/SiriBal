@@ -33,14 +33,6 @@ public class GameDirector : MonoBehaviour
     private GameObject YarikomiHeader;
     private int currentRank = 1;
     private GameObject LoadBalGen;
-    //下記は武器管理変更により削除してよい？
-    private int WeaponNumber = 4;//使用できる武器の数、WeaponIconの切替に使うよ
-    public Sprite _MasterBall;
-    public Sprite _Hammer;
-    public Sprite _ColaCan;
-    public Sprite _Rock;
-    public Sprite _Shoes;
-
     private WeaponIds spriteId = WeaponIds.Stone;
 
     // properties
