@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using Generic;
 using Generic.Manager;
 public class YarikomiResultSceneController : MonoBehaviour
@@ -153,5 +154,17 @@ public class YarikomiResultSceneController : MonoBehaviour
     public void CancelButtonClicked()
     {
         NameInput.SetActive(false);
+    }
+
+    public void OnClickTwitterButton()
+    {
+        string tweet = "スコアは" + scoreMng.LoadYarikomiLatestFromLocal() + "だったよ";
+        //urlの作成
+        string esctext = UnityWebRequest.EscapeURL(tweet + "\n みんなも遊んでみよう！！\n");
+        string esctag = UnityWebRequest.EscapeURL("SeriousBalloon, きょうわく");
+        string url = "https://twitter.com/intent/tweet?text=" + esctext + "&hashtags=" + esctag;
+
+        //Twitter投稿画面の起動
+        Application.OpenURL(url);
     }
 }
