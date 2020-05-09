@@ -39,7 +39,8 @@ public class HomeSceneController : MonoBehaviour
     // OPTIONS UI
     [SerializeField]
     GameObject VibrationToggleObject;
-
+    [SerializeField]
+    GameObject LicenseDetailsUI;
     //--------
 
     // GAME UI
@@ -435,6 +436,22 @@ public class HomeSceneController : MonoBehaviour
                 PlayerPrefs.SetInt("Vibration",0);
             }
             PlayerPrefs.Save();
+        }
+    }
+
+    public void OnClickLicenseDetailsButton()
+    {
+        if (LicenseDetailsUI != null)
+        {
+            LicenseDetailsUI.SetActive(true);
+        }
+    }
+
+    public void CloseLicenseDetailsUI()
+    {
+        if (LicenseDetailsUI != null)
+        {
+            LicenseDetailsUI.SetActive(false);
         }
     }
 
