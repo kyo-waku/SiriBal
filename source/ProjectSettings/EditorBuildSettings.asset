@@ -23,4 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SiriBal/YarikomiResult.unity
     guid: fb52f7e88e98c4465a9900ba8fd72095
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 499577e54fbd3483db5afc9e0001bfb2,
+      type: 2}
