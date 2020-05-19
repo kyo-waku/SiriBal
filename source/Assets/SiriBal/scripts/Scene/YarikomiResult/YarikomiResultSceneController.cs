@@ -33,7 +33,7 @@ public class YarikomiResultSceneController : MonoBehaviour
     {
         gameSceneMng = new GameSceneManager();
         scoreMng = new ScoreManager(DataManager.service);
-        mainCamera = GameObject.Find("MainCamera");
+        mainCamera = GameObject.Find("AR Camera");
         // 回転したくない
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;

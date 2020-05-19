@@ -71,4 +71,5 @@ MonoBehaviour:
     Rapidfire: 2
   EnemyWeaponList:
   - _name: Missile
-    _weaponPrefab: {fileID: 0}
+    _weaponPrefab: {fileID: 2000341097746316527, guid: 370cabc4defe741cea9d757a7c1d80fb,
+      type: 3}

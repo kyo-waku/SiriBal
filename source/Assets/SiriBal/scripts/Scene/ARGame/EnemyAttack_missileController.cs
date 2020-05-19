@@ -11,7 +11,7 @@ public class EnemyAttack_missileController : MonoBehaviour
     [SerializeField]
     GameObject particle;
 
-    Rigidbody rigidbody;
+    Rigidbody rigids;
     GameObject PlayerCamera;
     float MovingForce = 25.0f;
     float timeOut = 15.0f;
@@ -22,13 +22,13 @@ public class EnemyAttack_missileController : MonoBehaviour
         controlGameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
         director = GameObject.Find("GameDirector");
 
-        PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
-        rigidbody = GetComponent<Rigidbody>();//rigidbodyの導入
+        PlayerCamera = GameObject.Find("AR Camera");//プレイヤーを認識する
+        rigids = GetComponent<Rigidbody>();//rigidbodyの導入
         Vector3 vctr1 = transform.position;//このオブジェクトの座標を取得
         Vector3 vctr2 = PlayerCamera.transform.position;//プレイヤーカメラの座標を取得
         Vector3 vctr3 = vctr2 - vctr1;//このオブジェクトとプレイヤー間のベクトルを算出
         this.transform.rotation = Quaternion.FromToRotation(Vector3.down, -vctr3);//向きを適切に回転
-        this.rigidbody.AddForce(MovingForce * (vctr3 / vctr3.magnitude));//プレイヤーに向かっていく向きに力を加える
+        this.rigids.AddForce(MovingForce * (vctr3 / vctr3.magnitude));//プレイヤーに向かっていく向きに力を加える
     }
 
     // Update is called once per frame

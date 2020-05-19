@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.iOS;
 
 public class BalloonController : MonoBehaviour {
 
@@ -23,7 +22,7 @@ public class BalloonController : MonoBehaviour {
 		touch = GameObject.Find("GameDirector").GetComponent<TouchTools>();
         gameMode = GameObject.Find ("ModeSwitcher").GetComponent<GameModeController>();
 		GameDirector = GameObject.Find("GameDirector");
-		mainCamera = GameObject.Find("MainCamera");
+		mainCamera = GameObject.Find("AR Camera");
 		cameraTransform = mainCamera.transform;
 	}
 
@@ -68,7 +67,7 @@ public class BalloonController : MonoBehaviour {
 			CreateBalloon (new Vector3 (cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z+15.0f));
 		#else
 			// (A)特徴点にRayをあてるならこっち
-			var objectPosition = touchToARHitWorld(touch.touchStartPosition);
+			var objectPosition = new Vector3();// ARFoundation対応のために一旦削除  touchToARHitWorld(touch.touchStartPosition);
 			// (B)Viewportで取るならこっち
 			//var objectPosition = Camera.main.ScreenToViewportPoint(touch.touchStartPosition);
 
@@ -110,27 +109,6 @@ public class BalloonController : MonoBehaviour {
 		}
 	}
 
-	Vector3 touchToARHitWorld(Vector3 touchPosition){
-		var viewPortPosition = Camera.main.ScreenToViewportPoint(touchPosition);
-		ARPoint point = new ARPoint
-		{
-			x = viewPortPosition.x,
-			y = viewPortPosition.y
-		};
-
-		// スクリーンの座標をWorld座標に変換
-		List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface()
-											.HitTest(point, ARHitTestResultType.ARHitTestResultTypeFeaturePoint);
-		if (hitResults.Count > 0)
-		{
-			foreach (var hitResult in hitResults)
-			{
-				return UnityARMatrixOps.GetPosition(hitResult.worldTransform);
-			}
-		}
-		return new Vector3();
-	}
-
 	public void CreateRandomBalloon(int balloonCount = 10)
 	{
 		cameraTransform = mainCamera.transform;
@@ -139,7 +117,7 @@ public class BalloonController : MonoBehaviour {
 			//ランダム範囲
 			for (int i = 0; i < balloonCount; i++) {
 				float RandomPositionX = Random.Range(-15,15)/10.0f;
-				float RandomPositionY = Random.Range(-30,20)/10.0f;
+				float RandomPositionY = Random.Range(-20,20)/10.0f;
 				float RandomPositionZ = Random.Range(0,5);
 
 				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);

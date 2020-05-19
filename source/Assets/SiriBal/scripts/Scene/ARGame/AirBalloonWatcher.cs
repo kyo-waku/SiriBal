@@ -68,7 +68,7 @@ public class AirBalloonWatcher : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         //Find GameDirector for Scoring
         director = GameObject.Find("GameDirector");
-        PlayerCamera = GameObject.Find("MainCamera");//プレイヤーを認識する
+        PlayerCamera = GameObject.Find("AR Camera");//プレイヤーを認識する
         //AttackSpan = 4.0f;//デバッグ用の攻撃間隔
         AttackSpan = AttackSpan + Random.Range(0,5);
         //ActionSpan = Random.Range(5,15);
@@ -112,7 +112,6 @@ public class AirBalloonWatcher : MonoBehaviour
                 }
                 break;
         }
-        
         // バルーンが離れすぎたら消す処理
         ByeByeBalloon();
     }

@@ -102,6 +102,7 @@ public class ShootingBallController : MonoBehaviour
             ShootingObj.AddComponent<WeaponProperties>();
             ShootingObj.GetComponent<WeaponProperties>().Initialize(currentWeapon);
             // 投げるためのForce計算
+            //var mainCamera = GameObject.Find("AR Camera");
             Ray ray = Camera.main.ScreenPointToRay(position);
             ShootingObj.transform.position = ray.origin + ray.direction.normalized ;
             ShootingObj.GetComponent<ShootingWatcher>().Shoot(ray.direction.normalized * ShootingForce);
