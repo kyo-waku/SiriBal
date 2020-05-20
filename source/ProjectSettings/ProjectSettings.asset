@@ -527,7 +527,7 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: Required for augmented reality support.
+  cameraUsageDescription: "AR\u6A5F\u80FD\u3092\u6709\u52B9\u306B\u3059\u308B\u305F\u3081\u306B\u4F7F\u3044\u307E\u3059"
   locationUsageDescription: 
   microphoneUsageDescription: 
   switchNetLibKey: 
