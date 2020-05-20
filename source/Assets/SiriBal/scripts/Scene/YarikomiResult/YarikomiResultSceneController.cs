@@ -161,7 +161,7 @@ public class YarikomiResultSceneController : MonoBehaviour
         string tweet = "スコアは" + scoreMng.LoadYarikomiLatestFromLocal() + "だったよ";
         //urlの作成
         string esctext = UnityWebRequest.EscapeURL(tweet + "\n みんなも遊んでみよう！！\n");
-        string esctag = UnityWebRequest.EscapeURL("SeriousBalloon, きょうわく");
+        string esctag = UnityWebRequest.EscapeURL("SeriousBalloon,きょうわく");
         string url = "https://twitter.com/intent/tweet?text=" + esctext + "&hashtags=" + esctag;
 
         //Twitter投稿画面の起動
