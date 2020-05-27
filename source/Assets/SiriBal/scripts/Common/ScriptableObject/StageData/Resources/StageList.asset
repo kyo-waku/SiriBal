@@ -23,10 +23,10 @@ MonoBehaviour:
     ShootingLimit: -1
     GameClearCondition: 2
     RankUpThreshold: 500
-  - BalloonLimit: 12
+  - BalloonLimit: 10
     BalloonHP: 1
-    AttackSpan: 10
-    BalloonWeaponKey: 0
+    AttackSpan: 8
+    BalloonWeaponKey: -1
     IsBalloonAction: 0
     BalloonArrangementMode: 1
     TimeLimit: -1
@@ -35,7 +35,7 @@ MonoBehaviour:
     RankUpThreshold: 1000
   - BalloonLimit: 10
     BalloonHP: 2
-    AttackSpan: 10
+    AttackSpan: 6
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -45,7 +45,7 @@ MonoBehaviour:
     RankUpThreshold: 1500
   - BalloonLimit: 12
     BalloonHP: 2
-    AttackSpan: 12
+    AttackSpan: 8
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
     RankUpThreshold: 2000
   - BalloonLimit: 15
     BalloonHP: 2
-    AttackSpan: 10
+    AttackSpan: 8
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -65,7 +65,7 @@ MonoBehaviour:
     RankUpThreshold: 2500
   - BalloonLimit: 10
     BalloonHP: 3
-    AttackSpan: 8
+    AttackSpan: 6
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
     RankUpThreshold: 3000
   - BalloonLimit: 12
     BalloonHP: 3
-    AttackSpan: 10
+    AttackSpan: 8
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
     RankUpThreshold: 4000
   - BalloonLimit: 10
     BalloonHP: 5
-    AttackSpan: 10
+    AttackSpan: 8
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
     RankUpThreshold: 5000
   - BalloonLimit: 12
     BalloonHP: 5
-    AttackSpan: 9
+    AttackSpan: 4
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
@@ -105,7 +105,7 @@ MonoBehaviour:
     RankUpThreshold: 7000
   - BalloonLimit: 15
     BalloonHP: 5
-    AttackSpan: 8
+    AttackSpan: 6
     BalloonWeaponKey: -1
     IsBalloonAction: 1
     BalloonArrangementMode: 1
