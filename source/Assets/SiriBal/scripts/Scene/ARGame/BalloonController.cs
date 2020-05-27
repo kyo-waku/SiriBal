@@ -127,7 +127,12 @@ public class BalloonController : MonoBehaviour {
 		# else
 			//ランダム範囲(暫定。実機見ながら調整する)
 			for (int i = 0; i < balloonCount; i++) {
-				Vector3 RandomPosition = GenerateRandomPosition(30, 10, 30, 5);
+				// Vector3 RandomPosition = GenerateRandomPosition(30, 10, 30, 5);
+				float RandomPositionX = Random.Range(-15,15)/5.0f;
+				float RandomPositionY = Random.Range(-20,20)/5.0f;
+				float RandomPositionZ = Random.Range(0,5);
+				Vector3 RandomPosition = new Vector3(RandomPositionX, RandomPositionY, RandomPositionZ);
+
 				CreateBalloon(cameraTransform.position + RandomPosition);
 			}
 			GameDirector.GetComponent<GameDirector>().DescriptionClicked();
