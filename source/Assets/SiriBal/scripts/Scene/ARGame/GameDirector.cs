@@ -331,11 +331,11 @@ public class GameDirector : MonoBehaviour
     private void UpdateLifePoint()
     {
         LifePoint = LifePoint
-                    + DestroyedBalloonCount * currentRank
+                    + (int)DestroyedBalloonCount * currentRank / 3
                     - (int)MissingBalloonCount * 4          // Missingの重みはでかい・・・
                     - (int)TimeValue
                     - (int)(ThrowCounter / (stage.BalloonHP * 2))
-                    - (int)(EnemyAttackHitCount * 3);
+                    - (int)(EnemyAttackHitCount * 8);
         LifePoint = LifePoint < 0 ? 0 : LifePoint; // LifePointはマイナスにしない
         LifePoint = LifePoint > 100?  100 : LifePoint; // LifePointは上限が100
     }
