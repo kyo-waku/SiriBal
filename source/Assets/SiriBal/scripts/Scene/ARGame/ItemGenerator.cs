@@ -49,7 +49,7 @@ public class ItemGenerator : MonoBehaviour
 			}
 		# else
 			//ランダム範囲(暫定。実機見ながら調整する)
-			for (int i = 0; i < balloonCount; i++) {
+			for (int i = 0; i < itemCount; i++) {
 				Vector3 RandomPosition = GenerateRandomPosition(30, 10, 30, 5);
 				CreateItem(cameraTransform.position + RandomPosition);
 			}
