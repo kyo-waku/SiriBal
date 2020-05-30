@@ -3606,7 +3606,7 @@ MonoBehaviour:
   delay: 0
   style: 2
   playOnAwake: 1
-  m_progress: 0
+  m_progress: 0.02
   usePosition: 1
   useRotation: 0
   useScale: 0
@@ -4932,7 +4932,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 57f81a0878f324d2eacef6a4ce9fa9ce, type: 3}
     m_FontSize: 100
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 100
     m_Alignment: 3
@@ -12381,7 +12381,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 57f81a0878f324d2eacef6a4ce9fa9ce, type: 3}
     m_FontSize: 100
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 100
     m_Alignment: 3
