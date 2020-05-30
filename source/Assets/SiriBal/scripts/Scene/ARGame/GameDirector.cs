@@ -21,6 +21,7 @@ public class GameDirector : MonoBehaviour
     private GameSceneManager gameSceneMng;
     private ScoreManager scoreMng;
     private BalloonController balloonController;
+    private ItemGenerator itemGenerator;
 
     [SerializeField]
     private GameObject WeaponToggleButton;
@@ -47,6 +48,8 @@ public class GameDirector : MonoBehaviour
     public int ThrowCounter{get; set;}
     public int Score{get; internal set;}
     public float TimeValue{get; internal set;}
+    private float ItemGenTime{get; set;} = 0; //アイテム生成までの経過時間
+    private float ItemGenInterval{get; set;} = 10; //アイテム生成の時間間隔
     public bool bJudgeGenerateLoadingBalloon{get; internal set;} = false;
     public bool bJudgeUpdateLoadingBalloonPosMinY{get; internal set;} = false;
     public float LoadingBalloonPosMinY{get; internal set;} = -1.0f;
@@ -111,6 +114,8 @@ public class GameDirector : MonoBehaviour
         DescriptionUI.gameObject.SetActive(false);
         // バルーンコントローラー
         balloonController = GameObject.Find("BalloonController").GetComponent<BalloonController>();
+        // アイテムジェネレーター
+        itemGenerator = GameObject.Find("ItemGenerator").GetComponent<ItemGenerator>();
 
         // やりこみモード
         if (stage.GameClearCondition == Stage.ClearCondition.Yarikomi)
@@ -287,6 +292,7 @@ public class GameDirector : MonoBehaviour
     {
         // 時間計測
         TimeValue += Time.deltaTime;
+        ItemGenTime += Time.deltaTime;
         // Missing処理
         ShowMissing();
         // スコア計算
@@ -303,6 +309,12 @@ public class GameDirector : MonoBehaviour
             balloonController.CreateRandomBalloon(DestroyedBalloonCount + MissingBalloonCount);
             DestroyedBalloonCount = 0;
             MissingBalloonCount = 0;
+        }
+        // 定期的に増えるアイテム
+        if (ItemGenTime > ItemGenInterval)
+        {
+            itemGenerator.CreateRandomItem(1);
+            ItemGenTime = 0;
         }
         // ヘッダーの更新
         UpdateYarikomiHeaderContents(ScorePoint, LifePoint, NyusanPoint);
