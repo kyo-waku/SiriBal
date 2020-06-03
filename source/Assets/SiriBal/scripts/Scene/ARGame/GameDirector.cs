@@ -45,6 +45,9 @@ public class GameDirector : MonoBehaviour
     public int DestroyedBalloonCount{get; set;} = 0;
     public int MissingBalloonCount{get; set;} = 0;
     public int EnemyAttackHitCount{get;  set;} = 0;
+
+    // RecoveryRate (%)
+    public int RecoveryRate {get; set;} = 0;
     public int ThrowCounter{get; set;}
     public int Score{get; internal set;}
     public float TimeValue{get; internal set;}
@@ -343,13 +346,17 @@ public class GameDirector : MonoBehaviour
     private void UpdateLifePoint()
     {
         LifePoint = LifePoint
-                    + (int)DestroyedBalloonCount * currentRank / 3
-                    - (int)MissingBalloonCount * 4          // Missingの重みはでかい・・・
-                    - (int)TimeValue
-                    - (int)(ThrowCounter / (stage.BalloonHP * 2))
-                    - (int)(EnemyAttackHitCount * 8);
+                    + RecoveryRate  // 回復アイテムの効果
+                    + (int)DestroyedBalloonCount * stage.BalloonHP  // Balloonを倒したら、そのHP分だけ回復できる
+                    - (int)MissingBalloonCount * 5          // Missingの重みはでかい・・・
+                    - (int)TimeValue                        // 1秒あたり1減る
+                    // - (int)(ThrowCounter / (stage.BalloonHP * 2))   // 投げるほど減る --> この要素はNyusanPointにあるのでこちらからは削除する
+                    - (int)(EnemyAttackHitCount * 8);   // 攻撃されると減る
+
         LifePoint = LifePoint < 0 ? 0 : LifePoint; // LifePointはマイナスにしない
         LifePoint = LifePoint > 100?  100 : LifePoint; // LifePointは上限が100
+
+        RecoveryRate = 0; // 回復の初期化
     }
 
     private void InitializeCounts(bool IsLifeInitialize = false)
