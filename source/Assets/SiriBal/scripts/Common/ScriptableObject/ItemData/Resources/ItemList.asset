@@ -17,4 +17,6 @@ MonoBehaviour:
     Explanation: "HP\u304C\u56DE\u5FA9\u3059\u308B\u3088"
     ItemPrefab: {fileID: 5964172026093522968, guid: 13719a555929c48f59cec46075b56b39,
       type: 3}
+    DisappearGraphic: {fileID: 1938348158424470914, guid: b503968144c25455a971fd3adb3adfbf,
+      type: 3}
     RecoveryHP: 100

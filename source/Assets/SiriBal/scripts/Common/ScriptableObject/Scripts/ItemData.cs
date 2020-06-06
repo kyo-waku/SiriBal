@@ -47,6 +47,7 @@ public class ItemStatus
     public string Name; // アイテム名
     public string Explanation; // アイテム説明
     public GameObject ItemPrefab; //アイテムのPrefab
+    public GameObject DisappearGraphic; //アイテム取得時の消滅グラフィック
 
     // Item Properties
     public float RecoveryHP;// 回復量

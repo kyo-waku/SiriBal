@@ -9,11 +9,13 @@ public class ItemController : MonoBehaviour
     private const int RECOVERY = 50;
 
     private GameObject director;
+    private GameObject disappearGraphic; //アイテム取得時の消滅グラフィック
 
     // Start is called before the first frame update
     void Start()
     {
         director = GameObject.Find("GameDirector");
+        disappearGraphic = ItemData.Entity.ItemList[0].DisappearGraphic;
     }
 
     // Update is called once per frame
@@ -35,6 +37,12 @@ public class ItemController : MonoBehaviour
     {
         if (other.gameObject.tag == "player_shoot") // プレイヤー自身に当たる必要がある
         {
+            // アイテム取得時の消滅グラフィック
+            if (disappearGraphic != null)
+            {
+                Instantiate (disappearGraphic, transform.position,transform.rotation);
+            }
+
             if (director == null)
             {
                 director = GameObject.Find("GameDirector");
