@@ -47,7 +47,7 @@ public class ItemController : MonoBehaviour
             {
                 director = GameObject.Find("GameDirector");
             }
-            this.director.GetComponent<GameDirector>().RecoveryRate = RECOVERY; // とりあえず半分回復させてみる
+            this.director.GetComponent<GameDirector>().RecoveryRate += RECOVERY; // とりあえず半分回復させてみる
             Destroy(gameObject);
         }
     }

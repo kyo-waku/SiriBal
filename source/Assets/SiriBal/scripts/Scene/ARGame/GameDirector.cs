@@ -48,6 +48,8 @@ public class GameDirector : MonoBehaviour
 
     // RecoveryRate (%)
     public int RecoveryRate {get; set;} = 0;
+    private int RecoveryInterval {get; set;} = 5; //アイテム取得時の回復間隔[frame]
+    private int RecoveryIntervalCount {get; set;} = 0; //アイテム取得時の回復間隔のカウント[frame]
     public int ThrowCounter{get; set;}
     public int Score{get; internal set;}
     public float TimeValue{get; internal set;}
@@ -345,8 +347,20 @@ public class GameDirector : MonoBehaviour
     }
     private void UpdateLifePoint()
     {
+        //徐々に回復
+        if(RecoveryRate > 0)
+        {
+            RecoveryIntervalCount++;
+            if(RecoveryIntervalCount > RecoveryInterval)
+            {
+                LifePoint++;
+                RecoveryRate--;
+                RecoveryIntervalCount = 0;
+                if(LifePoint > 100){RecoveryRate = 0;} //LifePointが上限に達したら回復終了
+            }
+        }
+
         LifePoint = LifePoint
-                    + RecoveryRate  // 回復アイテムの効果
                     + (int)DestroyedBalloonCount * stage.BalloonHP  // Balloonを倒したら、そのHP分だけ回復できる
                     - (int)MissingBalloonCount * 5          // Missingの重みはでかい・・・
                     - (int)TimeValue                        // 1秒あたり1減る
@@ -356,7 +370,6 @@ public class GameDirector : MonoBehaviour
         LifePoint = LifePoint < 0 ? 0 : LifePoint; // LifePointはマイナスにしない
         LifePoint = LifePoint > 100?  100 : LifePoint; // LifePointは上限が100
 
-        RecoveryRate = 0; // 回復の初期化
     }
 
     private void InitializeCounts(bool IsLifeInitialize = false)
