@@ -48,8 +48,9 @@ public class GameDirector : MonoBehaviour
 
     // RecoveryRate (%)
     public int RecoveryRate {get; set;} = 0;
-    private int RecoveryInterval {get; set;} = 5; //アイテム取得時の回復間隔[frame]
+    private int RecoveryInterval {get; set;} = 10; //アイテム取得時の回復間隔[frame]
     private int RecoveryIntervalCount {get; set;} = 0; //アイテム取得時の回復間隔のカウント[frame]
+    private bool IsRecovering {get; set;} = false; //回復中フラグ　true:回復中　false:回復中でない
     public int ThrowCounter{get; set;}
     public int Score{get; internal set;}
     public float TimeValue{get; internal set;}
@@ -350,6 +351,7 @@ public class GameDirector : MonoBehaviour
         //徐々に回復
         if(RecoveryRate > 0)
         {
+            IsRecovering = true; //回復中フラグON
             RecoveryIntervalCount++;
             if(RecoveryIntervalCount > RecoveryInterval)
             {
@@ -358,6 +360,10 @@ public class GameDirector : MonoBehaviour
                 RecoveryIntervalCount = 0;
                 if(LifePoint > 100){RecoveryRate = 0;} //LifePointが上限に達したら回復終了
             }
+        }
+        else
+        {
+            IsRecovering = false; //回復中フラグOFF
         }
 
         LifePoint = LifePoint
@@ -513,21 +519,65 @@ public class GameDirector : MonoBehaviour
         var LifeBar = GameObject.Find("LIFEBar");
         LifeBar.GetComponent<Image>().fillAmount = (float)life/100;
         WeaponToggleButtonBase.GetComponent<Image>().fillAmount = (float)nyusan/100;
+        float RGBSin = Mathf.Sin(Time.time * 5) / 2 + 0.5f;
 
         // GREEN: 50, 210, 90, 255
         // YELLOW: 255, 190, 0, 255
         // RED: 230, 90, 50, 255
+        float GreenR = 50/255f;
+        float GreenG = 210/255f;
+        float GreenB = 90/255f;
+        float YellowR = 255/255f;
+        float YellowG = 190/255f;
+        float YellowB = 0/255f;
+        float RedR = 230/255f;
+        float RedG = 90/255f;
+        float RedB = 50/255f;
+
         if (life < 20)
         {
-            LifeBar.GetComponent<Image>().color = new Color(230/255f, 90/255f, 50/255f, 255/255f);
+            //回復中は白点滅
+            if(IsRecovering == true)
+            {
+                RedR += RGBSin;
+                RedG += RGBSin;
+                RedB += RGBSin;
+                if(RedR > 255){RedR = 255;}
+                if(RedG > 255){RedG = 255;}
+                if(RedB > 255){RedB = 255;}
+            }
+
+            LifeBar.GetComponent<Image>().color = new Color(RedR, RedG, RedB, 255/255f);
         }
         else if (life < 50 && life >= 20)
         {
-            LifeBar.GetComponent<Image>().color = new Color(255/255f, 190/255f, 0/255f, 255/255f);
+            //回復中は白点滅
+            if(IsRecovering == true)
+            {
+                YellowR += RGBSin;
+                YellowG += RGBSin;
+                YellowB += RGBSin;
+                if(YellowR > 255){YellowR = 255;}
+                if(YellowG > 255){YellowG = 255;}
+                if(YellowB > 255){YellowB = 255;}
+            }
+
+            LifeBar.GetComponent<Image>().color = new Color(YellowR, YellowG, YellowB, 255/255f);
         }
         else
         {
-            LifeBar.GetComponent<Image>().color = new Color(50/255f, 210/255f, 90/255f, 255/255f);
+            //回復中は白点滅
+            if(IsRecovering == true)
+            {
+                GreenR += RGBSin;
+                GreenG += RGBSin;
+                GreenB += RGBSin;
+                if(GreenR > 255){GreenR = 255;}
+                if(GreenG > 255){GreenG = 255;}
+                if(GreenB > 255){GreenB = 255;}
+            }
+
+            LifeBar.GetComponent<Image>().color = new Color(GreenR, GreenG, GreenB, 255/255f);
         }
 
         if (nyusan < 20)
