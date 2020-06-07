@@ -12,13 +12,17 @@
 
 ## 3Dモデル
 
-1. [Cola Can](https://assetstore.unity.com/packages/3d/cola-can-96659) - Unity Assetのフリー素材
+1. [Cola Can](https://assetstore.unity.com/packages/3d/cola-can-96659)
+コーラの缶
+Unity Assetのフリー素材
 Asset Licenses
 Extension Asset
 One license required for each individual user.
 For more information, check the EULA and FAQ.
 
-1. [Female Ankle Boots - Photoscanned](https://assetstore.unity.com/packages/3d/props/clothing/female-ankle-boots-photoscanned-159578) - Unity Assetのフリー素材
+1. [Female Ankle Boots - Photoscanned](https://assetstore.unity.com/packages/3d/props/clothing/female-ankle-boots-photoscanned-159578)
+シューズ
+Unity Assetのフリー素材
 Asset Licenses
 Extension Asset
 One license required for each individual user.
@@ -28,5 +32,23 @@ For more information, check the EULA (https://unity3d.com/legal/as_terms) and FA
 1. [Stone](https://free3d.com/3d-model/low-poly-rock-4631.html) - Free 3D のフリー素材
 1. [Missile](https://free3d.com/ja/3d-model/boat-motor-a-free-113624.html) - Free 3D のフリー素材
 1. [Balloon](https://free3d.com/ja/3d-model/hot-air-balloon-54348.html) - Free 3D のフリー素材
+1. [Potions, Coin And Box of Pandora Pack](https://assetstore.unity.com/packages/3d/props/potions-coin-and-box-of-pandora-pack-71778)
+回復アイテム 
+Unity Assetのフリー素材
+Asset Licenses
+Extension Asset
+One license required for each individual user.
+For more information, check the EULA (https://unity3d.com/legal/as_terms) and FAQ (https://assetstore.unity.com/browse/eula-faq).
 1. []()
 
+
+## Particle
+1. [DL Fantasy RPG Effects](https://assetstore.unity.com/packages/vfx/particles/dl-fantasy-rpg-effects-68246)
+回復アイテム取得時のエフェクト
+Unity Assetのフリー素材
+Asset Licenses
+Extension Asset
+One license required for each individual user.
+For more information, check the EULA (https://unity3d.com/legal/as_terms) and FAQ (https://assetstore.unity.com/browse/eula-faq).
+
+1. []()
