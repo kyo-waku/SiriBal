@@ -6,7 +6,9 @@
 1. [魔王魂](https://maoudamashii.jokersounds.com/music_rule.html)：営利OK「当サイトの素材を利用される方は著作の表記をお願いします」
 1. [無料効果音で遊ぼう](https://taira-komori.jpn.org/welcome.html)：商用OKクレジット不要「規約は、はっきり言ってゆるゆるです。動画・音楽・ゲーム・アプリ・演劇・朗読・公演・ウェブサイト・放送・教育・研究・企業活動などのあらゆる目的の使用OK」
 1. [甘茶の音楽工房](https://amachamusic.chagasi.com/terms.html)：商用利用OK「著作権表示は必須ではありませんが、ご都合のよい箇所にリンクorクレジットしていただけると嬉しいです。 表記内容はサイト名、作曲者名、URLのいずれか一つでＯＫです。●サイト名⇒ 甘茶の音楽工房（英語表記＝Music Atelier Amacha）」
-1. []()
+1. [キラキラ効果音工房](http://kirakira-soundeffect.com/soundeffect4.php)：無料の効果音素材。商用利用無料。使用報告不要。クレジット表記不要。
+Free soundeffect for commercial and personal use.　回復効果音。
+1. []():
 
 ---
 
