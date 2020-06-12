@@ -35,7 +35,7 @@ public class ItemController : MonoBehaviour
     //Detect Collision
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "player_shoot") // プレイヤー自身に当たる必要がある
+        if (other.gameObject.tag == "player_shoot") // プレイヤーの投げたものに当たる必要がある
         {
             // アイテム取得時の消滅グラフィック
             if (disappearGraphic != null)
