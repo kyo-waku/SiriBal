@@ -42,7 +42,7 @@ public class EnemyAttack_missileController : MonoBehaviour
     }
 
        //Detect Collision
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         if (controlGameMode == null) return;
         if (controlGameMode.GameMode == GameModeController.eGameMode.Shooting)//get point! if gameMode is shooting
