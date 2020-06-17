@@ -9579,7 +9579,7 @@ GameObject:
   - component: {fileID: 7913047546278038338}
   - component: {fileID: 6216167367470207839}
   m_Layer: 0
-  m_Name: BottleRecoveryPrefab
+  m_Name: BottleRedPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9623,7 +9623,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1
-  m_Height: 1
+  m_Radius: 0.4
+  m_Height: 0.4
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
